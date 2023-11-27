@@ -1,0 +1,20 @@
+.board_content {
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    grid-gap: 1em;
+}
+
+.board_content_category {
+    border: 1px solid #d5d7d7;
+    border-radius: 10px;
+}
+
+.board_title{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 0 15px 20px;
+}
+
+.board_content_items {
+    border: 1px solid #d5d7d7;
+}
