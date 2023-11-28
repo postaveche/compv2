@@ -207,7 +207,7 @@ class B2BAccentController extends Controller
                 $img_qty = 0;
                 foreach ($product_images as $images) {
                     $img_qty = $img_qty + 1;
-                    $image_url = 'ftp://ftp.accent.md/aeimages/'.$images;
+                    $image_url = 'ftp://ftp.accent.md/aeimages/' . $images;
                     $url = file_get_contents($image_url);
                     Storage::put('public/products/' . $images, $url);
                     $data[] = $images;
@@ -252,12 +252,12 @@ class B2BAccentController extends Controller
                 //dd($addproduct);
                 $addproduct->save();
 
-            }
-            else{
+            } else {
 //                if($ifexist->b2b_transaction_id <> $product->transaction_id)
 //                dd($product);
             }
         }
         return back()->with('success', 'Produsele au fost adaugate cu succes!!!');
     }
+
 }
