@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-sm-8 justify-content-center">
                 @include('block.breadcrumbs')
-                <h1><b>{{$product['name_ro']}}</b></h1>
+                <h1><b>@if(session('locale') == 'ru') {{$product['name_ru']}}@else {{$product['name_ro']}} @endif</b></h1>
                 <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                         @for ($i = 0; $i<$product['img_qty']; $i++)
@@ -39,7 +39,6 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-                    {{--                <img class="img-fluid mx-auto d-block" src="{{Storage::url('public/products/'.$product_img[1]);}}" alt="">--}}
                 </div>
             </div>
             <div class="col-sm-4">

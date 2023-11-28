@@ -47,7 +47,7 @@
                                     </a>
                                     <br>
                                     <small>
-                                        {{$cat->maincategory['name']}}
+                                        {{$cat->maincategory[0]}}
                                     </small>
                                 </td>
                                 <td class="project_progress">
