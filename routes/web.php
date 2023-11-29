@@ -104,8 +104,6 @@ Route::get('/admincp/importbycat', [B2BAccentController::class, 'import_by_folde
 
 Route::resource('/admincp/products', AdminProductController::class)->middleware('auth');
 
-Route::get('/admincp/updateimg/{id}', [B2BAccentController::class, 'update_img'])->name('update_img')->middleware('auth');
-
 Route::get('mysitemap', function(){
 
     // create new sitemap object

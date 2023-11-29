@@ -11,6 +11,7 @@
                 </div>
             </div><!-- /.container-fluid -->
         </section>
+        <div class="container">
         <section class="content">
             @include('admin.block.messages')
             <p><a class="btn btn-info btn-sm" href="{{ route('category.create') }}"><i class="nav-icon fas fa-edit"></i> <b>Add Category</b></a></p>
@@ -47,7 +48,7 @@
                                     </a>
                                     <br>
                                     <small>
-                                        {{$cat->maincategory}}
+                                        {{$cat->maincategory->name??null}}
                                     </small>
                                 </td>
                                 <td class="project_progress">
@@ -91,5 +92,6 @@
                 {{ $category->links("pagination::bootstrap-4") }}
             </div>
         </section>
+        </div>
     </div>
 @endsection

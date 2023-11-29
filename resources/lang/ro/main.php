@@ -32,5 +32,6 @@ return[
     'hosting' => 'Hosting',
     'produs' => 'Produse',
     'serv' => 'Servicii',
-    'about' => 'Despre noi'
+    'about' => 'Despre noi',
+    'all_cat' => 'Toate'
 ];

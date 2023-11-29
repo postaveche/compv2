@@ -84,12 +84,15 @@ class AdminCategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $category->name = $request->name;
+        $category->name_ru = $request->name_ru;
         $category->slug = $request->slug;
         $category->description = $request->description;
+        $category->description_ru = $request->description_ru;
         $category->keywords = $request->keywords;
+        $category->keywords_ru = $request->keywords_ru;
         $category->subcat = $request->subcat;
         $category->save();
-        return redirect()->back()->with('success', 'Categoria a fost modificata cu succes!');
+        return redirect()->route('category.index')->with('success', 'Categoria a fost modificata cu succes!');
 
     }
 

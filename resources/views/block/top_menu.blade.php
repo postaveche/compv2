@@ -11,18 +11,18 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>{{$cat['name']}}</strong>
+                        <strong>@if(session('locale') == 'ru'){{$cat['name_ru']}}@else {{$cat['name']}}@endif</strong>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @foreach($subcategory as $subc)
                         @if($subc['subcat'] == $cat['id'])
-                        <li><a class="dropdown-item" href="{{route('locale.all_category', session('locale'))}}/{{$subc['slug']}}">{{$subc['name']}}</a></li>
+                        <li><a class="dropdown-item" href="{{route('locale.all_category', session('locale'))}}/{{$subc['slug']}}">@if(session('locale') == 'ru'){{$subc['name_ru']}}@else {{$subc['name']}}@endif</a></li>
                         @endif
                         @endforeach
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{route('locale.all_category', session('locale'))}}/{{$cat['slug']}}">Toate</a></li>
+                        <li><a class="dropdown-item" href="{{route('locale.all_category', session('locale'))}}/{{$cat['slug']}}">@lang('main.all_cat')</a></li>
                     </ul>
                 </li>
                 @endforeach
