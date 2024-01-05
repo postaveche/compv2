@@ -30,7 +30,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function price($price_usd)
+    public static function price($price_usd)
     {
         $curs = DB::table('curses')->latest()->first();
         $site_settings = DB::table('settings')->latest()->first();
@@ -48,7 +48,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function recomandat($cat){
+    public static function recomandat($cat){
         $recomandat = Product::where('category_id', $cat)->inRandomOrder()->limit(4)->get();
         return view('block.product_list',[
            'products' => $recomandat

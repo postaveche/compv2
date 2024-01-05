@@ -8,14 +8,14 @@ use App\Models\Product;
 
 class MainController extends Controller
 {
-    public function last_12(){
+    public static function last_12(){
         $last12 = Product::latest()->where('active', '1')->take(8)->get();
         return view('block.product_list',[
            'products' => $last12
         ]);
     }
 
-    public function random_main(){
+    public static function random_main(){
         $products = Product::inRandomOrder()->where('active', '1')->take(12)->get();
         return view('block.product_list',[
            'products' => $products

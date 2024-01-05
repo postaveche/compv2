@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public static function index()
     {
         $category = Category::where('subcat', '0')->get();
         $subcategory = Category::where('subcat', '<>', '0')->orderBy('name')->get();
@@ -55,7 +55,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function produs_thumb($id)
+    public static function produs_thumb($id)
     {
         $produs = Product::where('id', $id)->first();
         $produs_img = $produs['img'];
@@ -64,7 +64,7 @@ class CategoryController extends Controller
         return $thumb;
     }
 
-    public function category_price($price_usd)
+    public static function category_price($price_usd)
     {
         $curs = DB::table('curses')->latest()->first();
         $site_settings = DB::table('settings')->latest()->first();
