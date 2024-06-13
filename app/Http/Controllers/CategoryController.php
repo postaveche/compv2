@@ -18,7 +18,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function show_all()
+    public static function show_all()
     {
         $category = Category::all();
         return view('admin.block.select_category', [

@@ -58,15 +58,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/layout/boxed.html" class="nav-link">
+                            <a href="{{route('pages.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Boxed</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Sidebar</p>
+                                <p>Pagini</p>
                             </a>
                         </li>
                         <li class="nav-item">

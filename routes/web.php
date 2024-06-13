@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\AdminProductInfoController;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\admin\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::group([
     'prefix' => '{locale}',
     'as' => 'locale.',
     'where' => ['locale' => '[a-zA-Z]{2}'],
-    'where' => ['locale' => '(ru|ro|en)'],
+    'where' => ['locale' => '(ru|ro)'],
     'middleware' => 'locale'
 ], function ($locale) {
 
@@ -74,7 +75,16 @@ Route::group([
 //    Route::get('/ro/{page}', [MainController::class, 'redirect_ro']);
 });
 
-Route::get('/', function () { return redirect('/ro', 301); });
+if (isset($_SESSION['locale'])){
+    Route::get('/', function () { return redirect('/'.$_SESSION['locale'], 301); });
+}
+else {
+    Route::get('/', function () {
+        return redirect('/ro', 301);
+    });
+}
+
+Route::get('set-language', [\App\Http\Controllers\LanguageController::class, 'setLanguage'])->name('set.language');
 
 Auth::routes([
     'register' => false,
@@ -103,6 +113,10 @@ Route::get('/admincp/get_b2bstok3/{b2b_code}', [AdminProductInfoController::clas
 Route::get('/admincp/importbycat', [B2BAccentController::class, 'import_by_folders'])->name('import_by_folder')->middleware('auth');
 
 Route::resource('/admincp/products', AdminProductController::class)->middleware('auth');
+
+Route::resource('/admincp/pages', PagesController::class)->middleware('auth');
+
+Route::post('/admincp/pages/upload', [PagesController::class, 'upload'])->name('ckeditor.upload');
 
 Route::get('mysitemap', function(){
 

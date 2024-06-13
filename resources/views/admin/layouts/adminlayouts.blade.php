@@ -25,6 +25,16 @@
     <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="/admin/plugins/summernote/summernote-bs4.min.css">
+    <style type="text/css">
+        .ck-editor__editable_inline{
+           height: 500px;
+        }
+        .ck-source-editing-area{
+            height: 500px;
+        }
+    </style>
+{{--    <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-free-full-feature@35.4.1/build/ckeditor.min.js"></script>--}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -226,5 +236,16 @@
 <script src="/admin/dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/admin/dist/js/pages/dashboard.js"></script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#comp_editor' ), {
+            ckfinder:{
+                uploadUrl:"{{route('ckeditor.upload', ['_token'=>csrf_token()])}}",
+            },
+        })
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 </body>
 </html>
