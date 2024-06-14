@@ -35,6 +35,7 @@
     </style>
 {{--    <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-free-full-feature@35.4.1/build/ckeditor.min.js"></script>--}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+    <x-head.tinymce-config/>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

@@ -43,9 +43,16 @@ class AdminCategoryController extends Controller
         //dd($request);
         $category = new Category();
         $category->name = $request->name;
+        $category->name_ru = $request->name_ru;
+        $category->title_ro = $request->title_ro;
+        $category->title_ru = $request->title_ru;
         $category->slug = $request->slug;
         $category->description = $request->description;
+        $category->description_ru = $request->description_ru;
         $category->keywords = $request->keywords;
+        $category->keywords_ru = $request->keywords_ru;
+        $category->full_desc_ro = $request->full_desc_ro;
+        $category->full_desc_ru = $request->full_desc_ru;
         $category->subcat = $request->subcat;
         $category->save();
         return redirect()->route('category.index')->with('success', 'Categoria a fost adaugata cu succes!!!');
@@ -85,11 +92,14 @@ class AdminCategoryController extends Controller
     {
         $category->name = $request->name;
         $category->name_ru = $request->name_ru;
-        $category->slug = $request->slug;
+        $category->title_ro = $request->title_ro;
+        $category->title_ru = $request->title_ru;
         $category->description = $request->description;
         $category->description_ru = $request->description_ru;
         $category->keywords = $request->keywords;
         $category->keywords_ru = $request->keywords_ru;
+        $category->full_desc_ro = $request->full_desc_ro;
+        $category->full_desc_ru = $request->full_desc_ru;
         $category->subcat = $request->subcat;
         $category->save();
         return redirect()->route('category.index')->with('success', 'Categoria a fost modificata cu succes!');

@@ -34,7 +34,17 @@ class CategoryController extends Controller
             return response(view('errors.404'), 404);
         }
         if (isset($catinfo->subcategory) and $catinfo['subcat'] == 0) {
-            $title = $catinfo['name'];
+            if($locale == 'ru' ){
+                $title = $catinfo['title_ru'];
+                $description = $catinfo['description_ru'];
+                $key = $catinfo['keywords_ru'];
+                $full_desc = $catinfo['full_desc_ru'];
+            } else {
+                $title = $catinfo['title_ro'];
+                $description = $catinfo['description'];
+                $key = $catinfo['keywords'];
+                $full_desc = $catinfo['full_desc_ro'];
+            }
             $subcategory_id = Category::where('subcat', $catinfo['id'])->get();
             //dd($subcategory_id);
             foreach ($subcategory_id as $id) {
@@ -43,15 +53,26 @@ class CategoryController extends Controller
             $products = Product::whereIn('category_id', $category_id)->orderBy('price')->paginate(20);
             //dd($products);
         } else {
-            $title = $catinfo->subcategory[0]->name . ' - ' . $catinfo['name'];
+            if($locale == 'ru' ) {
+                $title = $catinfo->title_ru;
+                $description = $catinfo->description_ru;
+                $key = $catinfo->keywords_ru;
+                $full_desc = $catinfo->full_desc_ru;
+                } else {
+                $title = $catinfo->title_ro;
+                $description = $catinfo->description;
+                $key = $catinfo->keywords;
+                $full_desc = $catinfo->full_desc_ro;
+            }
         }
         return view('pages.category', [
             'cat' => $catinfo,
             'subcateg' => $catinfo->subcategory(),
             'title' => $title,
-            'description' => $catinfo['description'],
-            'keywords' => $catinfo['keywords'],
-            'products' => $products
+            'description' => $description,
+            'keywords' => $key,
+            'products' => $products,
+            'full_desc' => $full_desc
         ]);
     }
 

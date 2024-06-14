@@ -31,7 +31,15 @@
                     </div>
                     <div class="form-group">
                         <label>Linkul</label>
-                        <input type="text" value="{{$cat['slug']}}" class="form-control" id="slug" name="slug" placeholder="Linkul categoriei" required>
+                        <input type="text" value="{{$cat['slug']}}" class="form-control" id="slug" name="slug" placeholder="Linkul categoriei" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Titlul Categoriei RO</label>
+                        <input type="text" value="{{$cat['title_ro']}}" class="form-control" id="title_ro" name="title_ro" placeholder="Titlul Categoriei RO">
+                    </div>
+                    <div class="form-group">
+                        <label>Titlul Categoriei RU</label>
+                        <input type="text" value="{{$cat['title_ru']}}" class="form-control" id="title_ru" name="title_ru" placeholder="Titlul Categoriei RU">
                     </div>
                     <div class="form-group">
                         <label>Descrierea categoriei</label>
@@ -48,6 +56,18 @@
                     <div class="form-group">
                         <label>Cuvinte cheie</label>
                         <input type="text" value="{{$cat['keywords_ru']}}" class="form-control" id="keywords" name="keywords_ru" placeholder="Cuvinte cheie RU" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrierea complecta RO</label>
+                        <textarea class="form-control" name="full_desc_ro" id="compeditor" cols="30" rows="10">
+                            {!!$cat['full_desc_ro']!!}
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrierea complecta RU</label>
+                        <textarea class="form-control" name="full_desc_ru" id="compeditor">
+                            {{$cat['full_desc_ru']}}
+                        </textarea>
                     </div>
                     <div class="form-group">
                         <label>Subcategorie</label>

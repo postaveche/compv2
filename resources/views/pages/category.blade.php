@@ -37,6 +37,7 @@
                 </div>
             @endforeach
         </div>
+        {!! $full_desc !!}
         <div class="d-flex justify-content-center" style="padding-top: 10px;">
             {{ $products->links("pagination::bootstrap-4") }}
         </div>
