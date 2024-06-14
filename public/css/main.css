@@ -417,6 +417,13 @@ h2 {
     text-transform: uppercase;
     text-align: center;
 }
+
+.reincarc_text h1{
+    font-size: 35px;
+    font-weight: 600;
+    padding: 30px;
+}
+
 .reincar_photo{
 
 }
