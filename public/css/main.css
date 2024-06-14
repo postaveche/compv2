@@ -177,6 +177,18 @@ h2 {
     color: #51585e;
 }
 
+.category_link_title{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    padding-bottom: 5px;
+}
+
+.category_link_description{
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
 .tns-item {
     width: 100%;
     margin: 5px;

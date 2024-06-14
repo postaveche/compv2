@@ -1,7 +1,9 @@
 <div class="category_link">
     <div>
+        <h1 class="category_link_title">{{$title}}</h1>
         @include('block.breadcrumbs')
-        <h1>{{$title}}</h1>
-        <small>{{$description}}</small>
+        <div class="category_link_description">
+        {{$description}}
+        </div>
     </div>
 </div>
