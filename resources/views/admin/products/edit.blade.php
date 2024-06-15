@@ -19,6 +19,7 @@
                 </div>
                 <form action="{{route('products.update', $produs['id'])}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="card-body">
                         <div class="form-group">
                             <label>Denumirea produsului</label>

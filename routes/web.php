@@ -72,7 +72,6 @@ Route::group([
     Route::get('get_b2b', [B2BAccentController::class, 'b2b_auth'])->name('get_b2b');
     Route::get('/category/{category}', [CategoryController::class, 'show'])->name('list_category');
     Route::get('product/{slug}', [ProductsController::class, 'show'])->name('product_info');
-//    Route::get('/ro/{page}', [MainController::class, 'redirect_ro']);
 });
 
 if (isset($_SESSION['locale'])){
