@@ -96,7 +96,12 @@
                 </div>
             </div>
             <div style="margin-top: 20px; padding-bottom: 15px">
-                <strong>@lang('product.desc')</strong> {!!$product['text']!!}
+                <strong>@lang('product.desc')</strong>
+                @if(session('locale') == 'ru')
+                    {!!$product['text_ru']!!}
+                @else
+                    {!!$product['text']!!}
+                @endif
             </div>
             <hr>
                 @include('block.product_description')
