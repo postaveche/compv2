@@ -76,6 +76,10 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function all_category(){
+
+    }
+
     public static function produs_thumb($id)
     {
         $produs = Product::where('id', $id)->first();

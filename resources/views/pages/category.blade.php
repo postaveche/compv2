@@ -1,10 +1,10 @@
 @extends('layouts.layouts')
 
-@section('title', $title)
+@section('title', $title??'Toate categoriele de produse')
 
-@section('description', $description)
+@section('description', $description??'Toate categoriele de produse')
 
-@section('keywords', $keywords)
+@section('keywords', $keywords??'')
 
 @section('content')
     @include('block.category_link')

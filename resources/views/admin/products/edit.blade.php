@@ -27,9 +27,24 @@
                                    placeholder="Denumirea produsului" required>
                         </div>
                         <div class="form-group">
-                            <label>Descrierea produsului</label>
+                            <label>Title RO</label>
+                            <input type="text" value="{{$produs['name_ro']}}" class="form-control" id="title_ro" name="name_ro"
+                                   placeholder="Title RO" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Title RU</label>
+                            <input type="text" value="{{$produs['name_ru']}}" class="form-control" id="title_ru" name="name_ru"
+                                   placeholder="Title RO" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descrierea produsului RO</label>
                             <input type="text" value="{{$produs['description']}}" class="form-control" id="description" name="description"
-                                   placeholder="Descrierea produsului" required>
+                                   placeholder="Descrierea produsului RO" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descrierea produsului RU</label>
+                            <input type="text" value="{{$produs['description_ru']}}" class="form-control" id="description_ru" name="description_ru"
+                                   placeholder="Descrierea produsului RU" required>
                         </div>
                         <div class="form-group">
                             <label>Cuvinte cheie</label>
@@ -52,18 +67,28 @@
                                    accept=".jpg,.gif,.png" multiple>
                         </div>
                         <div class="form-group">
-                            <label>Example textarea</label>
-                            <textarea class="form-control" id="fulldescription" name="text" rows="4">{{$produs['text']}}</textarea>
+                            <label>Descrierea Produsului RO</label>
+                            <textarea class="form-control" id="compeditor" name="text" rows="4">{!!$produs['text']!!}</textarea>
                         </div>
+                        <div class="form-group">
+                            <label>Descrierea Produsului RU</label>
+                            <textarea class="form-control" id="compeditor" name="text_ru" rows="4">{!!$produs['text_ru']!!}</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
                         <div class="form-group">
                             <label>Pretul produsului (USD)</label>
                             <input type="text" value="{{$produs['price']}}" class="form-control" id="price" name="price" placeholder="Pret"
                                    required>
                         </div>
+                            </div>
+                            <div class="col-6">
                         <div class="form-group">
                             <label>Pret Special al produsului (USD)</label>
                             <input type="text" value="{{$produs['special_price']}}" class="form-control" id="specialprice" name="specialprice"
                                    placeholder="Pret Special al produsului">
+                        </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Selectati categoria: </label>

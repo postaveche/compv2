@@ -116,7 +116,26 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //dd($request);
+        $product = Product::where('id', $id)->first();
+        $product->name = $request->name;
+        $product->name_ro = $request->name_ro;
+        $product->name_ru = $request->name_ru;
+        $product->description = $request->description;
+        $product->description_ru = $request->description_ru;
+        $product->keywords = $request->keywords;
+        $product->sku = $request->sku;
+        $product->text = $request->text;
+        $product->text_ru = $request->text_ru;
+        $product->price = $request->price;
+        $product->special_price = $request->specialprice;
+        $product->category_id = $request->category_id;
+        $product->user_id = $request->user_id;
+        $product->active = $request->active;
+        $product->save();
+
+
+
     }
 
     /**

@@ -167,6 +167,8 @@ h2 {
 }
 
 .category_link {
+    display: flex;
+    align-items: center;
     padding: 0 2px 2px 20px;
     font-size: 0.9rem;
     text-decoration: none;
@@ -175,6 +177,11 @@ h2 {
 .category_link a {
     text-decoration: none;
     color: #51585e;
+}
+
+.category_link_home{
+    display: flex;
+    padding: 0 5px;
 }
 
 .category_link_title{
