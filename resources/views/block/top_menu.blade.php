@@ -28,7 +28,7 @@
                 @endforeach
             </ul>
             <form class="d-flex" action="{{ route('locale.search', session('locale')) }}" method="GET">
-                <input class="form-control me-2" type="search" placeholder="@lang('main.search')" aria-label="@lang('main.search')" name="search" required>
+                <input class="form-control me-2" type="search" placeholder="@lang('main.search')" aria-label="@lang('main.search')" name="search" value="{{old('search')}}" required>
                 <button class="btn btn-outline-success" type="submit">@lang('main.search')</button>
             </form>
         </div>

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\admin\PagesController;
+use App\Http\Controllers\admin\AdminProductSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +111,8 @@ Route::get('/admincp/get_b2bstok/{b2b_code}', [AdminProductInfoController::class
 Route::get('/admincp/get_b2bstok3/{b2b_code}', [AdminProductInfoController::class, 'product_in_stoc3'])->name('get_b2bstok');
 
 Route::get('/admincp/importbycat', [B2BAccentController::class, 'import_by_folders'])->name('import_by_folder')->middleware('auth');
+
+Route::get('/admincp/products/find/', [AdminProductSearchController::class, 'search'])->middleware('auth')->name('findproducts');
 
 Route::resource('/admincp/products', AdminProductController::class)->middleware('auth');
 

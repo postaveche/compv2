@@ -13,7 +13,15 @@
         </section>
         <section class="content">
             @include('admin.block.messages')
-            <p><a class="btn btn-info btn-sm" href="{{ route('products.create') }}"><i class="nav-icon fas fa-edit"></i> <b>Adauga Produs</b></a></p>
+            <p><a class="btn btn-info btn-sm" href="{{ route('products.create') }}"><i class="nav-icon fas fa-edit"></i>
+                    <b>Adauga Produs</b></a></p>
+            <div class="admin_filtre">
+                <form action="{{route('findproducts')}}" method="get">
+                    <label>Cautare:</label>
+                    <input type="text" name="query" required>
+                    <button type="submit">Go</button>
+                </form>
+            </div>
             <div class="card">
                 <div class="card-body p-0">
                     <table class="table table-striped projects">
@@ -66,14 +74,16 @@
                                         </i>
                                         Edit
                                     </a>
-                                    <form action="{{ route('products.destroy', $product['id']) }}" method="POST" style="display: inline-block;">
+                                    <form action="{{ route('products.destroy', $product['id']) }}" method="POST"
+                                          style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm delete-btn">
                                             <i class="fas fa-trash">
                                             </i>
                                             Delete
-                                        </button></form>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -83,7 +93,7 @@
                 <!-- /.card-body -->
             </div>
             <div class="d-flex justify-content-center" style="padding-top: 10px;">
-                {{ $produse->links("pagination::bootstrap-4") }}
+                {{ $produse->appends(request()->query())->links("pagination::bootstrap-4")}}
             </div>
         </section>
     </div>
