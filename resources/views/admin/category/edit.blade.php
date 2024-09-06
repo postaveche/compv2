@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="content-wrapper">
+    <div class="container">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row ">
@@ -80,5 +81,6 @@
             </form>
         </div>
     </section>
+    </div>
 </div>
 @endsection
