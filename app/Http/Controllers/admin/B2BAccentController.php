@@ -116,8 +116,15 @@ class B2BAccentController extends Controller
                 $product_garantie = $all->warrantyname;
                 $user_id = Auth::id();
 
-                $last_id = Product::latest()->first()->id;
-                $next_id = $last_id + 1;
+                //$last_id = Product::latest()->first()->id;
+                if ($last = Product::latest()->first()){
+                    $last_id = $last->id;
+                    $next_id = $last_id + 1;
+                }
+                else{
+                    $last_id = 0;
+                    $next_id = $last_id + 1;
+                }
 
                 $product = new Product();
                 $product->name = mb_strimwidth($product_fullname, 0, 50, "...");
@@ -214,8 +221,15 @@ class B2BAccentController extends Controller
                 }
                 $product_images = json_encode($data);
 
-                $last_id = Product::latest()->first()->id;
-                $next_id = $last_id + 1;
+                //$last_id = Product::latest()->first()->id;
+                if ($last = Product::latest()->first()){
+                    $last_id = $last->id;
+                    $next_id = $last_id + 1;
+                }
+                else{
+                    $last_id = 0;
+                    $next_id = $last_id + 1;
+                }
 
                 $slug = $next_id . '-' . Str::slug($product_name_ro);
 
@@ -234,6 +248,7 @@ class B2BAccentController extends Controller
                 $addproduct->name_ro = $product_name_ro;
                 $addproduct->name_ru = $product_name_ru;
                 $addproduct->description = $product_name_ro;
+                $addproduct->description_ru = $product_name_ru;
                 $addproduct->keywords = $keywords;
                 $addproduct->slug = $slug;
                 $addproduct->sku = $product->hardnum;
@@ -241,6 +256,7 @@ class B2BAccentController extends Controller
                 $addproduct->img = $product_images;
                 $addproduct->img_qty = $img_qty;
                 $addproduct->text = $product_fullname;
+                $addproduct->text_ru = $product_fullname;
                 $addproduct->price = $product->dprice1;
                 $addproduct->garantie = $garantie;
                 $addproduct->category_id = $category_id;

@@ -11,17 +11,12 @@
                 </div>
             </div>
         </section>
+        @include('admin.block.filter')
         <section class="content">
             @include('admin.block.messages')
             <p><a class="btn btn-info btn-sm" href="{{ route('products.create') }}"><i class="nav-icon fas fa-edit"></i>
                     <b>Adauga Produs</b></a></p>
-            <div class="admin_filtre">
-                <form action="{{route('findproducts')}}" method="get">
-                    <label>Cautare:</label>
-                    <input type="text" name="query" required>
-                    <button type="submit">Go</button>
-                </form>
-            </div>
+
             <div class="card">
                 <div class="card-body p-0">
                     <table class="table table-striped projects">

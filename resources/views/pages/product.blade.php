@@ -24,7 +24,7 @@
                     <div class="carousel-inner">
                         @foreach($product_img as $img)
                             <div class="carousel-item @if($loop->first) active @endif">
-                                <img src="{{Storage::url('public/products/'.$img)}}@800" class="d-block w-100 product_img"
+                                <img src="{{Storage::url('public/products/'.$img)}}{{(config('app.env') === 'production' ? '@800' : '')}}" class="d-block w-100 product_img"
                                      alt="{{$product['name']}}">
                             </div>
                         @endforeach
