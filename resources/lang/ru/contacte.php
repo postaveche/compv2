@@ -1,6 +1,8 @@
 <?php
 return[
     'contacte' => 'Контаткты',
+    'desc' => 'Контакты компании IT Service Grup SRL (Comp.MD)',
+    'keys' => 'comp, md, it, service, grup, сщьз, compmd, контакты, телефон, поста, адрес',
     'botanica' => 'Ботаника',
     'adresa' => 'Адрес:',
     'tel' => 'Телефон:',

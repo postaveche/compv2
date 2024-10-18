@@ -1,10 +1,10 @@
 @extends('layouts.layouts')
 
-@section('title', 'Contacte Comp.MD')
+@section('title', __('contacte.contacte'))
 
-@section('description', 'Contactele companii It Service Grup SRL , Comp.MD')
+@section('description', __('contacte.desc'))
 
-@section('keywords', 'comp, md, it, service, grup, сщьз, compmd, contacte, telefon, mail, adresa')
+@section('keywords', __('contacte.keys'))
 
 @section('content')
     <h1>@lang('contacte.contacte')</h1>
@@ -15,11 +15,9 @@
     <p><a href="{{route('locale.rechizite_bancare', session('locale'))}}"
           title="@lang('contacte.rechizite')"><b>@lang('contacte.rechizite')</b></a></p>
     <div class="text_jos">
-        <p>
-            <strong>@lang('contacte.grafic')</strong>
+         <strong>@lang('contacte.grafic')</strong>
 
         <p>@lang('contacte.desc1')</p>
 
-        <p>@lang('contacte.desc2')</p>
-        </p></div>
+        <p>@lang('contacte.desc2')</p></div>
 @endsection

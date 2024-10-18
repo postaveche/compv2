@@ -27,4 +27,5 @@ return [
                 starea
                 carcacasei cartușului și a producătorului, după care este necesar de procurat alt cartuș nou.',
     'h3' => 'Reîncărcarea cartușelor cu vopsea de la 30 lei',
+    'call' => 'Sună acum!'
 ];
