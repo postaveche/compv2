@@ -1,42 +1,60 @@
 @extends('layouts.layouts')
 
-@section('title', 'Reparația imprimantelor, MFU, Copiatoare ')
+@section('title', __('remont_print.title'))
 
-@section('description', 'Reparația imprimantelor, MFU, Copiatoare')
+@section('description', __('remont_print.desc'))
 
-@section('keywords', 'mfu, xerox, printer, reparatia, remont, copiatoare')
+@section('keywords', __('remont_print.keys'))
 
 @section('content')
     <div class="wrapper">
         @include('block.print_block')
         <div class="reincarc_index">
             <div class="reincarc_item reincarc_text">
-                Reparatia imprimantelor de la 100 Lei
+                @lang('remont_print.title1')
             </div>
             <div class="reincarc_item reincar_photo">
-                <img class="reincar_photo_img" src="/img/print_rep.png" alt="Reparatii imprimante">
+                <img class="reincar_photo_img" src="/img/print_rep.png" alt="@lang('remont_print.print_rem')">
             </div>
         </div>
-        <p>Deservirea si reparatia imprimantelor este un serviciu foarte important in zilele noastre, deoarece
-            utilizarea acestor
-            dispozitive este foarte frecventa in birouri si in casele noastre. O imprimanta este un dispozitiv
-            electronic care utilizeaza toner sau cerneala pentru a imprima documente, fotografii sau alte tipuri de
-            informatii pe hartie.</p>
-        <p>
-            In cazul in care intampinati probleme cu imprimanta dvs., cum ar fi printarea incompleta, calitatea slaba a
-            imaginii sau erorile de imprimare, va recomandam sa apelati la serviciile noastre de reparatie a
-            imprimantelor (printerelor).
-        </p>
-        <p>In functie de problema imprimantei, tehnicienii nostri specializati in reparatii pot face reparatii hardware sau
-            software, precum si reincarcarea cu toner sau cerneala. Aceasta operatiune este necesara atunci cand
-            cartusul de toner sau cerneala s-a terminat sau cand calitatea printurilor a scazut.
-        </p>
+        <h1>@lang('remont_print.h1')</h1>
+        <p>@lang('remont_print.t1')</p>
+        <h2>@lang('remont_print.h2')</h2>
+        <p>@lang('remont_print.t2')</p>
+        <p><b>@lang('remont_print.type')</b></p>
+        <ul>
+            <li>
+                <b>@lang('remont_print.l1b')</b> – @lang('remont_print.l1')
+            </li>
+            <li>
+                <b>@lang('remont_print.l2b')</b> – @lang('remont_print.l2')
+            </li>
+            <li>
+                <b>@lang('remont_print.l3b')</b> – @lang('remont_print.l3')
+            </li>
+        </ul>
+        <p><b>@lang('remont_print.dece')</b></p>
+        <ul>
+            <li>
+                @lang('remont_print.dl1')
+            </li>
+            <li>
+                @lang('remont_print.dl2')
+            </li>
+            <li>
+                @lang('remont_print.dl3')
+            </li>
+            <li>
+                @lang('remont_print.dl4')
+            </li>
+        </ul>
+        <p>@lang('remont_print.fin')</p>
         <div class="reincarc_index">
             <div class="reincarc_item reincarc_photo">
-            <img class="reincar_photo_img" src="/img/print_rep.png" alt="Reparatii imprimante">
+                <img class="reincar_photo_img" src="/img/print_rep.png" alt="@lang('remont_print.print_rem')">
             </div>
             <div class="reincarc_item reincarc_text">
-                Reparatii hardware si software
+                @lang('remont_print.title2')
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@
                 <div class="product">
                     <div class="img_thumb">
                         <a href="/{{session('locale')}}/product/{{$product['slug']}}"><img class="img-fluid img_thumb"
-                                                                     src="{{Storage::url('public/products/'.$thumb)}}@300"
+                                                                     src="{{Storage::url('public/products/'.$thumb)}}{{(config('app.env') === 'production' ? '@300' : '')}}"
                                                                      alt="{{$product['name']}}"></a>
                     @if(isset($product->special_price))
                         <div class="reducere">
