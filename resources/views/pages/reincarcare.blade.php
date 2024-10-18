@@ -12,6 +12,7 @@
         <div class="reincarc_index">
             <div class="reincarc_item reincarc_text">
                 <h1>@lang('reincarcare.h1')</h1>
+                <a href="tel:+37360229129" class="btn btn-secondary btn_call">Sună acum!</a>
             </div>
             <div class="reincarc_item reincar_photo">
                 <img class="reincar_photo_img" src="/img/reincarc.png" alt="@lang('reincarcare.h1')">
