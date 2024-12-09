@@ -111,7 +111,7 @@
             </div>
             <hr>
             <div>
-                @include('block.homebanner')
+                {{\App\Http\Controllers\MainController::HomeBanners()}}
             </div>
         </div>
     </div>
