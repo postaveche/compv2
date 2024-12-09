@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="wrapper">
-        @include('block.homebanner')
+        {{\App\Http\Controllers\MainController::HomeBanners()}}
         <h1>@lang('main.select_product')</h1>
         {{\App\Http\Controllers\MainController::random_main()}}
         <hr/>

@@ -109,6 +109,10 @@
                 <h3>@lang('product.similar')</h3>
                 {{\App\Http\Controllers\ProductsController::recomandat($product['category_id'])}}
             </div>
+            <hr>
+            <div>
+                @include('block.homebanner')
+            </div>
         </div>
     </div>
 @endsection

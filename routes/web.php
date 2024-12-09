@@ -104,6 +104,8 @@ Route::get('/admincp/import/{code}/{category}', [B2BAccentController::class, 'im
 
 Route::get('/admincp/get_b2bfolders', [B2BAccentController::class, 'b2b_folders'])->name('b2b_folders')->middleware('auth');
 
+Route::get('/admincp/get_b2bfoldersv2', [B2BAccentController::class, 'b2b_foldersv2'])->name('b2b_foldersv2')->middleware('auth');
+
 Route::get('/admincp/get_b2binfo', [AdminProductInfoController::class, 'all_product_info'])->name('get_b2binfo')->middleware('auth');
 
 Route::get('/admincp/get_b2bstok/{b2b_code}', [AdminProductInfoController::class, 'product_in_stoc2'])->name('get_b2bstok');
@@ -119,6 +121,8 @@ Route::resource('/admincp/products', AdminProductController::class)->middleware(
 Route::resource('/admincp/pages', PagesController::class)->middleware('auth');
 
 Route::post('/admincp/pages/upload', [PagesController::class, 'upload'])->name('ckeditor.upload');
+
+Route::resource('/admincp/bannerblock', \App\Http\Controllers\admin\BannerBlockController::class)->middleware('auth');
 
 Route::get('mysitemap', function(){
 

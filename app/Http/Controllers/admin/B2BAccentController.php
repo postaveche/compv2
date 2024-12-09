@@ -175,6 +175,22 @@ class B2BAccentController extends Controller
         ]);
     }
 
+    public function b2b_foldersv2()
+    {
+        $guid = $this->b2b_authentification();
+        $allcategory = new Client();
+        $res2 = $allcategory->request('POST', 'http://b2brestful.accent.md:8090/hard/' . $guid . '/folders');
+        $allcategory_reply = json_decode($res2->getBody());
+        $allcategory_reply = collect($allcategory_reply)->filter(function ($item) {
+            return $item->parentcode === null;
+        })->all();
+
+        return view('admin.import.b2bfolders', [
+            'allcategory_reply' => $allcategory_reply,
+            'guid' => $guid
+        ]);
+    }
+
     public function import_by_folders(Request $request)
     {
         $code = $request->code;

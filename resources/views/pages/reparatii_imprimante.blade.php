@@ -12,6 +12,7 @@
         <div class="reincarc_index">
             <div class="reincarc_item reincarc_text">
                 @lang('remont_print.title1')
+                <a href="tel:+37360229129" class="btn btn-secondary btn_call"><i class="fal fa-phone-alt"></i>@lang('reincarcare.call')</a>
             </div>
             <div class="reincarc_item reincar_photo">
                 <img class="reincar_photo_img" src="/img/print_rep.png" alt="@lang('remont_print.print_rem')">
@@ -51,10 +52,11 @@
         <p>@lang('remont_print.fin')</p>
         <div class="reincarc_index">
             <div class="reincarc_item reincarc_photo">
-                <img class="reincar_photo_img" src="/img/print_rep.png" alt="@lang('remont_print.print_rem')">
+                <img class="reincar_photo_img" src="/img/print_soft.jpg" alt="@lang('remont_print.print_rem')">
             </div>
             <div class="reincarc_item reincarc_text">
                 @lang('remont_print.title2')
+                <a href="tel:+37360229129" class="btn btn-secondary btn_call"><i class="fal fa-phone-alt"></i>@lang('reincarcare.call')</a>
             </div>
         </div>
     </div>

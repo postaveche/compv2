@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BannerBlock;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -24,5 +25,16 @@ class MainController extends Controller
 
     public function redirect_ro($page){
         return redirect($page, 301);
+    }
+
+    public static function HomeBanners() {
+        $banners = BannerBlock::distinct()
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        return view('block.homebanner', [
+           'banners' => $banners
+        ]);
     }
 }
