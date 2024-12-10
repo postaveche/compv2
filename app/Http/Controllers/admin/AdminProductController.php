@@ -134,6 +134,7 @@ class AdminProductController extends Controller
         $product->active = $request->active;
         $product->save();
 
+        return redirect()->route('products.index')->with('success', 'Produsul a fost editat cu succes!!!');
 
 
     }

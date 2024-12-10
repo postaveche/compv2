@@ -232,8 +232,10 @@ class B2BAccentController extends Controller
                     $img_qty = $img_qty + 1;
                     $image_url = 'ftp://ftp.accent.md/aeimages/' . $images;
                     $url = file_get_contents($image_url);
-                    Storage::put('public/products/' . $images, $url);
-                    $data[] = $images;
+                    if ($url) {
+                        Storage::put('public/products/' . $images, $url);
+                        $data[] = $images;
+                    }
                 }
                 $product_images = json_encode($data);
 

@@ -42,6 +42,15 @@ class AdminProductInfoController extends B2BAccentController
         }
     }
 
+    public function single_update_info($b2b_code){
+        $guid = $this->b2b_authentification();
+        $query = 'http://b2brestful.accent.md:8090/hardproperty/' . $guid . '/productid/' . $b2b_code;
+        $allproducts = new Client();
+        $res2 = $allproducts->request('POST', $query);
+        $product_info_body = $res2->getBody();
+        dd($product_info_body);
+    }
+
     public function product_in_stoc($b2b_code)
     {
         $guid = $this->b2b_authentification();

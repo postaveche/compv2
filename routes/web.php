@@ -108,6 +108,8 @@ Route::get('/admincp/get_b2bfoldersv2', [B2BAccentController::class, 'b2b_folder
 
 Route::get('/admincp/get_b2binfo', [AdminProductInfoController::class, 'all_product_info'])->name('get_b2binfo')->middleware('auth');
 
+Route::get('/admincp/get_b2bsingleinfo/{code}', [AdminProductInfoController::class, 'single_update_info'])->name('single_update_info')->middleware('auth');
+
 Route::get('/admincp/get_b2bstok/{b2b_code}', [AdminProductInfoController::class, 'product_in_stoc2'])->name('get_b2bstok');
 
 Route::get('/admincp/get_b2bstok3/{b2b_code}', [AdminProductInfoController::class, 'product_in_stoc3'])->name('get_b2bstok');

@@ -95,10 +95,10 @@
                             <select class="form-select" aria-label="Selectati categoria:" name="category_id">
                                 @foreach($category as $cat)
                                     @if($cat['subcat'] == '0')
-                                        <option value="{{$cat['id']}}">{{$cat['name']}}</option>
+                                        <option value="{{$cat['id']}}" @if($produs['category_id'] == $cat['id']) selected @endif>{{$cat['name']}}</option>
                                         @foreach($category as $subcat)
                                             @if($subcat['subcat'] == $cat['id'])
-                                                <option value="{{$subcat['id']}}"> - {{$subcat['name']}}</option>
+                                                <option value="{{$subcat['id']}}"@if($produs['category_id'] == $subcat['id']) selected @endif> - {{$subcat['name']}}</option>
                                             @endif
                                         @endforeach
                                     @endif
