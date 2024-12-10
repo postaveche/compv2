@@ -98,7 +98,7 @@
                                         <option value="{{$cat['id']}}" @if($produs['category_id'] == $cat['id']) selected @endif>{{$cat['name']}}</option>
                                         @foreach($category as $subcat)
                                             @if($subcat['subcat'] == $cat['id'])
-                                                <option value="{{$subcat['id']}}"@if($produs['category_id'] == $subcat['id']) selected @endif> - {{$subcat['name']}}</option>
+                                                <option value="{{$subcat['id']}}"@if($produs['category_id'] == $subcat['id']) selected @endif>{{$cat['name']}} - {{$subcat['name']}}</option>
                                             @endif
                                         @endforeach
                                     @endif
