@@ -19,6 +19,11 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->full() }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon/site.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }}>
     <link rel="stylesheet" href={{ asset('css/main.css') }}>
