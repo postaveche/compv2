@@ -115,7 +115,11 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Editează</button>
+                        <button type="submit" class="btn btn-sm btn-info"><i class="fas fa-save"></i> Editează</button>
+                        <a class="btn btn-info btn-sm" href="{{route('single_update_info', $produs['b2b_code'])}}">
+                            <i class="fas fa-cloud-download-alt"></i>
+                            Update Info
+                        </a>
                     </div>
                 </form>
             </div>

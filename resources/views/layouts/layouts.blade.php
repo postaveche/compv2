@@ -16,6 +16,9 @@
     <meta property="og:title" content="@yield('title')" />
     <meta property="og:description" content="@yield('description')" />
     <meta property="og:image" content="@yield('img')" />
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }}>
     <link rel="stylesheet" href={{ asset('css/main.css') }}>
