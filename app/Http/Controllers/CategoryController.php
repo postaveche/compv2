@@ -65,6 +65,13 @@ class CategoryController extends Controller
                 $full_desc = $catinfo->full_desc_ro;
             }
         }
+
+        $page = request()->get('page', 1);
+        if ($page > 1) {
+            $title .= " - " . __('pagination.page') . " $page";
+            $description .= " - " . __('pagination.page_desc') . " $page";
+        }
+
         return view('pages.category', [
             'cat' => $catinfo,
             'subcateg' => $catinfo->subcategory(),
