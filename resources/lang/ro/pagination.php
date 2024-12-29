@@ -15,5 +15,7 @@ return [
 
     'previous' => '&laquo; Precedenta',
     'next' => 'Următoarea &raquo;',
+    'page' => 'Pagina',
+    'page_desc' => 'Vezi mai multe opțiuni pe pagina'
 
 ];
