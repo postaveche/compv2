@@ -43,7 +43,7 @@
 </div>
 @include('block.footer')
 <div class="copyright">
-    &copy; 2023 IT Service Grup
+    &copy; {{ date('Y') }} IT Service Grup
 </div>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 </body>

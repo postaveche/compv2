@@ -4,8 +4,8 @@
             <form action="{{ route('set.language')}}" method="GET">
                 @csrf
                 <select name="locale" onchange="this.form.submit()">
-                    <option value="ro" {{ session('locale') == 'ro' ? 'selected' : '' }}>RO</option>
-                    <option value="ru" {{ session('locale') == 'ru' ? 'selected' : '' }}>RU</option>
+                    <option value="ro" {{ session('locale') === 'ro' ? 'selected' : '' }}>RO</option>
+                    <option value="ru" {{ session('locale') === 'ru' ? 'selected' : '' }}>RU</option>
                 </select>
             </form>
         </div>

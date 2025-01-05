@@ -9,7 +9,7 @@
 @section('content')
     <div class="wrapper">
         {{\App\Http\Controllers\MainController::HomeBanners()}}
-        <h1>@lang('main.select_product')</h1>
+        <h2>@lang('main.select_product')</h2>
         {{\App\Http\Controllers\MainController::random_main()}}
         <hr/>
         <h2>@lang('main.latest_products')</h2>
