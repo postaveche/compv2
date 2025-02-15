@@ -430,12 +430,13 @@ h2 {
     max-width: 600px;
 }
 .reincarc_text{
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 30px;
     font-size: 2em;
     font-weight: 600;
     text-transform: uppercase;
-    text-align: center;
+    justify-content: space-around;
     align-items: center;
 }
 

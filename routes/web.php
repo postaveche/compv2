@@ -50,6 +50,9 @@ Route::group([
     Route::get('reparatii_imprimante', function () {
         return view('pages.reparatii_imprimante');
     })->name('reparatii_imprimate');
+    Route::get('reparatii_proiectoare', function () {
+        return view('pages.reparatii_proiectoare');
+    })->name('reparatii_proiectoare');
     Route::get('specialist', function () {
         return view('pages.specialist');
     })->name('specialist');
@@ -75,10 +78,11 @@ Route::group([
     Route::get('product/{slug}', [ProductsController::class, 'show'])->name('product_info');
 });
 
-if (isset($_SESSION['locale'])){
-    Route::get('/', function () { return redirect('/'.$_SESSION['locale'], 301); });
-}
-else {
+if (isset($_SESSION['locale'])) {
+    Route::get('/', function () {
+        return redirect('/' . $_SESSION['locale'], 301);
+    });
+} else {
     Route::get('/', function () {
         return redirect('/ro', 301);
     });
@@ -126,7 +130,7 @@ Route::post('/admincp/pages/upload', [PagesController::class, 'upload'])->name('
 
 Route::resource('/admincp/bannerblock', \App\Http\Controllers\admin\BannerBlockController::class)->middleware('auth');
 
-Route::get('mysitemap', function(){
+Route::get('mysitemap', function () {
 
     // create new sitemap object
     $sitemap = App::make("sitemap");
@@ -143,18 +147,16 @@ Route::get('mysitemap', function(){
 
     $categories = DB::table('category')->orderBy('created_at', 'desc')->get();
 
-    foreach ($categories as $category)
-    {
-        $sitemap->add(URL::to('category/'.$category->slug), $category->updated_at, '0.7', 'monthly');
+    foreach ($categories as $category) {
+        $sitemap->add(URL::to('category/' . $category->slug), $category->updated_at, '0.7', 'monthly');
     }
 
     // get all posts from db
     $products = DB::table('product')->orderBy('created_at', 'desc')->get();
 
     // add every post to the sitemap
-    foreach ($products as $product)
-    {
-        $sitemap->add(URL::to('product/'.$product->slug), $product->updated_at, '0.5', 'monthly');
+    foreach ($products as $product) {
+        $sitemap->add(URL::to('product/' . $product->slug), $product->updated_at, '0.5', 'monthly');
     }
 
     // generate your sitemap (format, filename)
