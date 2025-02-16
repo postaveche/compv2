@@ -53,6 +53,9 @@ Route::group([
     Route::get('reparatii_proiectoare', function () {
         return view('pages.reparatii_proiectoare');
     })->name('reparatii_proiectoare');
+    Route::get('reparatii_aspiratoare', function () {
+        return view('pages.reparatii_aspiratoare');
+    })->name('reparatii_aspiratoare');
     Route::get('specialist', function () {
         return view('pages.specialist');
     })->name('specialist');
