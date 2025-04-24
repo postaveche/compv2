@@ -24,6 +24,7 @@
                     <h3>@lang('main.about')</h3>
                     <ul>
                         <li><a href="{{route('locale.contacte', session('locale'))}}" title="@lang('main.contact')">@lang('main.contact')</a></li>
+                        <li><a href="{{route('locale.retur', session('locale'))}}" title="RETUR">Retur</a></li>
                         <li><a href="{{route('locale.rechizite_bancare', session('locale'))}}" title="@lang('main.rechizite')">@lang('main.rechizite')</a></li>
                     </ul>
                 </div>
