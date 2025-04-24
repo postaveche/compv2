@@ -1,8 +1,8 @@
 @extends('layouts.layouts')
 
-@section('title', " RETUR")
+@section('title', __('retur.h1'))
 
-@section('description', " RETUR")
+@section('description', __('retur.p21'))
 
 @section('content')
     <h1>@lang('retur.h1')</h1>
