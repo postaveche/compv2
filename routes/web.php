@@ -68,6 +68,9 @@ Route::group([
     Route::get('/rechizite_bancare', function () {
         return view('pages.rechizite');
     })->name('rechizite_bancare');
+    Route::get('/retur', function () {
+        return view('pages.retur');
+    })->name('retur');
     Route::get('/category', function () {
         return redirect('/', 301);
     })->name('all_category');
