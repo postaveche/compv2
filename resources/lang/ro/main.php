@@ -33,5 +33,6 @@ return[
     'produs' => 'Produse',
     'serv' => 'Servicii',
     'about' => 'Despre noi',
-    'all_cat' => 'Toate'
+    'all_cat' => 'Toate',
+    'retur' => 'Schimb și Retur'
 ];
