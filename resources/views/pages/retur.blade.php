@@ -56,4 +56,9 @@
     <p>@lang('retur.h23p3')</p>
     <p>@lang('retur.h23p4')</p>
     <p>@lang('retur.h23p5')</p>
+    <hr>
+    <h2>În caz de neînțelegeri</h2>
+    <p><b>Inspectoratul de Stat pentru Supravegherea Produselor Nealimentare și Protecția Consumatorilor</b></p>
+    <p>Call-centru: (+373-22) 51 51 51;</p>
+    <p>Adresa: mun.Chișinău, str. Vasile Alecsandri 78, MD-2012.</p>
 @endsection
