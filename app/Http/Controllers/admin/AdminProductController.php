@@ -147,6 +147,51 @@ class AdminProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        
+        // Șterge imaginile asociate cu produsul
+        if ($product->img) {
+            $images = json_decode($product->img, true);
+            
+            if (is_array($images)) {
+                foreach ($images as $image) {
+                    $imagePath = storage_path('app/public/products/' . $image);
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                }
+            }
+        }
+        
+        // Șterge produsul din baza de date
+        $product->delete();
+        
+        return redirect()->route('products.index')->with('success', 'Produsul și imaginile asociate au fost șterse cu succes!');
+    }
+
+    /**
+     * Update multiple products status
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function bulkUpdate(Request $request)
+    {
+        $request->validate([
+            'bulk_action' => 'required|in:activate,deactivate',
+            'selected_products' => 'required|array|min:1',
+            'selected_products.*' => 'exists:product,id'
+        ]);
+
+        $productIds = $request->selected_products;
+        $action = $request->bulk_action;
+        
+        $newStatus = ($action === 'activate') ? 1 : 0;
+        $actionText = ($action === 'activate') ? 'activate' : 'dezactivate';
+        
+        $updatedCount = Product::whereIn('id', $productIds)->update(['active' => $newStatus]);
+        
+        return redirect()->route('products.index')->with('success', 
+            "Au fost {$actionText} {$updatedCount} produse cu succes!");
     }
 }

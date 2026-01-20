@@ -128,6 +128,8 @@ Route::get('/admincp/importbycat', [B2BAccentController::class, 'import_by_folde
 
 Route::get('/admincp/products/find/', [AdminProductSearchController::class, 'search'])->middleware('auth')->name('findproducts');
 
+Route::post('/admincp/products/bulk-update', [AdminProductController::class, 'bulkUpdate'])->middleware('auth')->name('products.bulk-update');
+
 Route::resource('/admincp/products', AdminProductController::class)->middleware('auth');
 
 Route::resource('/admincp/pages', PagesController::class)->middleware('auth');
