@@ -16,7 +16,9 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @foreach($subcategory as $subc)
                         @if($subc['subcat'] == $cat['id'])
-                        <li><a class="dropdown-item" href="{{route('locale.all_category', session('locale'))}}/{{$subc['slug']}}">@if(session('locale') == 'ru'){{$subc['name_ru']}}@else {{$subc['name']}}@endif</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{route('locale.all_category', session('locale'))}}/{{$subc['slug']}}">@if(session('locale') == 'ru'){{$subc['name_ru']}}@else {{$subc['name']}}@endif</a>
+                        </li>
                         @endif
                         @endforeach
                         <li>

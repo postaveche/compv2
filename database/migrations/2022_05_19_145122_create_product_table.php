@@ -26,7 +26,7 @@ class CreateProductTable extends Migration
             $table->string('img_thumb', 255)->default('/logo.png');
             $table->string('img', 255)->nullable();
             $table->integer('img_qty')->default('0');
-            $table->string('text', 3000)->nullable();
+            $table->text('text')->nullable();
             $table->float('price', 8, 2);
             $table->string('special_price', '10')->nullable();
             $table->string('gift', 10)->nullable();

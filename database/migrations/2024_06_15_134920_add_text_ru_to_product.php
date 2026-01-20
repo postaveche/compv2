@@ -14,7 +14,7 @@ class AddTextRuToProduct extends Migration
     public function up()
     {
         Schema::table('product', function (Blueprint $table) {
-            $table->string('text_ru', 3000)->nullable()->after('text');
+            $table->text('text_ru')->nullable()->after('text');
         });
     }
 
