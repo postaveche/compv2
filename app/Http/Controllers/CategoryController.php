@@ -26,47 +26,108 @@ class CategoryController extends Controller
         ]);
     }
 
+//    public function show($locale, $category)
+//    {
+//        $catinfo = Category::with('subcategory')->where('slug', $category)->first();
+//        $products = Product::where([['category_id', $catinfo['id']], ['active', '1']])->orderby('price')->paginate(20);
+//        if (!isset($catinfo)) {
+//            return response(view('errors.404'), 404);
+//        }
+//        if (isset($catinfo->subcategory) and $catinfo['subcat'] == 0) {
+//            if($locale == 'ru' ){
+//                $title = $catinfo['title_ru'];
+//                $description = $catinfo['description_ru'];
+//                $key = $catinfo['keywords_ru'];
+//                $full_desc = $catinfo['full_desc_ru'];
+//            } else {
+//                $title = $catinfo['title_ro'];
+//                $description = $catinfo['description'];
+//                $key = $catinfo['keywords'];
+//                $full_desc = $catinfo['full_desc_ro'];
+//            }
+//            $subcategory_id = Category::where('subcat', $catinfo['id'])->get();
+//            //dd($subcategory_id);
+//            foreach ($subcategory_id as $id) {
+//                $category_id[] = $id->id;
+//            }
+//            $products = Product::whereIn('category_id', $category_id)->orderBy('price')->paginate(20);
+//            //dd($products);
+//        } else {
+//            if($locale == 'ru' ) {
+//                $title = $catinfo->title_ru;
+//                $description = $catinfo->description_ru;
+//                $key = $catinfo->keywords_ru;
+//                $full_desc = $catinfo->full_desc_ru;
+//                } else {
+//                $title = $catinfo->title_ro;
+//                $description = $catinfo->description;
+//                $key = $catinfo->keywords;
+//                $full_desc = $catinfo->full_desc_ro;
+//            }
+//        }
+//
+//        $page = request()->get('page', 1);
+//        if ($page > 1) {
+//            $title .= " - " . __('pagination.page') . " $page";
+//            $description .= " - " . __('pagination.page_desc') . " $page";
+//        }
+//
+//        return view('pages.category', [
+//            'cat' => $catinfo,
+//            'subcateg' => $catinfo->subcategory(),
+//            'title' => $title,
+//            'description' => $description,
+//            'keywords' => $key,
+//            'products' => $products,
+//            'full_desc' => $full_desc
+//        ]);
+//    }
+
     public function show($locale, $category)
     {
         $catinfo = Category::with('subcategory')->where('slug', $category)->first();
-        $products = Product::where([['category_id', $catinfo['id']], ['active', '1']])->orderby('price')->paginate(20);
-        if (!isset($catinfo)) {
+
+        if (!$catinfo) {
             return response(view('errors.404'), 404);
         }
-        if (isset($catinfo->subcategory) and $catinfo['subcat'] == 0) {
-            if($locale == 'ru' ){
-                $title = $catinfo['title_ru'];
-                $description = $catinfo['description_ru'];
-                $key = $catinfo['keywords_ru'];
-                $full_desc = $catinfo['full_desc_ru'];
-            } else {
-                $title = $catinfo['title_ro'];
-                $description = $catinfo['description'];
-                $key = $catinfo['keywords'];
-                $full_desc = $catinfo['full_desc_ro'];
-            }
-            $subcategory_id = Category::where('subcat', $catinfo['id'])->get();
-            //dd($subcategory_id);
-            foreach ($subcategory_id as $id) {
-                $category_id[] = $id->id;
-            }
-            $products = Product::whereIn('category_id', $category_id)->orderBy('price')->paginate(20);
-            //dd($products);
+
+        // SEO texts
+        if ($locale === 'ru') {
+            $title = $catinfo->title_ru ?? '';
+            $description = $catinfo->description_ru ?? '';
+            $key = $catinfo->keywords_ru ?? '';
+            $full_desc = $catinfo->full_desc_ru ?? '';
         } else {
-            if($locale == 'ru' ) {
-                $title = $catinfo->title_ru;
-                $description = $catinfo->description_ru;
-                $key = $catinfo->keywords_ru;
-                $full_desc = $catinfo->full_desc_ru;
-                } else {
-                $title = $catinfo->title_ro;
-                $description = $catinfo->description;
-                $key = $catinfo->keywords;
-                $full_desc = $catinfo->full_desc_ro;
-            }
+            $title = $catinfo->title_ro ?? '';
+            $description = $catinfo->description ?? '';
+            $key = $catinfo->keywords ?? '';
+            $full_desc = $catinfo->full_desc_ro ?? '';
         }
 
-        $page = request()->get('page', 1);
+        // Produse: active primele, apoi inactive; în interior după price
+        $productsQuery = Product::query()
+            ->orderByDesc('active')
+            ->orderBy('price');
+
+        // Dacă e categorie principală (subcat == 0) și are subcategorii => adună produsele din subcategorii
+        if ((int)$catinfo->subcat === 0 && $catinfo->subcategory && $catinfo->subcategory->count() > 0) {
+            $subcategoryIds = Category::where('subcat', $catinfo->id)->pluck('id')->toArray();
+
+            // dacă nu există subcategorii (siguranță), nu rupem pagina
+            if (!empty($subcategoryIds)) {
+                $productsQuery->whereIn('category_id', $subcategoryIds);
+            } else {
+                $productsQuery->where('category_id', $catinfo->id);
+            }
+        } else {
+            // categorie/subcategorie normală
+            $productsQuery->where('category_id', $catinfo->id);
+        }
+
+        $products = $productsQuery->paginate(20);
+
+        // Page suffix pt SEO
+        $page = (int)request()->get('page', 1);
         if ($page > 1) {
             $title .= " - " . __('pagination.page') . " $page";
             $description .= " - " . __('pagination.page_desc') . " $page";
@@ -74,7 +135,8 @@ class CategoryController extends Controller
 
         return view('pages.category', [
             'cat' => $catinfo,
-            'subcateg' => $catinfo->subcategory(),
+            // recomand să trimiți colecția, nu metoda
+            'subcateg' => $catinfo->subcategory,
             'title' => $title,
             'description' => $description,
             'keywords' => $key,
@@ -83,7 +145,8 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function all_category(){
+    public function all_category()
+    {
 
     }
 
