@@ -30,28 +30,70 @@ class ProductsController extends Controller
         ]);
     }
 
-    public static function price($price_usd)
+//    public static function price($price_usd)
+//    {
+//        $curs = DB::table('curses')->latest()->first();
+//        $site_settings = DB::table('settings')->latest()->first();
+//        $proc = $site_settings->price_procent + 100;
+//        $price_mdl = $price_usd * $curs->usd_sell;
+//        $price_mdl = ($price_mdl / 100) * $proc;
+//        $price_eur = $price_mdl / $curs->eur_sell;
+//        $price_usd = ceil(($price_usd/100) * $proc);
+//        $price_mdl = ceil($price_mdl);
+//        $price_eur = ceil($price_eur);
+//        return view('block.product_price', [
+//            'price_usd' => $price_usd,
+//            'price_mdl' => $price_mdl,
+//            'price_eur' => $price_eur
+//        ]);
+//    }
+
+    public static function price($baseUsd)
     {
         $curs = DB::table('curses')->latest()->first();
         $site_settings = DB::table('settings')->latest()->first();
-        $proc = $site_settings->price_procent + 100;
-        $price_mdl = $price_usd * $curs->usd_sell;
-        $price_mdl = ($price_mdl / 100) * $proc;
-        $price_eur = $price_mdl / $curs->eur_sell;
-        $price_usd = ceil(($price_usd/100) * $proc);
-        $price_mdl = ceil($price_mdl);
-        $price_eur = ceil($price_eur);
+
+        if (!$curs || !$site_settings) {
+            // fallback / throw / return empty view
+            return view('block.product_price', [
+                'price_usd' => null,
+                'price_mdl' => null,
+                'price_eur' => null
+            ]);
+        }
+
+        if ((float)$curs->usd_sell <= 0 || (float)$curs->eur_sell <= 0) {
+            return view('block.product_price', [
+                'price_usd' => null,
+                'price_mdl' => null,
+                'price_eur' => null
+            ]);
+        }
+
+        $markup = 1 + ((float)$site_settings->price_procent / 100); // ex: 15% => 1.15
+
+        // baza in MDL cu adaos
+        $mdl = (float)$baseUsd * (float)$curs->usd_sell * $markup;
+
+        // rotunjire (alege regula ta)
+        $price_mdl = (int)ceil($mdl);
+
+        // derivezi celelalte din MDL final ca sa fie consistent
+        $price_usd = (int)ceil($price_mdl / (float)$curs->usd_sell);
+        $price_eur = (int)ceil($price_mdl / (float)$curs->eur_sell);
+
         return view('block.product_price', [
             'price_usd' => $price_usd,
             'price_mdl' => $price_mdl,
-            'price_eur' => $price_eur
+            'price_eur' => $price_eur,
         ]);
     }
 
-    public static function recomandat($cat){
+    public static function recomandat($cat)
+    {
         $recomandat = Product::where('category_id', $cat)->inRandomOrder()->limit(4)->get();
-        return view('block.product_list',[
-           'products' => $recomandat
+        return view('block.product_list', [
+            'products' => $recomandat
         ]);
     }
 
@@ -66,9 +108,9 @@ class ProductsController extends Controller
             ->orderBy('price')
             ->get();
 
-            $products_count = count($products);
+        $products_count = count($products);
 
-            $addtodb = (new SearchController)->addsearch($search);
+        $addtodb = (new SearchController)->addsearch($search);
 
         return view('pages.search', [
             'products' => $products,
