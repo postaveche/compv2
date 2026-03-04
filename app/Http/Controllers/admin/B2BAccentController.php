@@ -287,8 +287,11 @@ class B2BAccentController extends Controller
                 $addproduct->save();
 
             } else {
-//                if($ifexist->b2b_transaction_id <> $product->transaction_id)
-//                dd($product);
+                $product = Product::where('b2b_code', $product->code)->first();
+                $product->price = $product->dprice1;
+                $product->active = $product->inpricelist;
+                $product->b2b_transaction_id = $product->transaction_id;
+                $product->save();
             }
         }
         return back()->with('success', 'Produsele au fost adaugate cu succes!!!');
