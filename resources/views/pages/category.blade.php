@@ -15,21 +15,28 @@
                     $thumb = \App\Http\Controllers\CategoryController::produs_thumb($product['id']) ;
                 @endphp
                 <div class="product">
-                    <div class="img_thumb">
+                    <div class="img_thumb {{ $product->active == 0 ? 'out-of-stock' : '' }}">
                         <a href="/{{session('locale')}}/product/{{$product['slug']}}"><img class="img-fluid img_thumb"
-                                                                     src="{{Storage::url('public/products/'.$thumb)}}{{(config('app.env') === 'production' ? '@300' : '')}}"
-                                                                     alt="{{$product['name']}}"></a>
-                    @if(isset($product->special_price))
-                        <div class="reducere">
-                            Reducere 10%
-                        </div>
-                    @endif
+                                                                                           src="{{Storage::url('public/products/'.$thumb)}}{{(config('app.env') === 'production' ? '@300' : '')}}"
+                                                                                           alt="{{$product['name']}}"></a>
+                        @if($product->active == 0)
+                            <div class="stock-label">
+                                Stoc epuizat
+                            </div>
+                        @endif
+
+                        @if(isset($product->special_price))
+                            <div class="reducere">
+                                Reducere 10%
+                            </div>
+                        @endif
                         @if(isset($product['gift']))
                             <div class="gift"></div>
                         @endif
                     </div>
                     <div class="prod_title d-flex justify-content-center">
-                        <a href="/{{session('locale')}}/product/{{$product['slug']}}" title="{{$product['name']}}">{{$product['name']}}</a>
+                        <a href="/{{session('locale')}}/product/{{$product['slug']}}"
+                           title="{{$product['name']}}">{{$product['name']}}</a>
                     </div>
                     <div class="price">{{\App\Http\Controllers\CategoryController::category_price($product['price']);}}
                         MDL
