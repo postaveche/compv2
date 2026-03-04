@@ -54,7 +54,6 @@ class ProductsController extends Controller
         $site_settings = DB::table('settings')->latest()->first();
 
         if (!$curs || !$site_settings) {
-            // fallback / throw / return empty view
             return view('block.product_price', [
                 'price_usd' => null,
                 'price_mdl' => null,
@@ -70,17 +69,19 @@ class ProductsController extends Controller
             ]);
         }
 
-        $markup = 1 + ((float)$site_settings->price_procent / 100); // ex: 15% => 1.15
+        // procent dinamic
+        $percent = $baseUsd < 100 ? 20 : (float)$site_settings->price_procent;
+
+        $markup = 1 + ($percent / 100);
 
         // baza in MDL cu adaos
         $mdl = (float)$baseUsd * (float)$curs->usd_sell * $markup;
 
-        // rotunjire (alege regula ta)
-        $price_mdl = (int)ceil($mdl);
+        $price_mdl = (int) ceil($mdl);
 
-        // derivezi celelalte din MDL final ca sa fie consistent
-        $price_usd = (int)ceil($price_mdl / (float)$curs->usd_sell);
-        $price_eur = (int)ceil($price_mdl / (float)$curs->eur_sell);
+        // calcul valute din MDL final
+        $price_usd = (int) ceil($price_mdl / (float)$curs->usd_sell);
+        $price_eur = (int) ceil($price_mdl / (float)$curs->eur_sell);
 
         return view('block.product_price', [
             'price_usd' => $price_usd,
