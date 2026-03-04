@@ -96,14 +96,33 @@ class CategoryController extends Controller
         return $thumb;
     }
 
+//    public static function category_price($price_usd)
+//    {
+//        $curs = DB::table('curses')->latest()->first();
+//        $site_settings = DB::table('settings')->latest()->first();
+//        $proc = $site_settings->price_procent + 100;
+//        $price_mdl = $price_usd * $curs->usd_sell;
+//        $price_mdl = ($price_mdl / 100) * $proc;
+//        $price_mdl = ceil($price_mdl);
+//        return $price_mdl;
+//    }
+
     public static function category_price($price_usd)
     {
         $curs = DB::table('curses')->latest()->first();
         $site_settings = DB::table('settings')->latest()->first();
-        $proc = $site_settings->price_procent + 100;
-        $price_mdl = $price_usd * $curs->usd_sell;
-        $price_mdl = ($price_mdl / 100) * $proc;
-        $price_mdl = ceil($price_mdl);
-        return $price_mdl;
+
+        if (!$curs || !$site_settings) {
+            return null;
+        }
+
+        // alegem procentul
+        $percent = $price_usd < 100 ? 20 : $site_settings->price_procent;
+
+        $markup = 1 + ($percent / 100);
+
+        $price_mdl = $price_usd * $curs->usd_sell * $markup;
+
+        return ceil($price_mdl);
     }
 }
