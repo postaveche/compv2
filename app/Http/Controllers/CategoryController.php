@@ -85,13 +85,13 @@ class CategoryController extends Controller
 
     public function show($locale, $category)
     {
-        $catinfo = Category::with('subcategory')->where('slug', $category)->first();
+        $catinfo = Category::where('slug', $category)->first();
 
         if (!$catinfo) {
             return response(view('errors.404'), 404);
         }
 
-        // SEO texts
+        // SEO
         if ($locale === 'ru') {
             $title = $catinfo->title_ru ?? '';
             $description = $catinfo->description_ru ?? '';
@@ -104,30 +104,25 @@ class CategoryController extends Controller
             $full_desc = $catinfo->full_desc_ro ?? '';
         }
 
-        // Produse: active primele, apoi inactive; în interior după price
         $productsQuery = Product::query()
             ->orderByDesc('active')
             ->orderBy('price');
 
-        // Dacă e categorie principală (subcat == 0) și are subcategorii => adună produsele din subcategorii
-        if ((int)$catinfo->subcat === 0 && $catinfo->subcategory && $catinfo->subcategory->count() > 0) {
-            $subcategoryIds = Category::where('subcat', $catinfo->id)->pluck('id')->toArray();
+        if ((int)$catinfo->subcat === 0) {
+            // categorie principala: id-ul ei + id-urile subcategoriilor
+            $ids = Category::where('subcat', $catinfo->id)->pluck('id')->toArray();
+            $ids[] = $catinfo->id; // include si categoria principala
 
-            // dacă nu există subcategorii (siguranță), nu rupem pagina
-            if (!empty($subcategoryIds)) {
-                $productsQuery->whereIn('category_id', $subcategoryIds);
-            } else {
-                $productsQuery->where('category_id', $catinfo->id);
-            }
+            $productsQuery->whereIn('category_id', $ids);
         } else {
-            // categorie/subcategorie normală
+            // subcategorie/categorie normala
             $productsQuery->where('category_id', $catinfo->id);
         }
 
         $products = $productsQuery->paginate(20);
 
-        // Page suffix pt SEO
-        $page = (int)request()->get('page', 1);
+        // SEO page
+        $page = (int) request()->get('page', 1);
         if ($page > 1) {
             $title .= " - " . __('pagination.page') . " $page";
             $description .= " - " . __('pagination.page_desc') . " $page";
@@ -135,8 +130,7 @@ class CategoryController extends Controller
 
         return view('pages.category', [
             'cat' => $catinfo,
-            // recomand să trimiți colecția, nu metoda
-            'subcateg' => $catinfo->subcategory,
+            'subcateg' => Category::where('subcat', $catinfo->id)->get(), // daca ai nevoie in view
             'title' => $title,
             'description' => $description,
             'keywords' => $key,
