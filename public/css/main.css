@@ -148,6 +148,10 @@ h2 {
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
+.out-of-stock + .prod_title a{
+    color: #999;
+}
+
 .price {
     font-weight: bold;
     color: darkred;
