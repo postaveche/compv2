@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class AdminProductController extends Controller
 {
@@ -19,8 +20,15 @@ class AdminProductController extends Controller
     public function index()
     {
         $produse = Product::orderby('id', 'DESC')->paginate(25);
+        
+        // Obținem cursul valutar și settings pentru calculul prețurilor
+        $curs = DB::table('curses')->latest()->first();
+        $site_settings = DB::table('settings')->latest()->first();
+        
         return view('admin.products.index', [
-            'produse' => $produse
+            'produse' => $produse,
+            'curs' => $curs,
+            'site_settings' => $site_settings
         ]);
     }
 
@@ -178,20 +186,37 @@ class AdminProductController extends Controller
     public function bulkUpdate(Request $request)
     {
         $request->validate([
-            'bulk_action' => 'required|in:activate,deactivate',
+            'bulk_action' => 'required|in:activate,deactivate,change_category',
             'selected_products' => 'required|array|min:1',
-            'selected_products.*' => 'exists:product,id'
+            'selected_products.*' => 'exists:product,id',
+            'category_id' => 'required_if:bulk_action,change_category|exists:category,id'
         ]);
 
         $productIds = $request->selected_products;
         $action = $request->bulk_action;
         
-        $newStatus = ($action === 'activate') ? 1 : 0;
-        $actionText = ($action === 'activate') ? 'activate' : 'dezactivate';
+        $updatedCount = 0;
+        $successMessage = '';
         
-        $updatedCount = Product::whereIn('id', $productIds)->update(['active' => $newStatus]);
+        switch ($action) {
+            case 'activate':
+                $updatedCount = Product::whereIn('id', $productIds)->update(['active' => 1]);
+                $successMessage = "Au fost activate {$updatedCount} produse cu succes!";
+                break;
+                
+            case 'deactivate':
+                $updatedCount = Product::whereIn('id', $productIds)->update(['active' => 0]);
+                $successMessage = "Au fost dezactivate {$updatedCount} produse cu succes!";
+                break;
+                
+            case 'change_category':
+                $categoryId = $request->category_id;
+                $category = Category::findOrFail($categoryId);
+                $updatedCount = Product::whereIn('id', $productIds)->update(['category_id' => $categoryId]);
+                $successMessage = "Au fost mutate {$updatedCount} produse în categoria \"{$category->name}\" cu succes!";
+                break;
+        }
         
-        return redirect()->route('products.index')->with('success', 
-            "Au fost {$actionText} {$updatedCount} produse cu succes!");
+        return redirect()->route('products.index')->with('success', $successMessage);
     }
 }
