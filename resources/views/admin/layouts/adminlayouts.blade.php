@@ -32,6 +32,20 @@
         .ck-source-editing-area{
             height: 500px;
         }
+        /* Fix pentru footer - forțează content-wrapper să ocupe spațiul necesar */
+        .content-wrapper {
+            min-height: calc(100vh - 3.5rem - 3.5rem) !important;
+        }
+        /* Asigură că wrapper-ul principal are display flex */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Footer rămâne jos */
+        .main-footer {
+            margin-top: auto;
+        }
     </style>
 {{--    <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-free-full-feature@35.4.1/build/ckeditor.min.js"></script>--}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
