@@ -138,6 +138,17 @@ Route::post('/admincp/pages/upload', [PagesController::class, 'upload'])->name('
 
 Route::resource('/admincp/bannerblock', \App\Http\Controllers\admin\BannerBlockController::class)->middleware('auth');
 
+// Slidere admin
+Route::resource('/admincp/sliders', \App\Http\Controllers\admin\AdminSliderController::class)->middleware('auth');
+Route::post('/admincp/sliders/{slider}/items', [\App\Http\Controllers\admin\AdminSliderController::class, 'addItem'])->middleware('auth')->name('sliders.items.add');
+Route::put('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'updateItem'])->middleware('auth')->name('sliders.items.update');
+Route::delete('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'deleteItem'])->middleware('auth')->name('sliders.items.delete');
+Route::get('/admincp/sliders/{slider}/stats', [\App\Http\Controllers\admin\AdminSliderController::class, 'stats'])->middleware('auth')->name('sliders.stats');
+
+// Slider tracking (AJAX)
+Route::post('/slider/track-view', [\App\Http\Controllers\SliderController::class, 'trackView'])->name('slider.track.view');
+Route::post('/slider/track-click/{id}', [\App\Http\Controllers\SliderController::class, 'trackClick'])->name('slider.track.click');
+
 Route::get('mysitemap', function () {
 
     // create new sitemap object

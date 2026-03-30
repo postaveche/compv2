@@ -8,6 +8,7 @@
 
 @section('content')
     <div class="wrapper">
+        @include('block.slider', ['sliderPosition' => 'home'])
         {{\App\Http\Controllers\MainController::HomeBanners()}}
         <h2>@lang('main.select_product')</h2>
         {{\App\Http\Controllers\MainController::random_main()}}
