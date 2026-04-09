@@ -1,184 +1,124 @@
 @extends('admin.layouts.adminlayouts')
-
-@section('title', 'Categorii Accent')
-
+@section('title', 'Categorii B2B Accent')
 @section('content')
-    <div class="content-wrapper">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row ">
-                    <h1>Categoriile B2B Accent:</h1>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
-        <section class="content">
-            @include('admin.block.messages')
-            @if(isset($allcategory_reply))
-            <div class="card">
-                <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                        <tr>
-                            <th style="width: 10%">
-                                Cod
-                            </th>
-                            <th style="width: 55%">
-                                Denumirea
-                            </th>
-                            <th style="width: 5%">
-                                Subcategorie
-                            </th>
-                            <th style="width: 5%" class="text-center">
-                                Status
-                            </th>
-                            <th style="width: 25%">
-                            </th>
-                        </tr>
-                        </thead>
-                        @foreach($allcategory_reply as $category)
-                            <tr>
-                                @if($category->parentcode == null)
-                                    <td>
-                                        <b>{{ $category->code }}</b>
-                                    </td>
-                                    <td>
-                                        <b>{{ $category->hardname }}</b>
-                                    </td>
-                                    <td>
+<div class="content-wrapper">
+<section class="content-header"><div class="container-fluid"><div class="row mb-2">
+<div class="col-sm-6"><h1>Categorii B2B Accent</h1></div>
+<div class="col-sm-6 text-right">
+<button class="btn btn-sm btn-outline-secondary" onclick="document.querySelectorAll('.b2b-children').forEach(e=>e.style.display='')"><i class="fas fa-expand"></i> Deschide toate</button>
+<button class="btn btn-sm btn-outline-secondary" onclick="document.querySelectorAll('.b2b-children').forEach(e=>e.style.display='none')"><i class="fas fa-compress"></i> Inchide toate</button>
+</div>
+</div></div></section>
+<section class="content"><div class="container-fluid">
+@include('admin.block.messages')
+@if(isset($allcategory_reply))
 
-                                    </td>
-                                    <td>
+@php
+    $items = collect($allcategory_reply);
+    $mainCats = $items->whereNull('parentcode')->sortBy('hardname');
+@endphp
 
-                                    </td>
-                                    <td>
+@foreach($mainCats as $main)
+<div class="card mb-2">
+<div class="card-header p-2" style="cursor:pointer;background:#f4f6f9;border-bottom:1px solid #e0e0e0;" onclick="var el=document.getElementById('children-{{$main->code}}');el.style.display=el.style.display==='none'?'':'none';">
+<div class="d-flex justify-content-between align-items-center">
+<div>
+<i class="fas fa-folder text-secondary"></i>
+<strong>{{ $main->hardname }}</strong>
+<small class="text-muted ml-2">[{{ $main->code }}]</small>
+@php $childCount = $items->where('parentcode', $main->code)->count(); @endphp
+<span class="badge badge-light border ml-1">{{ $childCount }}</span>
+</div>
+<i class="fas fa-chevron-down text-muted" style="font-size:0.75rem;"></i>
+</div>
+</div>
+<div id="children-{{$main->code}}" class="b2b-children" style="display:none;">
+<table class="table table-sm table-hover mb-0">
+@php $level1 = $items->where('parentcode', $main->code)->sortBy('hardname'); @endphp
+@foreach($level1 as $sub1)
+<tr style="background:#f8f9fa;">
+<td style="width:80px;padding-left:15px;"><strong>{{ $sub1->code }}</strong></td>
+<td style="padding-left:15px;">
+<i class="fas fa-folder-open text-info"></i> <strong>{{ $sub1->hardname }}</strong>
+@php $sub1children = $items->where('parentcode', $sub1->code); @endphp
+@if($sub1children->count() > 0)
+<a href="#" onclick="event.preventDefault();var el=document.getElementById('sub-{{$sub1->code}}');el.style.display=el.style.display==='none'?'':'none';" class="ml-2">
+<small><i class="fas fa-plus-circle"></i> {{ $sub1children->count() }} sub</small>
+</a>
+@endif
+</td>
+<td style="width:350px;">
+<form action="{{route('import_by_folder')}}" method="GET" class="form-inline justify-content-end">
+{{App\Http\Controllers\CategoryController::show_all()}}
+<input type="hidden" name="code" value="{{$sub1->code}}">
+<input type="hidden" name="guid" value="{{$guid}}">
+<button type="submit" class="btn btn-info btn-sm ml-1"><i class="fas fa-download"></i> Import</button>
+</form>
+</td>
+</tr>
+@if($sub1children->count() > 0)
+<tr id="sub-{{$sub1->code}}" style="display:none;">
+<td colspan="3" style="padding:0;">
+<table class="table table-sm mb-0">
+@foreach($sub1children->sortBy('hardname') as $sub2)
+<tr>
+<td style="width:80px;padding-left:40px;">{{ $sub2->code }}</td>
+<td style="padding-left:40px;">
+<i class="fas fa-file text-muted"></i> {{ $sub2->hardname }}
+@php $sub2children = $items->where('parentcode', $sub2->code); @endphp
+@if($sub2children->count() > 0)
+<a href="#" onclick="event.preventDefault();var el=document.getElementById('sub-{{$sub2->code}}');el.style.display=el.style.display==='none'?'':'none';" class="ml-2">
+<small><i class="fas fa-plus-circle"></i> {{ $sub2children->count() }}</small>
+</a>
+@endif
+</td>
+<td style="width:350px;">
+<form action="{{route('import_by_folder')}}" method="GET" class="form-inline justify-content-end">
+{{App\Http\Controllers\CategoryController::show_all()}}
+<input type="hidden" name="code" value="{{$sub2->code}}">
+<input type="hidden" name="guid" value="{{$guid}}">
+<button type="submit" class="btn btn-info btn-sm ml-1"><i class="fas fa-download"></i> Import</button>
+</form>
+</td>
+</tr>
+@if($sub2children->count() > 0)
+<tr id="sub-{{$sub2->code}}" style="display:none;">
+<td colspan="3" style="padding:0 0 0 60px;">
+<table class="table table-sm mb-0">
+@foreach($sub2children->sortBy('hardname') as $sub3)
+<tr>
+<td style="width:80px;">{{ $sub3->code }}</td>
+<td><i class="fas fa-file-alt text-secondary"></i> {{ $sub3->hardname }}</td>
+<td style="width:350px;">
+<form action="{{route('import_by_folder')}}" method="GET" class="form-inline justify-content-end">
+{{App\Http\Controllers\CategoryController::show_all()}}
+<input type="hidden" name="code" value="{{$sub3->code}}">
+<input type="hidden" name="guid" value="{{$guid}}">
+<button type="submit" class="btn btn-info btn-sm ml-1"><i class="fas fa-download"></i> Import</button>
+</form>
+</td>
+</tr>
+@endforeach
+</table>
+</td>
+</tr>
+@endif
+@endforeach
+</table>
+</td>
+</tr>
+@endif
+@endforeach
+</table>
+</div>
+</div>
+@endforeach
 
-                                    </td>
-                            </tr>
-                            @foreach($allcategory_reply as $subcategory)
-                                @if($category->code == $subcategory->parentcode and $subcategory->treelevel == 1)
-                                    <tr>
-                                        <td>
-                                            | {{ $subcategory->code }}
-                                        </td>
-                                        <td>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor" class="bi bi-arrow-return-right"
-                                                 viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                      d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-                                            </svg> {{ $subcategory->hardname }}
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                        <td>
-                                            <form action="{{route('import_by_folder')}}" method="GET" style="display: inline-block;">
-                                                {{App\Http\Controllers\CategoryController::show_all()}}
-                                                <input type="hidden" id="code" name="code" value="{{$subcategory->code}}">
-                                                <input type="hidden" id="guid" name="guid" value="{{$guid}}">
-                                                <button type="submit" class="btn btn-info btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-arrow-down-short"
-                                                         viewBox="0 0 16 16">
-                                                        <path fill-rule="evenodd"
-                                                              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
-                                                    </svg>
-                                                    Import
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @foreach($allcategory_reply as $subcategory_2)
-                                        @if($subcategory->code == $subcategory_2->parentcode and $subcategory_2->treelevel == 2)
-                                            <tr>
-                                                <td>
-                                                    || {{ $subcategory_2->code }}
-                                                </td>
-                                                <td style="padding-left: 50px;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-arrow-return-right"
-                                                         viewBox="0 0 16 16">
-                                                        <path fill-rule="evenodd"
-                                                              d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-                                                    </svg> {{ $subcategory_2->hardname }}
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-                                                    <form action="{{route('import_by_folder')}}" method="GET" style="display: inline-block;">
-                                                        {{App\Http\Controllers\CategoryController::show_all()}}
-                                                        <input type="hidden" id="code" name="code" value="{{$subcategory_2->code}}">
-                                                        <input type="hidden" id="guid" name="guid" value="{{$guid}}">
-                                                        <button type="submit" class="btn btn-info btn-sm">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                 height="16" fill="currentColor"
-                                                                 class="bi bi-arrow-down-short" viewBox="0 0 16 16">
-                                                                <path fill-rule="evenodd"
-                                                                      d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
-                                                            </svg>
-                                                            Import
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @foreach($allcategory_reply as $subcategory_3)
-                                                @if($subcategory_2->code == $subcategory_3->parentcode and $subcategory_3->treelevel == 3)
-                                                    <tr>
-                                                        <td>
-                                                            ||| {{ $subcategory_3->code }}
-                                                        </td>
-                                                        <td style="padding-left: 100px;">
-                                                            ---- {{ $subcategory_3->hardname }}
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                        <td>
-                                                            <form action="{{route('import_by_folder')}}" method="GET" style="display: inline-block;">
-                                                                {{App\Http\Controllers\CategoryController::show_all()}}
-                                                                <input type="hidden" id="code" name="code" value="{{$subcategory_3->code}}">
-                                                                <input type="hidden" id="guid" name="guid" value="{{$guid}}">
-                                                                <button type="submit" class="btn btn-info btn-sm">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                         height="16" fill="currentColor"
-                                                                         class="bi bi-arrow-down-short" viewBox="0 0 16 16">
-                                                                        <path fill-rule="evenodd"
-                                                                              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
-                                                                    </svg>
-                                                                    Import
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @endforeach
-                                @endif
-                            @endforeach
-                            @endif
-                        @endforeach
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            @else
-            <h2> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-ethernet" viewBox="0 0 16 16">
-                    <path d="M14 13.5v-7a.5.5 0 0 0-.5-.5H12V4.5a.5.5 0 0 0-.5-.5h-1v-.5A.5.5 0 0 0 10 3H6a.5.5 0 0 0-.5.5V4h-1a.5.5 0 0 0-.5.5V6H2.5a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5ZM3.75 11h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25Zm2 0h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25Zm1.75.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5ZM9.75 11h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25Zm1.75.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5Z"/>
-                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2ZM1 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2Z"/>
-                </svg> Nu au fost primite date de la serverul API</h2>
-            @endif
-        </section>
-    </div>
+@else
+<div class="card"><div class="card-body text-center">
+<i class="fas fa-network-wired fa-3x text-muted mb-3"></i>
+<h4>Nu au fost primite date de la serverul API</h4>
+</div></div>
+@endif
+</div></section></div>
 @endsection
