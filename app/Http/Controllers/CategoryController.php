@@ -108,16 +108,10 @@ class CategoryController extends Controller
             ->orderByDesc('active')
             ->orderBy('price');
 
-        if ((int)$catinfo->subcat === 0) {
-            // categorie principala: id-ul ei + id-urile subcategoriilor
-            $ids = Category::where('subcat', $catinfo->id)->pluck('id')->toArray();
-            $ids[] = $catinfo->id; // include si categoria principala
-
-            $productsQuery->whereIn('category_id', $ids);
-        } else {
-            // subcategorie/categorie normala
-            $productsQuery->where('category_id', $catinfo->id);
-        }
+        // Colectăm toate ID-urile subcategoriilor recursiv
+        $categoryIds = collect([$catinfo->id]);
+        $this->collectChildIds($catinfo->id, $categoryIds);
+        $productsQuery->whereIn('category_id', $categoryIds);
 
         $products = $productsQuery->paginate(20);
 
@@ -130,7 +124,7 @@ class CategoryController extends Controller
 
         return view('pages.category', [
             'cat' => $catinfo,
-            'subcateg' => Category::where('subcat', $catinfo->id)->get(), // daca ai nevoie in view
+            'subcateg' => Category::where('subcat', $catinfo->id)->orderBy('name')->get(),
             'title' => $title,
             'description' => $description,
             'keywords' => $key,
@@ -142,6 +136,15 @@ class CategoryController extends Controller
     public function all_category()
     {
 
+    }
+
+    private function collectChildIds($parentId, &$ids)
+    {
+        $children = Category::where('subcat', $parentId)->pluck('id');
+        foreach ($children as $childId) {
+            $ids->push($childId);
+            $this->collectChildIds($childId, $ids);
+        }
     }
 
     public static function produs_thumb($id)

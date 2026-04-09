@@ -16,10 +16,20 @@ class AdminCategoryController extends Controller
      */
     public function index()
     {
-        $categoies = Category::orderBy('id', 'desc')->paginate(10);
-        return view('admin.category.index', [
-            'category' => $categoies
-        ]);
+        $allCategories = Category::orderBy('name')->get();
+        $sorted = collect();
+        $this->buildCategoryTree($allCategories, '0', 0, $sorted);
+        return view('admin.category.index', ['categories' => $sorted]);
+    }
+
+    private function buildCategoryTree($all, $parentId, $level, &$sorted)
+    {
+        $children = $all->where('subcat', $parentId)->sortBy('name');
+        foreach ($children as $cat) {
+            $cat->_level = $level;
+            $sorted->push($cat);
+            $this->buildCategoryTree($all, $cat->id, $level + 1, $sorted);
+        }
     }
 
     /**
@@ -29,7 +39,8 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.category.create');
+        $categories = Category::orderBy('name')->get();
+        return view('admin.category.create', compact('categories'));
     }
 
     /**
@@ -78,7 +89,8 @@ class AdminCategoryController extends Controller
     public function edit($id)
     {
         $cat = Category::where('id', $id)->first();
-        return view('admin.category.edit')->with('cat', $cat);
+        $categories = Category::where('id', '!=', $id)->orderBy('name')->get();
+        return view('admin.category.edit', compact('cat', 'categories'));
     }
 
     /**

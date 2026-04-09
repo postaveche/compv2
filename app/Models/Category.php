@@ -11,10 +11,14 @@ class Category extends Model
     use HasFactory;
 
     public function subcategory(){
-        return $this->hasMany(self::class, 'id', 'subcat');
+        return $this->hasMany(self::class, 'subcat', 'id');
     }
 
     public function maincategory(){
+        return $this->belongsTo(self::class, 'subcat', 'id');
+    }
+
+    public function parent(){
         return $this->belongsTo(self::class, 'subcat', 'id');
     }
 }
