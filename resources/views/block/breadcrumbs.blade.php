@@ -1,33 +1,55 @@
-<div class="category_link">
-    <div class="category_link_home">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house"
-             viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-            <path fill-rule="evenodd"
-                  d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-        </svg>
-    </div>
-    <a href="{{route('locale.acasa', session('locale'))}}" title="Comp.MD">@lang('breadcrumbs.home')</a>
-    @if(isset($cat->subcategory) and $cat['subcat'] == 0)
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-        </svg><a href="/{{session('locale')}}/category/{{$cat['slug']}}" title="{{$cat['name']}}">
-            {{$cat['name']}}</a>
-    @else
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-        </svg>
-        <a href="/{{session('locale')}}/category/{{$cat->subcategory[0]->slug}}" title="{{$cat->subcategory[0]->name}}">
-            {{$cat->subcategory[0]->name}}</a>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-        </svg><a href="/{{session('locale')}}/category/{{$cat['slug']}}" title="{{$cat['name']}}"> {{$cat['name']}}</a>
-    @endif
-</div>
+@php
+    $breadcrumbs = collect();
+    $current = $cat;
+    $breadcrumbs->prepend($current);
+    while ($current->subcat != '0' && $current->parent) {
+        $current = $current->parent;
+        $breadcrumbs->prepend($current);
+    }
+    $locale = session('locale');
+@endphp
+<nav class="breadcrumb-nav" aria-label="breadcrumb">
+    <ol class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="{{ route('locale.acasa', $locale) }}" title="Comp.MD">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align:-2px;">
+                    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 2 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                </svg>
+                @lang('breadcrumbs.home')
+            </a>
+        </li>
+        @foreach($breadcrumbs as $crumb)
+        <li class="breadcrumb-item {{ $loop->last ? 'active' : '' }}">
+            @if($loop->last)
+                @if($locale == 'ru'){{ $crumb->name_ru ?? $crumb->name }}@else{{ $crumb->name }}@endif
+            @else
+                <a href="/{{ $locale }}/category/{{ $crumb->slug }}">@if($locale == 'ru'){{ $crumb->name_ru ?? $crumb->name }}@else{{ $crumb->name }}@endif</a>
+            @endif
+        </li>
+        @endforeach
+    </ol>
+</nav>
+
+<style>
+.breadcrumb-nav { margin: 0 0 5px; }
+.breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "→";
+    padding: 0 6px;
+    color: #adb5bd;
+}
+.breadcrumb-item a {
+    color: #51585e;
+    text-decoration: none;
+}
+.breadcrumb-item a:hover { color: #0d6efd; }
+.breadcrumb-item.active { color: #999; }
+</style>

@@ -71,7 +71,7 @@
                     </div>
                         <div class="form-group">
                             <label>Subcategorie</label>
-                            <input type="text" value="" class="form-control" id="saubcategorie" name="subcat" placeholder="Subcategorie" required>
+                            @include('admin.category._select_tree', ['categories' => $categories, 'selected' => 0])
                         </div>
                     </div>
                     <div class="card-footer">
