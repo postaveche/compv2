@@ -40,7 +40,7 @@ class ServiceController extends Controller
     {
         $clients = ServiceClient::orderBy('name')->get();
         $statuses = ServiceOrder::statusList();
-        $deviceTypes = DeviceType::orderBy('sort_order')->get();
+        $deviceTypes = DeviceType::orderBy('name')->get();
         return view('admin.service.create', compact('clients', 'statuses', 'deviceTypes'));
     }
 
@@ -79,7 +79,7 @@ class ServiceController extends Controller
         $order = ServiceOrder::with('client', 'photos')->findOrFail($id);
         $clients = ServiceClient::orderBy('name')->get();
         $statuses = ServiceOrder::statusList();
-        $deviceTypes = DeviceType::orderBy('sort_order')->get();
+        $deviceTypes = DeviceType::orderBy('name')->get();
         return view('admin.service.edit', compact('order', 'clients', 'statuses', 'deviceTypes'));
     }
 
@@ -226,7 +226,7 @@ class ServiceController extends Controller
 
     public function deviceTypes()
     {
-        $types = DeviceType::orderBy('sort_order')->get();
+        $types = DeviceType::orderBy('name')->get();
         return view('admin.service.device_types', compact('types'));
     }
 

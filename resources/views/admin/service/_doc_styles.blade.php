@@ -10,5 +10,5 @@ table th { background: #f0f0f0; width: 160px; }
 .sig-table { width: 100%; margin-top: 25px; border: none; }
 .sig-table td { width: 50%; text-align: center; border: none; padding-top: 25px; border-top: 1px solid #333; font-size: 10px; }
 .no-print { margin-bottom: 15px; }
-@media print { .no-print { display: none; } body { margin: 5px; } }
+@media print { .no-print { display: none; } body { margin: 10mm; } @page { margin: 0; } }
 </style>

@@ -15,7 +15,7 @@ table th { background: #f0f0f0; width: 160px; }
 .sig-line { border-top: 1px solid #333; margin-top: 25px; padding-top: 3px; text-align: center; font-size: 10px; }
 .terms { font-size: 8px; color: #666; margin-top: 10px; border-top: 1px solid #ccc; padding-top: 5px; }
 .no-print { margin-bottom: 15px; }
-@media print { .no-print { display: none; } body { margin: 5px; } }
+@media print { .no-print { display: none; } body { margin: 10mm; } @page { margin: 0; } }
 </style></head><body>
 <div class="no-print"><button onclick="window.print()" style="padding:10px 30px;font-size:16px;cursor:pointer;">Tipareste</button></div>
 
