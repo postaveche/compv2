@@ -3,9 +3,9 @@
 @section('content')
 <div class="content-wrapper">
 <section class="content-header"><div class="container-fluid"><div class="row mb-2">
-<div class="col-sm-6"><h1>Comanda: {{ $order->order_number }}</h1></div>
-<div class="col-sm-6 text-right">
-<a href="{{ route('service.edit', $order->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editeaza</a>
+<div class="col-sm-6"><h1 class="d-none d-md-block">Comanda: {{ $order->order_number }}</h1><h5 class="d-md-none">{{ $order->order_number }}</h5></div>
+<div class="col-sm-6 text-sm-right mt-2 mt-sm-0">
+<a href="{{ route('service.edit', $order->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> <span class="d-none d-md-inline">Editeaza</span></a>
 <div class="btn-group">
 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="fas fa-print"></i> Documente</button>
 <div class="dropdown-menu dropdown-menu-right">
@@ -32,7 +32,7 @@
 <div class="card">
 <div class="card-header"><h3 class="card-title">Detalii dispozitiv</h3>
 <span class="float-right badge badge-{{ $colors[$order->status] ?? 'secondary' }} p-2">{{ $order->status_label }}</span></div>
-<div class="card-body">
+<div class="card-body p-0"><div class="table-responsive">
 <table class="table"><tbody>
 <tr><th style="width:200px">Tip</th><td>{{ $order->device_type }}
 @if($order->is_return) <span class="badge badge-warning">RETUR</span> @endif
@@ -75,7 +75,7 @@
 @endforeach
 </td></tr>
 @endif
-</tbody></table></div></div></div>
+</tbody></table></div></div></div></div>
 <div class="col-md-4">
 <div class="card card-info">
 <div class="card-header"><h3 class="card-title">Client</h3></div>

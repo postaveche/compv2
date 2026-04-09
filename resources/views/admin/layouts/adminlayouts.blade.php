@@ -50,6 +50,15 @@
         .nav-sidebar .nav-treeview > .nav-item > .nav-link {
             padding-left: 2rem;
         }
+        /* Responsive service */
+        @media (max-width: 767px) {
+            .content-header h1 { font-size: 1.3rem; }
+            .card-body .row .col-md-3,
+            .card-body .row .col-md-4,
+            .card-body .row .col-md-6 { margin-bottom: 0.5rem; }
+            .table th, .table td { font-size: 0.85rem; padding: 0.4rem; }
+            .btn-group-sm .btn { padding: 0.2rem 0.5rem; }
+        }
     </style>
 {{--    <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-free-full-feature@35.4.1/build/ckeditor.min.js"></script>--}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>

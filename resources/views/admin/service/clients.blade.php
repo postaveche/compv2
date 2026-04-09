@@ -13,18 +13,19 @@
 <div class="col-md-6"><input type="text" name="search" class="form-control" placeholder="Cauta: nume, telefon, email..." value="{{ request('search') }}"></div>
 <div class="col-md-2"><button class="btn btn-primary btn-block">Cauta</button></div>
 </form></div></div>
-<div class="card"><div class="card-body p-0">
+<div class="card"><div class="card-body p-0"><div class="table-responsive">
 <table class="table table-striped">
-<thead><tr><th>ID</th><th>Tip</th><th>Nume</th><th>Telefon</th><th>Email</th><th>Companie</th><th>Comenzi</th><th>Actiuni</th></tr></thead>
+<thead><tr><th>ID</th><th>Tip</th><th>Nume</th><th class="d-none d-md-table-cell">Telefon</th><th class="d-none d-md-table-cell">Email</th><th class="d-none d-lg-table-cell">Companie</th><th>Comenzi</th><th>Actiuni</th></tr></thead>
 <tbody>
 @foreach($clients as $client)
 <tr>
 <td>{{ $client->id }}</td>
 <td><span class="badge badge-{{ $client->type == 'juridica' ? 'warning' : 'info' }}">{{ $client->type == 'juridica' ? 'Jur.' : 'Fiz.' }}</span></td>
-<td><strong>{{ $client->name }}</strong>@if($client->company)<br><small>{{ $client->company }}</small>@endif</td>
-<td>{{ $client->phone }}</td>
-<td>{{ $client->email ?? '-' }}</td>
-<td>{{ $client->company ?? '-' }}</td>
+<td><strong>{{ $client->name }}</strong>@if($client->company)<br><small>{{ $client->company }}</small>@endif
+<div class="d-md-none"><small>{{ $client->phone }}</small></div></td>
+<td class="d-none d-md-table-cell">{{ $client->phone }}</td>
+<td class="d-none d-md-table-cell">{{ $client->email ?? '-' }}</td>
+<td class="d-none d-lg-table-cell">{{ $client->company ?? '-' }}</td>
 <td><span class="badge badge-info">{{ $client->orders_count }}</span></td>
 <td>
 <a href="{{ route('service.clients.show', $client->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
@@ -32,7 +33,7 @@
 </td>
 </tr>
 @endforeach
-</tbody></table></div></div>
+</tbody></table></div></div></div>
 <div class="d-flex justify-content-center">{{ $clients->appends(request()->query())->links("pagination::bootstrap-4") }}</div>
 </div></section></div>
 @endsection
