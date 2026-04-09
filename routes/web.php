@@ -138,6 +138,66 @@ Route::post('/admincp/pages/upload', [PagesController::class, 'upload'])->name('
 
 Route::resource('/admincp/bannerblock', \App\Http\Controllers\admin\BannerBlockController::class)->middleware('auth');
 
+// Utilizatori admin
+Route::middleware('auth')->prefix('admincp/users')->name('admin.users.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\admin\UserController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\admin\UserController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\admin\UserController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [\App\Http\Controllers\admin\UserController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [\App\Http\Controllers\admin\UserController::class, 'update'])->name('update');
+    Route::delete('/{id}', [\App\Http\Controllers\admin\UserController::class, 'destroy'])->name('destroy');
+});
+Route::middleware('auth')->prefix('admincp/roles')->name('admin.roles.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\admin\UserController::class, 'roles'])->name('index');
+    Route::post('/', [\App\Http\Controllers\admin\UserController::class, 'storeRole'])->name('store');
+    Route::delete('/{id}', [\App\Http\Controllers\admin\UserController::class, 'deleteRole'])->name('destroy');
+});
+
+// Slidere admin
+Route::resource('/admincp/sliders', \App\Http\Controllers\admin\AdminSliderController::class)->middleware('auth');
+Route::post('/admincp/sliders/{slider}/items', [\App\Http\Controllers\admin\AdminSliderController::class, 'addItem'])->middleware('auth')->name('sliders.items.add');
+Route::put('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'updateItem'])->middleware('auth')->name('sliders.items.update');
+Route::delete('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'deleteItem'])->middleware('auth')->name('sliders.items.delete');
+Route::get('/admincp/sliders/{slider}/stats', [\App\Http\Controllers\admin\AdminSliderController::class, 'stats'])->middleware('auth')->name('sliders.stats');
+
+// Slider tracking (AJAX)
+Route::post('/slider/track-view', [\App\Http\Controllers\SliderController::class, 'trackView'])->name('slider.track.view');
+Route::post('/slider/track-click/{id}', [\App\Http\Controllers\SliderController::class, 'trackClick'])->name('slider.track.click');
+
+// Service Center
+Route::middleware('auth')->prefix('admincp/service')->name('service.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\admin\ServiceController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\admin\ServiceController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\admin\ServiceController::class, 'store'])->name('store');
+    
+    // Rute statice - INAINTE de /{id}
+    Route::get('/clients/list', [\App\Http\Controllers\admin\ServiceController::class, 'clients'])->name('clients');
+    Route::get('/clients/create', [\App\Http\Controllers\admin\ServiceController::class, 'createClient'])->name('clients.create');
+    Route::post('/clients', [\App\Http\Controllers\admin\ServiceController::class, 'storeClient'])->name('clients.store');
+    Route::get('/clients/{id}/edit', [\App\Http\Controllers\admin\ServiceController::class, 'editClient'])->name('clients.edit');
+    Route::put('/clients/{id}', [\App\Http\Controllers\admin\ServiceController::class, 'updateClient'])->name('clients.update');
+    Route::get('/clients/{id}/show', [\App\Http\Controllers\admin\ServiceController::class, 'showClient'])->name('clients.show');
+    Route::get('/api/search-client', [\App\Http\Controllers\admin\ServiceController::class, 'searchClient'])->name('search.client');
+    Route::get('/api/client-orders/{clientId}', [\App\Http\Controllers\admin\ServiceController::class, 'clientOrders'])->name('client.orders');
+    Route::get('/device-types', [\App\Http\Controllers\admin\ServiceController::class, 'deviceTypes'])->name('device-types');
+    Route::post('/device-types', [\App\Http\Controllers\admin\ServiceController::class, 'storeDeviceType'])->name('device-types.store');
+    Route::delete('/device-types/{id}', [\App\Http\Controllers\admin\ServiceController::class, 'deleteDeviceType'])->name('device-types.delete');
+    Route::delete('/photos/{photo}', [\App\Http\Controllers\admin\ServiceController::class, 'deletePhoto'])->name('photos.delete');
+    
+    // Rute cu {id} - LA FINAL
+    Route::get('/{id}', [\App\Http\Controllers\admin\ServiceController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [\App\Http\Controllers\admin\ServiceController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [\App\Http\Controllers\admin\ServiceController::class, 'update'])->name('update');
+    Route::delete('/{id}', [\App\Http\Controllers\admin\ServiceController::class, 'destroy'])->name('destroy');
+    Route::get('/{id}/print', [\App\Http\Controllers\admin\ServiceController::class, 'printReceipt'])->name('print');
+    Route::get('/{id}/pdf', [\App\Http\Controllers\admin\ServiceController::class, 'downloadPdf'])->name('pdf');
+    Route::get('/{id}/delivery', [\App\Http\Controllers\admin\ServiceController::class, 'printDelivery'])->name('delivery');
+    Route::get('/{id}/delivery-pdf', [\App\Http\Controllers\admin\ServiceController::class, 'downloadDeliveryPdf'])->name('delivery.pdf');
+    Route::get('/{id}/work-report', [\App\Http\Controllers\admin\ServiceController::class, 'printWorkReport'])->name('work-report');
+    Route::get('/{id}/work-report-pdf', [\App\Http\Controllers\admin\ServiceController::class, 'downloadWorkReportPdf'])->name('work-report.pdf');
+    Route::post('/{id}/photos', [\App\Http\Controllers\admin\ServiceController::class, 'addPhotos'])->name('photos.add');
+});
+
 Route::get('mysitemap', function () {
 
     // create new sitemap object

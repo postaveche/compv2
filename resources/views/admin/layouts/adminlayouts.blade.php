@@ -46,6 +46,10 @@
         .main-footer {
             margin-top: auto;
         }
+        /* Submeniuri sidebar indentate */
+        .nav-sidebar .nav-treeview > .nav-item > .nav-link {
+            padding-left: 2rem;
+        }
     </style>
 {{--    <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-free-full-feature@35.4.1/build/ckeditor.min.js"></script>--}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
