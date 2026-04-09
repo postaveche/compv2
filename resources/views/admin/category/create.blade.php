@@ -21,6 +21,7 @@
                 <form action="{{route('category.store')}}" method="POST">
                     @csrf
                     <div class="card-body">
+                        @include('admin.block.translate_button')
                         <div class="form-group">
                             <label>Denumirea categoriei</label>
                             <input type="text" value="{{old('name')}}" class="form-control" id="Denumirea" name="name" placeholder="Denumirea categoriei" required>

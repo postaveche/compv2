@@ -1,8 +1,14 @@
 @extends('layouts.layouts')
 
-@section('title', $product['name'])
+@php
+    $locale = session('locale', 'ro');
+    $pageTitle = $locale == 'ru' ? ($product['name_ru'] ?? $product['name']) : ($product['name_ro'] ?? $product['name']);
+    $pageDesc = $locale == 'ru' ? ($product['description_ru'] ?? $product['description']) : $product['description'];
+@endphp
 
-@section('description', $product['description'])
+@section('title', $pageTitle)
+
+@section('description', $pageDesc)
 
 @section('keywords', $product['keywords'])
 
@@ -25,7 +31,7 @@
                         @foreach($product_img as $img)
                             <div class="carousel-item @if($loop->first) active @endif">
                                 <img src="{{Storage::url('public/products/'.$img)}}{{(config('app.env') === 'production' ? '@800' : '')}}" class="d-block w-100 product_img"
-                                     alt="{{$product['name']}}">
+                                     alt="{{ $pageTitle }}">
                             </div>
                         @endforeach
                     </div>

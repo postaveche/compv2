@@ -106,6 +106,12 @@
                                 <p>Telegram notificari</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.translate.settings')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Traducere DeepL</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

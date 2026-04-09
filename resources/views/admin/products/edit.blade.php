@@ -21,6 +21,7 @@
                     @csrf
                     @method('PUT')
                     <div class="card-body">
+                        @include('admin.block.translate_button')
                         <div class="form-group">
                             <label>Denumirea produsului</label>
                             <input type="text" value="{{$produs['name']}}" class="form-control" id="Denumirea" name="name"
@@ -68,11 +69,11 @@
                         </div>
                         <div class="form-group">
                             <label>Descrierea Produsului RO</label>
-                            <textarea class="form-control" id="compeditor" name="text" rows="4">{!!$produs['text']!!}</textarea>
+                            <textarea class="form-control" id="compeditor_ro" name="text" rows="4">{!!$produs['text']!!}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Descrierea Produsului RU</label>
-                            <textarea class="form-control" id="compeditor" name="text_ru" rows="4">{!!$produs['text_ru']!!}</textarea>
+                            <textarea class="form-control" id="compeditor_ru" name="text_ru" rows="4">{!!$produs['text_ru']!!}</textarea>
                         </div>
                         <div class="row">
                             <div class="col-6">
