@@ -155,6 +155,11 @@ Route::middleware('auth')->prefix('admincp/roles')->name('admin.roles.')->group(
 
 // Slidere admin
 Route::resource('/admincp/sliders', \App\Http\Controllers\admin\AdminSliderController::class)->middleware('auth');
+
+// Telegram settings
+Route::get('/admincp/settings/telegram', [\App\Http\Controllers\admin\TelegramSettingsController::class, 'edit'])->middleware('auth')->name('admin.telegram');
+Route::put('/admincp/settings/telegram', [\App\Http\Controllers\admin\TelegramSettingsController::class, 'update'])->middleware('auth')->name('admin.telegram.update');
+Route::get('/admincp/settings/telegram/test', [\App\Http\Controllers\admin\TelegramSettingsController::class, 'test'])->middleware('auth')->name('admin.telegram.test');
 Route::post('/admincp/sliders/{slider}/items', [\App\Http\Controllers\admin\AdminSliderController::class, 'addItem'])->middleware('auth')->name('sliders.items.add');
 Route::put('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'updateItem'])->middleware('auth')->name('sliders.items.update');
 Route::delete('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'deleteItem'])->middleware('auth')->name('sliders.items.delete');

@@ -10,6 +10,7 @@ use App\Models\ServicePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\TelegramService;
 
 class ServiceController extends Controller
 {
@@ -64,7 +65,15 @@ class ServiceController extends Controller
                 ServicePhoto::create(['order_id' => $order->id, 'image' => $name, 'stage' => 'received']);
             }
         }
+        $this->sendNewOrderNotification($order->id);
         return redirect()->route('service.show', $order->id)->with('success', 'Comanda creata: ' . $order->order_number);
+    }
+
+    // Telegram: notificare comanda noua
+    private function sendNewOrderNotification($orderId)
+    {
+        $order = ServiceOrder::with('client')->find($orderId);
+        if ($order) TelegramService::notifyNewOrder($order);
     }
 
     public function show($id)
@@ -86,6 +95,7 @@ class ServiceController extends Controller
     public function update(Request $request, $id)
     {
         $order = ServiceOrder::findOrFail($id);
+        $oldStatus = $order->status;
         $data = $request->all();
         if ($request->status == 'repaired' && $order->status != 'repaired') { $data['completed_at'] = now(); }
         if ($request->status == 'delivered' && $order->status != 'delivered') { $data['delivered_at'] = now(); }
@@ -94,6 +104,12 @@ class ServiceController extends Controller
         $data['is_warranty_repair'] = $request->has('is_warranty_repair') ? 1 : 0;
         $data['diagnosis_fee_paid'] = $request->has('diagnosis_fee_paid') ? 1 : 0;
         $order->update($data);
+        
+        if ($oldStatus != $order->status) {
+            $order->load('client');
+            TelegramService::notifyStatusChange($order, $oldStatus);
+        }
+        
         return redirect()->route('service.show', $id)->with('success', 'Actualizat!');
     }
 
