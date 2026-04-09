@@ -3,13 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-NKBWGK6F');</script>
-    <!-- End Google Tag Manager -->
     <title>@yield('title') - {{ config('app.name') }}</title>
     <meta name="description" content="@yield('description')"/>
     <meta name="keywords" content="@yield('keywords')"/>
@@ -28,6 +21,21 @@
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }}>
     <link rel="stylesheet" href={{ asset('css/main.css') }}>
     <link rel="stylesheet" href="{{ asset('css/board.css') }}">
+    <!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//stat.001.md/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
