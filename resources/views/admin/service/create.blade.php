@@ -75,8 +75,8 @@
 </div></div></div>
 
 <div class="mb-3">
-<button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-save"></i> Creaza comanda si genereaza act</button>
-<a href="{{ route('service.index') }}" class="btn btn-secondary btn-lg">Anuleaza</a>
+<button type="submit" class="btn btn-primary btn-lg btn-block btn-sm-inline"><i class="fas fa-save"></i> Creaza comanda</button>
+<a href="{{ route('service.index') }}" class="btn btn-secondary btn-lg btn-block btn-sm-inline mt-2">Anuleaza</a>
 </div>
 </form></div></section></div>
 
