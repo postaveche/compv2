@@ -178,6 +178,50 @@ class AdminProductController extends Controller
     }
 
     /**
+     * Service page - operatii pe categorii
+     */
+    public function servicePage()
+    {
+        $categories = Category::orderBy('name')->get();
+        return view('admin.products.service', compact('categories'));
+    }
+
+    public function deactivateByCategory(Request $request)
+    {
+        $request->validate(['category_id' => 'required']);
+        $categoryId = $request->category_id;
+        
+        $count = Product::where('category_id', $categoryId)->where('active', 1)->count();
+        Product::where('category_id', $categoryId)->update(['active' => 0]);
+        
+        $category = Category::find($categoryId);
+        return redirect()->route('products.service')
+            ->with('success', "Au fost dezactivate {$count} produse din categoria \"{$category->name}\".");
+    }
+
+    public function activateByCategory(Request $request)
+    {
+        $request->validate(['category_id' => 'required']);
+        $categoryId = $request->category_id;
+        
+        $count = Product::where('category_id', $categoryId)->where('active', 0)->count();
+        Product::where('category_id', $categoryId)->update(['active' => 1]);
+        
+        $category = Category::find($categoryId);
+        return redirect()->route('products.service')
+            ->with('success', "Au fost activate {$count} produse din categoria \"{$category->name}\".");
+    }
+
+    private function collectChildCategoryIds($parentId, &$ids)
+    {
+        $children = Category::where('subcat', $parentId)->pluck('id');
+        foreach ($children as $childId) {
+            $ids->push($childId);
+            $this->collectChildCategoryIds($childId, $ids);
+        }
+    }
+
+    /**
      * Update multiple products status
      *
      * @param Request $request
