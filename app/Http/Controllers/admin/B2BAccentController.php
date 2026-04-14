@@ -201,7 +201,7 @@ class B2BAccentController extends Controller
 
         $products_reply = self::b2b_query($query);
 
-        dd($products_reply);
+        //dd($products_reply);
 
         foreach ($products_reply as $product) {
             $ifexist = Product::where('b2b_code', $product->code)->first();
