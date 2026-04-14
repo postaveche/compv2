@@ -2,6 +2,7 @@
 return[
     'desc' => 'Descrierea produsului:',
     'cod' => 'Codul produsului:',
+    'articul' => 'Articul:',
     'incltva' => 'Inclusiv TVA',
     'stoc' => 'În stoc',
     'nostoc' => 'Nu este în stoc',
@@ -11,5 +12,9 @@ return[
     'garant' => 'Garanție',
     'luni' => 'Luni',
     'livrare' => 'Livrare în toată Moldova',
-    'similar' => 'Produse similare:'
+    'similar' => 'Produse similare:',
+    'online' => 'Suntem online',
+    'offline' => 'Momentan offline',
+    'apel' => 'Apel telefonic',
+    'inchide' => 'Închide',
 ];
