@@ -129,6 +129,9 @@ Route::get('/admincp/importbycat', [B2BAccentController::class, 'import_by_folde
 Route::get('/admincp/products/find/', [AdminProductSearchController::class, 'search'])->middleware('auth')->name('findproducts');
 
 Route::post('/admincp/products/bulk-update', [AdminProductController::class, 'bulkUpdate'])->middleware('auth')->name('products.bulk-update');
+Route::get('/admincp/products/service', [AdminProductController::class, 'servicePage'])->middleware('auth')->name('products.service');
+Route::post('/admincp/products/deactivate-by-category', [AdminProductController::class, 'deactivateByCategory'])->middleware('auth')->name('products.deactivate-by-category');
+Route::post('/admincp/products/activate-by-category', [AdminProductController::class, 'activateByCategory'])->middleware('auth')->name('products.activate-by-category');
 
 Route::resource('/admincp/products', AdminProductController::class)->middleware('auth');
 

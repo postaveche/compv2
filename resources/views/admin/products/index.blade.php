@@ -23,10 +23,10 @@
                 
                 @include('admin.block.messages')
                 
-                <p><a class="btn btn-info btn-sm" href="{{ route('products.create') }}">
-                    <i class="nav-icon fas fa-edit"></i>
-                    <b>Adauga Produs</b>
-                </a></p>
+                <p>
+                    <a class="btn btn-info btn-sm" href="{{ route('products.create') }}"><i class="nav-icon fas fa-edit"></i> <b>Adauga Produs</b></a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('products.service') }}"><i class="fas fa-tools"></i> Service</a>
+                </p>
 
             <!-- Controale pentru acțiuni în masă -->
             <div class="card mb-3">
