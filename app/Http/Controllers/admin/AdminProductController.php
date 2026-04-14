@@ -185,12 +185,15 @@ class AdminProductController extends Controller
      */
     public function bulkUpdate(Request $request)
     {
-        $request->validate([
+        $rules = [
             'bulk_action' => 'required|in:activate,deactivate,change_category',
             'selected_products' => 'required|array|min:1',
             'selected_products.*' => 'exists:product,id',
-            'category_id' => 'required_if:bulk_action,change_category|exists:category,id'
-        ]);
+        ];
+        if ($request->bulk_action === 'change_category') {
+            $rules['category_id'] = 'required|exists:category,id';
+        }
+        $request->validate($rules);
 
         $productIds = $request->selected_products;
         $action = $request->bulk_action;
