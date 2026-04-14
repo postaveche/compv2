@@ -1,13 +1,15 @@
-<select class="form-select form-select" aria-label="Selectati Categoria" name="select_category">
+<select class="form-select" aria-label="Selectati Categoria" name="select_category">
     <option selected>Selectati Categoria</option>
-    @foreach($category as $cat)
-        @if($cat->subcat == 0)
-    <option value="{{$cat['id']}}">{{$cat['name']}}</option>
-            @foreach($category as $subcategory)
-                @if($subcategory->subcat == $cat->id)
-                    <option value="{{$subcategory['id']}}">- {{$subcategory['name']}}</option>
-                @endif
-            @endforeach
-        @endif
-    @endforeach
+    @php
+        if (!function_exists('renderB2bCatOpts')) {
+            function renderB2bCatOpts($cats, $parentId = '0', $prefix = '') {
+                $children = $cats->where('subcat', $parentId)->sortBy('name');
+                foreach ($children as $c) {
+                    echo '<option value="'.$c->id.'">'.$prefix.$c->name.'</option>';
+                    renderB2bCatOpts($cats, $c->id, $prefix.'— ');
+                }
+            }
+        }
+        renderB2bCatOpts($category);
+    @endphp
 </select>
