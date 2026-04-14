@@ -169,6 +169,10 @@ Route::post('/admincp/api/translate-batch', [\App\Http\Controllers\admin\Transla
 Route::get('/admincp/settings/translate', [\App\Http\Controllers\admin\TranslateController::class, 'settings'])->middleware('auth')->name('admin.translate.settings');
 Route::put('/admincp/settings/translate', [\App\Http\Controllers\admin\TranslateController::class, 'updateSettings'])->middleware('auth')->name('admin.translate.settings.update');
 Route::get('/admincp/settings/translate/test', [\App\Http\Controllers\admin\TranslateController::class, 'test'])->middleware('auth')->name('admin.translate.test');
+
+// Work Schedule
+Route::get('/admincp/settings/schedule', [\App\Http\Controllers\admin\WorkScheduleController::class, 'edit'])->middleware('auth')->name('admin.schedule');
+Route::put('/admincp/settings/schedule', [\App\Http\Controllers\admin\WorkScheduleController::class, 'update'])->middleware('auth')->name('admin.schedule.update');
 Route::post('/admincp/sliders/{slider}/items', [\App\Http\Controllers\admin\AdminSliderController::class, 'addItem'])->middleware('auth')->name('sliders.items.add');
 Route::put('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'updateItem'])->middleware('auth')->name('sliders.items.update');
 Route::delete('/admincp/sliders/items/{item}', [\App\Http\Controllers\admin\AdminSliderController::class, 'deleteItem'])->middleware('auth')->name('sliders.items.delete');
