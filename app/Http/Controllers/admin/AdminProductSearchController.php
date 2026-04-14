@@ -22,16 +22,11 @@ class AdminProductSearchController extends Controller
             });
         }
         
-        // Filtrare după categorie (include și subcategoriile)
+        // Filtrare după categorie (include și subcategoriile recursiv)
         if ($request->filled('category_id')) {
             $categoryId = $request->input('category_id');
-            
-            // Găsim toate subcategoriile acestei categorii
-            $subcategoryIds = Category::where('subcat', $categoryId)->pluck('id')->toArray();
-            
-            // Includem atât categoria selectată cât și subcategoriile sale
-            $allCategoryIds = array_merge([$categoryId], $subcategoryIds);
-            
+            $allCategoryIds = collect([$categoryId]);
+            $this->collectSubcategoryIds($categoryId, $allCategoryIds);
             $query->whereIn('category_id', $allCategoryIds);
         }
         
@@ -64,5 +59,14 @@ class AdminProductSearchController extends Controller
             'curs' => $curs,
             'site_settings' => $site_settings
         ]);
+    }
+
+    private function collectSubcategoryIds($parentId, &$ids)
+    {
+        $children = Category::where('subcat', $parentId)->pluck('id');
+        foreach ($children as $childId) {
+            $ids->push($childId);
+            $this->collectSubcategoryIds($childId, $ids);
+        }
     }
 }

@@ -48,18 +48,18 @@
                                 <select name="category_id" id="category-select" class="form-control">
                                     <option value="">Alege categoria</option>
                                     @php
-                                        $categories = \App\Models\Category::orderBy('name')->get();
+                                        $allCats = \App\Models\Category::orderBy('name')->get();
+                                        if (!function_exists('renderCatOpts')) {
+                                            function renderCatOpts($cats, $parentId = '0', $prefix = '') {
+                                                $children = $cats->where('subcat', $parentId)->sortBy('name');
+                                                foreach ($children as $c) {
+                                                    echo '<option value="'.$c->id.'">'.$prefix.$c->name.'</option>';
+                                                    renderCatOpts($cats, $c->id, $prefix.'— ');
+                                                }
+                                            }
+                                        }
+                                        renderCatOpts($allCats);
                                     @endphp
-                                    @foreach($categories as $cat)
-                                        @if($cat['subcat'] == '0')
-                                            <option value="{{$cat['id']}}">{{$cat['name']}}</option>
-                                            @foreach($categories as $subcat)
-                                                @if($subcat['subcat'] == $cat['id'])
-                                                    <option value="{{$subcat['id']}}"> — {{$subcat['name']}}</option>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -142,14 +142,16 @@
                                         <div class="d-lg-none">
                                             <small class="text-info">
                                                 @if($product->category)
-                                                    @if($product->category->subcat != '0')
-                                                        @php
-                                                            $parentCategory = \App\Models\Category::find($product->category->subcat);
-                                                        @endphp
-                                                        {{ $parentCategory->name ?? '' }} — {{ $product->category->name }}
-                                                    @else
-                                                        {{ $product->category->name }}
-                                                    @endif
+                                                    @php
+                                                        $mchain = collect();
+                                                        $mcur = $product->category;
+                                                        $mchain->prepend($mcur->name);
+                                                        while ($mcur->subcat != '0' && $mcur->parent) {
+                                                            $mcur = $mcur->parent;
+                                                            $mchain->prepend($mcur->name);
+                                                        }
+                                                    @endphp
+                                                    {{ $mchain->implode(' — ') }}
                                                 @else
                                                     Fără categorie
                                                 @endif
@@ -166,14 +168,20 @@
                                     </td>
                                     <td class="d-none d-lg-table-cell">
                                         @if($product->category)
-                                            @if($product->category->subcat != '0')
-                                                @php
-                                                    $parentCategory = \App\Models\Category::find($product->category->subcat);
-                                                @endphp
-                                                <span class="text-muted">{{ $parentCategory->name ?? '' }}</span><br>
-                                                <small>— {{ $product->category->name }}</small>
+                                            @php
+                                                $chain = collect();
+                                                $cur = $product->category;
+                                                $chain->prepend($cur->name);
+                                                while ($cur->subcat != '0' && $cur->parent) {
+                                                    $cur = $cur->parent;
+                                                    $chain->prepend($cur->name);
+                                                }
+                                            @endphp
+                                            @if($chain->count() > 1)
+                                                <span class="text-muted">{{ $chain->first() }}</span><br>
+                                                <small>{{ $chain->skip(1)->implode(' — ') }}</small>
                                             @else
-                                                {{ $product->category->name }}
+                                                {{ $chain->first() }}
                                             @endif
                                         @else
                                             <span class="text-muted">Fără categorie</span>
