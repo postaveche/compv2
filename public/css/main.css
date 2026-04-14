@@ -222,24 +222,32 @@ h2 {
     width: 100%;
     margin: 5px;
     display: inline-block;
+    overflow: hidden;
+    border-radius: 8px;
+    height: 180px;
 }
 
-@media screen and (min-width: 768px) {
-    .tns-item {
-        height: auto;
-        width: 100%;
-    }
+.tns-item .rounded {
+    height: 100%;
+    overflow: hidden;
 }
 
 @media screen and (min-width: 992px) {
     .tns-item {
-        height: auto;
         width: 32%;
     }
 }
 
+.item_grup {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .item_bann {
-    margin: 10px;
+    margin: 5px 10px;
     text-align: center;
 }
 

@@ -109,7 +109,7 @@
                     flex-shrink: 0;
                     transition: border-color 0.2s;
                 }
-                .product-thumb:hover, .product-thumb.active { border-color: #0d6efd; }
+                .product-thumb:hover, .product-thumb.active { border-color: #ff6b35; }
                 .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
                 
                 .product-lightbox {
