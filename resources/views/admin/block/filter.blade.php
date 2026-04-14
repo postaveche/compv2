@@ -36,22 +36,19 @@
                             <select name="category_id" class="form-control">
                                 <option value="">Toate categoriile</option>
                                 @php
-                                    $categories = \App\Models\Category::orderBy('name')->get();
+                                    $filterCats = \App\Models\Category::orderBy('name')->get();
+                                    if (!function_exists('renderFilterCatOpts')) {
+                                        function renderFilterCatOpts($cats, $parentId = '0', $prefix = '', $selectedId = null) {
+                                            $children = $cats->where('subcat', $parentId)->sortBy('name');
+                                            foreach ($children as $c) {
+                                                $sel = ($selectedId == $c->id) ? 'selected' : '';
+                                                echo "<option value=\"{$c->id}\" {$sel}>{$prefix}{$c->name}</option>";
+                                                renderFilterCatOpts($cats, $c->id, $prefix.'— ', $selectedId);
+                                            }
+                                        }
+                                    }
+                                    renderFilterCatOpts($filterCats, '0', '', request('category_id'));
                                 @endphp
-                                @foreach($categories as $cat)
-                                    @if($cat['subcat'] == '0')
-                                        <option value="{{$cat['id']}}" {{ request('category_id') == $cat['id'] ? 'selected' : '' }}>
-                                            {{$cat['name']}}
-                                        </option>
-                                        @foreach($categories as $subcat)
-                                            @if($subcat['subcat'] == $cat['id'])
-                                                <option value="{{$subcat['id']}}" {{ request('category_id') == $subcat['id'] ? 'selected' : '' }}>
-                                                    — {{$subcat['name']}}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                @endforeach
                             </select>
                         </div>
                     </div>
