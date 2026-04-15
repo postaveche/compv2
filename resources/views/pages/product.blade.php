@@ -20,18 +20,18 @@
             <div class="col-sm-8 justify-content-center">
                 @include('block.breadcrumbs')
                 <h1 class="product-title">@if(session('locale') == 'ru') {{$product['name_ru']}}@else {{$product['name_ro']}} @endif</h1>
-                
+
                 <!-- Product Gallery -->
                 <div class="product-gallery">
                     <div class="product-main-image" id="mainImageWrap">
-                        <img src="{{Storage::url('public/products/'.$product_img[0])}}{{(config('app.env') === 'production' ? '@800' : '')}}" 
+                        <img src="{{Storage::url('public/products/'.$product_img[0])}}{{(config('app.env') === 'production' ? '@800' : '')}}"
                              class="product-main-img" id="mainImage" alt="{{ $pageTitle }}">
                         <img src="/logo.png" class="product-watermark" alt="">
                     </div>
                     @if(count($product_img) > 1)
                     <div class="product-thumbs">
                         @foreach($product_img as $idx => $img)
-                        <div class="product-thumb {{ $idx == 0 ? 'active' : '' }}" 
+                        <div class="product-thumb {{ $idx == 0 ? 'active' : '' }}"
                              onclick="changeMainImage(this, '{{Storage::url('public/products/'.$img)}}{{(config('app.env') === 'production' ? '@800' : '')}}')">
                             <img src="{{Storage::url('public/products/'.$img)}}{{(config('app.env') === 'production' ? '@800' : '')}}" alt="{{ $pageTitle }} foto {{ $idx+1 }}">
                         </div>
@@ -111,7 +111,7 @@
                 }
                 .product-thumb:hover, .product-thumb.active { border-color: #ff6b35; }
                 .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
-                
+
                 .product-lightbox {
                     display: none;
                     position: fixed;
@@ -256,7 +256,7 @@
                         <span class="status-dot {{ $isOnline ? 'online' : 'offline' }}"></span>
                         060 229-129
                     </a>
-                    <a href="#" class="product-phone-nr" onclick="event.preventDefault();openPhonePopup('0677111444', '+37367711444')">
+                    <a href="#" class="product-phone-nr" onclick="event.preventDefault();openPhonePopup('067711444', '+37367711444')">
                         <span class="status-dot {{ $isOnline ? 'online' : 'offline' }}"></span>
                         067 711-444
                     </a>
@@ -349,10 +349,10 @@
                 cursor: pointer;
             }
             .phone-popup-close:hover { color: #333; }
-            .product_info_icon { 
-                display: flex; 
-                align-items: center; 
-                gap: 10px; 
+            .product_info_icon {
+                display: flex;
+                align-items: center;
+                gap: 10px;
                 padding: 8px 0;
             }
             .product_info_icon svg { color: #ff6b35; fill: #ff6b35; flex-shrink: 0; }
