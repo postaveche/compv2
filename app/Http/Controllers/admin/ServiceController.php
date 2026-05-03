@@ -9,6 +9,7 @@ use App\Models\ServiceOrder;
 use App\Models\ServicePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\TelegramService;
 
@@ -17,6 +18,15 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $query = ServiceOrder::with('client')->orderBy('id', 'DESC');
+
+        $showAll = $request->has('show_all')
+            ? $request->boolean('show_all')
+            : (bool) $request->cookie('service_show_all', false);
+
+        if (!$showAll) {
+            $query->whereIn('status', ServiceOrder::activeStatuses());
+        }
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -34,7 +44,12 @@ class ServiceController extends Controller
         }
         $orders = $query->paginate(25);
         $statuses = ServiceOrder::statusList();
-        return view('admin.service.index', compact('orders', 'statuses'));
+
+        if ($request->has('show_all')) {
+            Cookie::queue('service_show_all', $showAll ? '1' : '0', 60 * 24 * 365);
+        }
+
+        return view('admin.service.index', compact('orders', 'statuses', 'showAll'));
     }
 
     public function create()
@@ -104,12 +119,12 @@ class ServiceController extends Controller
         $data['is_warranty_repair'] = $request->has('is_warranty_repair') ? 1 : 0;
         $data['diagnosis_fee_paid'] = $request->has('diagnosis_fee_paid') ? 1 : 0;
         $order->update($data);
-        
+
         if ($oldStatus != $order->status) {
             $order->load('client');
             TelegramService::notifyStatusChange($order, $oldStatus);
         }
-        
+
         return redirect()->route('service.show', $id)->with('success', 'Actualizat!');
     }
 
