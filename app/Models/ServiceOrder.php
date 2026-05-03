@@ -75,6 +75,18 @@ class ServiceOrder extends Model
         ];
     }
 
+    public static function activeStatuses()
+    {
+        return [
+            'received',
+            'diagnosis',
+            'waiting_approval',
+            'in_repair',
+            'waiting_parts',
+            'repaired',
+        ];
+    }
+
     public function getStatusLabelAttribute()
     {
         return self::statusList()[$this->status] ?? $this->status;

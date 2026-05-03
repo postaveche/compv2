@@ -11,7 +11,14 @@
 <div class="card mb-3"><div class="card-body">
 <form method="GET" class="row">
 <div class="col-6 col-md-4 mb-2"><input type="text" name="search" class="form-control form-control-sm" placeholder="Cauta..." value="{{ request('search') }}"></div>
-<div class="col-6 col-md-3 mb-2"><select name="status" class="form-control form-control-sm"><option value="">Toate statusurile</option>
+<div class="col-6 col-md-2 mb-2 d-flex align-items-center">
+<div class="custom-control custom-switch mt-2 mt-md-0">
+<input type="hidden" name="show_all" value="0">
+<input type="checkbox" class="custom-control-input" id="show_all" name="show_all" value="1" {{ !empty($showAll) ? 'checked' : '' }} onchange="this.form.submit()">
+<label class="custom-control-label" for="show_all">Toate inscrierile</label>
+</div>
+</div>
+<div class="col-6 col-md-2 mb-2"><select name="status" class="form-control form-control-sm"><option value="">Toate statusurile</option>
 @foreach($statuses as $key => $label)<option value="{{ $key }}" {{ request('status')==$key?'selected':'' }}>{{ $label }}</option>@endforeach
 </select></div>
 <div class="col-6 col-md-2 mb-2"><button class="btn btn-primary btn-sm btn-block">Cauta</button></div>
