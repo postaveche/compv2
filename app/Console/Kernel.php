@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('hosting:send-payment-reminders --days=30')->dailyAt('09:00');
     }
 
     /**

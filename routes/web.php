@@ -216,6 +216,24 @@ Route::middleware('auth')->prefix('admincp/service')->name('service.')->group(fu
     Route::post('/{id}/photos', [\App\Http\Controllers\admin\ServiceController::class, 'addPhotos'])->name('photos.add');
 });
 
+// Hosting si domenii
+Route::middleware('auth')->prefix('admincp/hosting')->name('hosting.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\admin\HostingController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\admin\HostingController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\admin\HostingController::class, 'store'])->name('store');
+    Route::get('/packages', [\App\Http\Controllers\admin\HostingController::class, 'packages'])->name('packages');
+    Route::post('/packages', [\App\Http\Controllers\admin\HostingController::class, 'storePackage'])->name('packages.store');
+    Route::put('/packages/{id}', [\App\Http\Controllers\admin\HostingController::class, 'updatePackage'])->name('packages.update');
+    Route::delete('/packages/{id}', [\App\Http\Controllers\admin\HostingController::class, 'deletePackage'])->name('packages.delete');
+    Route::get('/invoices/{id}', [\App\Http\Controllers\admin\HostingController::class, 'invoice'])->name('invoices.show');
+    Route::post('/{id}/invoice', [\App\Http\Controllers\admin\HostingController::class, 'generateInvoice'])->name('invoice.generate');
+    Route::post('/{id}/paid', [\App\Http\Controllers\admin\HostingController::class, 'markPaid'])->name('paid');
+    Route::post('/{id}/reminder', [\App\Http\Controllers\admin\HostingController::class, 'sendReminder'])->name('reminder');
+    Route::get('/{id}/edit', [\App\Http\Controllers\admin\HostingController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [\App\Http\Controllers\admin\HostingController::class, 'update'])->name('update');
+    Route::delete('/{id}', [\App\Http\Controllers\admin\HostingController::class, 'destroy'])->name('destroy');
+});
+
 Route::get('mysitemap', function () {
 
     // create new sitemap object

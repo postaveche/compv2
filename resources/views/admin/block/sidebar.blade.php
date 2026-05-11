@@ -84,6 +84,27 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-server"></i>
+                        <p>Hosting & Domenii<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('hosting.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Servicii clienti</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('hosting.packages')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pachete hosting</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
                         <p>Setari<i class="fas fa-angle-left right"></i></p>
                     </a>

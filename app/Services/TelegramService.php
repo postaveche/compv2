@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\TelegramSettings;
 use App\Models\ServiceOrder;
+use App\Models\HostingService;
+use App\Models\HostingInvoice;
 
 class TelegramService
 {
@@ -84,6 +86,37 @@ class TelegramService
         if ($order->final_price && $order->status == 'repaired') {
             $msg .= "💰 Pret final: " . number_format($order->final_price, 0) . " MDL\n";
         }
+
+        self::send($msg);
+    }
+
+    public static function notifyHostingPayment(HostingService $service, HostingInvoice $invoice = null)
+    {
+        $service->loadMissing('client', 'package');
+
+        $days = $service->days_until_payment;
+        $daysText = $days < 0
+            ? 'intarziat cu ' . abs($days) . ' zile'
+            : 'peste ' . $days . ' zile';
+
+        $msg = "<b>PLATA " . strtoupper($service->type_label) . "</b>\n\n";
+        $msg .= "Serviciu: <b>{$service->name}</b>\n";
+        if ($service->domain) {
+            $msg .= "Domeniu: {$service->domain}\n";
+        }
+        $msg .= "Client: {$service->client->name}\n";
+        if ($service->client->phone) {
+            $msg .= "Telefon: {$service->client->phone}\n";
+        }
+        if ($service->package) {
+            $msg .= "Pachet: {$service->package->name}\n";
+        }
+        if ($invoice) {
+            $msg .= "Cont de plata: <b>{$invoice->invoice_number}</b>\n";
+        }
+        $msg .= "Suma: " . number_format($service->price, 2) . " {$service->currency}\n";
+        $msg .= "Achitare pana la: " . $service->payment_due_at->format('d.m.Y') . " ({$daysText})\n";
+        $msg .= "Expira: " . $service->expires_at->format('d.m.Y') . "\n";
 
         self::send($msg);
     }

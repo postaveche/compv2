@@ -19,4 +19,9 @@ class ServiceClient extends Model
     {
         return $this->hasMany(ServiceOrder::class, 'client_id');
     }
+
+    public function hostingServices()
+    {
+        return $this->hasMany(HostingService::class, 'client_id');
+    }
 }

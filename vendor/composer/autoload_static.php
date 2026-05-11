@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite5fa52378381e2af208068eb62b8e905
+class ComposerStaticInit4d8e59b8d10c08e93866cc175eb67ba6
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -576,6 +576,7 @@ class ComposerStaticInite5fa52378381e2af208068eb62b8e905
         'App\\Http\\Controllers\\admin\\TelegramSettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/admin/TelegramSettingsController.php',
         'App\\Http\\Controllers\\admin\\TranslateController' => __DIR__ . '/../..' . '/app/Http/Controllers/admin/TranslateController.php',
         'App\\Http\\Controllers\\admin\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/admin/UserController.php',
+        'App\\Http\\Controllers\\admin\\WorkScheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/admin/WorkScheduleController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -603,6 +604,7 @@ class ComposerStaticInite5fa52378381e2af208068eb62b8e905
         'App\\Models\\TelegramSettings' => __DIR__ . '/../..' . '/app/Models/TelegramSettings.php',
         'App\\Models\\TranslateSettings' => __DIR__ . '/../..' . '/app/Models/TranslateSettings.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\WorkSchedule' => __DIR__ . '/../..' . '/app/Models/WorkSchedule.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -6126,9 +6128,9 @@ class ComposerStaticInite5fa52378381e2af208068eb62b8e905
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite5fa52378381e2af208068eb62b8e905::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite5fa52378381e2af208068eb62b8e905::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite5fa52378381e2af208068eb62b8e905::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4d8e59b8d10c08e93866cc175eb67ba6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4d8e59b8d10c08e93866cc175eb67ba6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit4d8e59b8d10c08e93866cc175eb67ba6::$classMap;
 
         }, null, ClassLoader::class);
     }
