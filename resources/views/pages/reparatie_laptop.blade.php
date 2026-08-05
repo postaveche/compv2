@@ -1,38 +1,110 @@
 @extends('layouts.layouts')
 
-@section('title', 'Reparatia Laptop-urilor, NoteBook-urilor in Chisinau, Moldova Comp.md')
+@section('title', __('laptop.meta_title'))
+@section('description', __('laptop.meta_description'))
+@section('keywords', __('laptop.meta_keywords'))
+@section('img', asset('img/remont-noutbukov.jpg'))
 
-@section('description', 'Reparatia Laptop-urilor, NoteBook-urilor in Chisinau, Moldova')
-
-@section('keywords', 'Internet, magazin, comp, calculator, compiuter, hdd, ram, operativa, moldova, chisianu, internet magazin, интернет магазин, интернет, магазин, кишинев, молдова, купить, компютер, ноутбук, credit, reparatie')
+@push('structured_data')
+@php
+    $laptopPageUrl = url()->current();
+    $laptopStructuredData = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'Service',
+                '@id' => $laptopPageUrl . '#service',
+                'name' => __('laptop.hero_title'),
+                'description' => __('laptop.meta_description'),
+                'url' => $laptopPageUrl,
+                'image' => asset('img/remont-noutbukov.jpg'),
+                'serviceType' => __('laptop.hero_title'),
+                'provider' => ['@id' => rtrim(url('/'), '/') . '/#organization'],
+                'areaServed' => ['@type' => 'City', 'name' => 'Chișinău'],
+                'hasOfferCatalog' => [
+                    '@type' => 'OfferCatalog',
+                    'name' => __('laptop.services_title'),
+                    'itemListElement' => collect($services)->map(function ($item, $slug) {
+                        return [
+                            '@type' => 'Offer',
+                            'itemOffered' => [
+                                '@type' => 'Service',
+                                'name' => $item['title'],
+                                'description' => $item['short'],
+                                'url' => route('locale.laptop_service', ['locale' => app()->getLocale(), 'service' => $slug]),
+                            ],
+                        ];
+                    })->values()->all(),
+                ],
+            ],
+            [
+                '@type' => 'BreadcrumbList',
+                '@id' => $laptopPageUrl . '#breadcrumb',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => __('laptop.home'), 'item' => route('locale.acasa', app()->getLocale())],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('laptop.repairs'), 'item' => $laptopPageUrl],
+                ],
+            ],
+        ],
+    ];
+@endphp
+<script type="application/ld+json">{!! json_encode($laptopStructuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endpush
 
 @section('content')
-    <div>
-        <h1>Reparatia Laptop-urilor, NoteBook-urilor in Chisinau, Moldova</h1>
-        <p><img class="img-fluid mx-auto d-block" title="Reparatia laptopurilor" src="/img/remont-noutbukov.jpg" alt="Reparatia laptopurilor"  /></p>
-        <p>Service Centrul Comp MD propune deservirea si reparatia laptop-urilor (Notebook-urilor) de diferite modele repede si calitativ.</p>
-        <p>Acest gen de calculator este foarte raspindit si comod, dar si foarte sensibil la diferite actiuni fizice. Cel mai des clientii nostri se adreseaza cu defecte ale ecranului (matricei), hard disk-ului (HDD), tastaturii (keyboard), incarcatoarei, dar si multe alte defecturi aparute. In cele mai dese cazuri unele piese pot fi reparate, altele schimbate cu alte piese pentru laptop noi sau folosite dar in stare excelenta de pe alte laptop-ur dezasamblate. Daca aveti o problema, noi va putem ajuta, contactati-ne!</p>
-        <p><strong>Servicii prestate de noi:</strong></p>
-        <p>- Inlocuirea ecran, matrice, display la laptop (notebook)</p>
-        <p>- Inlocuirea corpusului, carcasei laptopului vostru</p>
-        <p>- Inlocuirea sleifurilor, cablurilor sau restabilirea lor</p>
-        <p>- Reparatia sau inlocuirea incarcatoarelor, conectoarelor (stecherilor)</p>
-        <p>- Reparatia sau inlocuirea tastierii (keyboard)</p>
-        <p>- Reparatia sau inlocuirea unitatii optice (DVD-RW, CD-ROM, etc.)</p>
-        <p>- Inlocuirea sau adaugarea memoriei operative (RAM)</p>
-        <p>- Inlocuirea sau reparatia porturilor USB</p>
-        <p>- Inlocuirea sau reparatia placii de baza (motherboard), cipsetului, cartelei video</p>
-        <p>- Schimbarea bateriei, acumulatorului la laptop</p>
-        <p>- Curatirea laptopului, radiatoarelor si a cooler-lor de praf sau inlocuirea lor</p>
-        <p>- Instalarea sistemelor de operare (Windows, Linux, MacOS)</p>
-        <p>- Instalarea antivirus, curatirea de virusi, inlatirarea consecintelor</p>
-        <p>- alte servicii ce sunt legate de reparatia sau deservirea laptop-urilor</p>
-        <p>** Piesele necesare pentru reparatia notebook-ului le puteti procura de la noi sau sa le aduceti voi. In caz ca piesele nu sunt disponibile pe piata din Republica Moldova, noi putem sa va ajutam si sa le comandam de peste hotare (perioada de transport depinde de metoda de livrare, de la 4 la 60 zile).</p>
-        <p>** Laptop-urile nu pot fi reparate la domiciliu sau la voi la oficiu din motivul procedurii complicate de dezasamblare</p>
-        <p>** Perioada de reparatie a laptopului depinde de problema aparuta si disponibilitatea pieselor de schimb in stoc. Termenii concreti ii puteti afla dupa diagnosticarea aparatului.</p>
-        <p> </p>
-        <p>Contactaține și noi în cel mai scurt tim rezolvăm problema aparută.</p>
-        @include('block.contactinfo')
-        @include('block.maps')
-    </div>
+<main class="laptop-page">
+    <nav class="laptop-breadcrumb" aria-label="breadcrumb">
+        <a href="{{ route('locale.acasa', app()->getLocale()) }}">@lang('laptop.home')</a><span>›</span><span>@lang('laptop.repairs')</span>
+    </nav>
+
+    <section class="laptop-hero">
+        <div class="laptop-hero__content">
+            <span class="laptop-eyebrow">@lang('laptop.eyebrow')</span>
+            <h1>@lang('laptop.hero_title')</h1>
+            <p>@lang('laptop.hero_text')</p>
+            <div class="laptop-actions">
+                <a class="btn btn-danger btn-lg" href="tel:+37360229129">@lang('laptop.call')</a>
+                <a class="btn btn-outline-secondary btn-lg" href="#servicii">@lang('laptop.see_services')</a>
+            </div>
+        </div>
+        <img src="{{ asset('img/ai/rep_nb.jpg') }}" alt="Reparație laptop în service" width="560" height="370">
+    </section>
+
+    <section id="servicii" class="laptop-section">
+        <div class="laptop-section__heading">
+            <span class="laptop-eyebrow">@lang('laptop.services_eyebrow')</span>
+            <h2>@lang('laptop.services_title')</h2>
+            <p>@lang('laptop.services_text')</p>
+        </div>
+        <div class="laptop-service-grid">
+            @foreach($services as $slug => $service)
+                <article class="laptop-service-card">
+                    @include('block.laptop_service_icon', ['slug' => $slug])
+                    <div class="laptop-service-card__content">
+                        <div class="laptop-service-card__top">
+                            <h3>{{ $service['title'] }}</h3>
+                            <span class="laptop-service-card__number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        </div>
+                        <p>{{ $service['short'] }}</p>
+                        <a href="{{ route('locale.laptop_service', ['locale' => app()->getLocale(), 'service' => $slug]) }}">@lang('laptop.details') <span aria-hidden="true">→</span></a>
+                    </div>
+                </article>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="laptop-process">
+        @foreach(__('laptop.process') as $step)
+            <div><strong>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</strong><h3>{{ $step['title'] }}</h3><p>{{ $step['text'] }}</p></div>
+        @endforeach
+    </section>
+
+    <section class="laptop-note">
+        <div><span class="laptop-eyebrow">@lang('laptop.cta_eyebrow')</span><h2>@lang('laptop.cta_title')</h2></div>
+        <a class="btn btn-light btn-lg" href="{{ route('locale.contacte', app()->getLocale()) }}">@lang('laptop.contacts')</a>
+    </section>
+
+    @include('block.contactinfo')
+    @include('block.maps')
+</main>
 @endsection

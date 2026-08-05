@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('hosting:send-payment-reminders --days=30')->dailyAt('09:00');
+        $schedule->command('sitemap:generate')->dailyAt('03:15')->withoutOverlapping();
     }
 
     /**

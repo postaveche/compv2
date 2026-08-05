@@ -11,9 +11,6 @@ use App\Http\Controllers\CursController;
 use App\Http\Controllers\admin\B2BAccentController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\admin\AdminProductInfoController;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\admin\PagesController;
 use App\Http\Controllers\admin\AdminProductSearchController;
 
@@ -45,8 +42,22 @@ Route::group([
         return view('pages.reparatie');
     })->name('reparatii');
     Route::get('reparatii_laptop_notebook', function () {
-        return view('pages.reparatie_laptop');
+        return view('pages.reparatie_laptop', [
+            'services' => __('laptop.services'),
+        ]);
     })->name('reparatie_laptop');
+    Route::get('reparatii_laptop_notebook/{service}', function ($locale, $service) {
+        $services = __('laptop.services');
+
+        abort_unless(isset($services[$service]), 404);
+
+        return view('pages.reparatie_laptop_service', [
+            'service' => $services[$service],
+            'serviceSlug' => $service,
+            'serviceImage' => config('laptop_service_images.'.$service, 'img/remont-noutbukov-0.jpg'),
+            'services' => $services,
+        ]);
+    })->where('service', '[a-z0-9-]+')->name('laptop_service');
     Route::get('reparatii_imprimante', function () {
         return view('pages.reparatii_imprimante');
     })->name('reparatii_imprimate');
@@ -232,39 +243,4 @@ Route::middleware('auth')->prefix('admincp/hosting')->name('hosting.')->group(fu
     Route::get('/{id}/edit', [\App\Http\Controllers\admin\HostingController::class, 'edit'])->name('edit');
     Route::put('/{id}', [\App\Http\Controllers\admin\HostingController::class, 'update'])->name('update');
     Route::delete('/{id}', [\App\Http\Controllers\admin\HostingController::class, 'destroy'])->name('destroy');
-});
-
-Route::get('mysitemap', function () {
-
-    // create new sitemap object
-    $sitemap = App::make("sitemap");
-
-    // add items to the sitemap (url, date, priority, freq)
-    $sitemap->add(URL::to('/'), '2022-08-25T20:10:00+02:00', '1.0', 'daily');
-    $sitemap->add(URL::to('/reincarcare_imprimante'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-    $sitemap->add(URL::to('/reparatie'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-    $sitemap->add(URL::to('/reparatii_laptop_notebook'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-    $sitemap->add(URL::to('/reparatii_imprimante'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-    $sitemap->add(URL::to('/freehosting'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-    $sitemap->add(URL::to('/contacte'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-    $sitemap->add(URL::to('/rechizite_bancare'), '2022-08-26T12:30:00+02:00', '0.5', 'monthly');
-
-    $categories = DB::table('category')->orderBy('created_at', 'desc')->get();
-
-    foreach ($categories as $category) {
-        $sitemap->add(URL::to('category/' . $category->slug), $category->updated_at, '0.7', 'monthly');
-    }
-
-    // get all posts from db
-    $products = DB::table('product')->orderBy('created_at', 'desc')->get();
-
-    // add every post to the sitemap
-    foreach ($products as $product) {
-        $sitemap->add(URL::to('product/' . $product->slug), $product->updated_at, '0.5', 'monthly');
-    }
-
-    // generate your sitemap (format, filename)
-    $sitemap->store('xml', 'sitemap');
-    // this will generate file mysitemap.xml to your public folder1
-
 });

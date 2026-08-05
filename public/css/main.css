@@ -490,3 +490,92 @@ h2 {
 .content_block{
     margin: 15px 10px;
 }
+
+/* Laptop repair landing and service pages */
+.laptop-page { color: #20252b; }
+.laptop-breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 22px; color: #7a838d; font-size: .9rem; }
+.laptop-breadcrumb a { color: #5f6872; text-decoration: none; }
+.laptop-eyebrow { display: block; margin-bottom: 10px; color: #ff6b35; font-size: .78rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.laptop-page .btn-danger { border-color: #ff6b35; background-color: #ff6b35; }
+.laptop-page .btn-danger:hover, .laptop-page .btn-danger:focus { border-color: #e85a28; background-color: #e85a28; }
+.laptop-hero, .laptop-detail-hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 42px; align-items: center; padding: 42px; overflow: hidden; border-radius: 18px; background: #f4f5f6; }
+.laptop-hero h1, .laptop-detail-hero h1 { max-width: 720px; margin-bottom: 18px; font-size: clamp(2.1rem, 5vw, 3.75rem); line-height: 1.04; font-weight: 700; }
+.laptop-hero p, .laptop-detail-hero p { max-width: 650px; color: #59616a; font-size: 1.08rem; line-height: 1.7; }
+.laptop-hero img, .laptop-detail-hero img { width: 100%; height: 370px; border-radius: 14px; object-fit: cover; }
+.laptop-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.laptop-section { padding: 70px 0 50px; }
+.laptop-section__heading { max-width: 720px; margin-bottom: 30px; }
+.laptop-section__heading h2, .laptop-more h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+.laptop-section__heading p { color: #68717a; }
+.laptop-service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.laptop-service-card { display: flex; min-height: 250px; padding: 26px; align-items: flex-start; gap: 20px; border: 1px solid #e2e5e8; border-radius: 12px; background: #fff; transition: transform .2s, box-shadow .2s; }
+.laptop-service-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(29, 38, 47, .09); }
+.laptop-service-card__content { display: flex; min-width: 0; align-self: stretch; flex: 1; flex-direction: column; }
+.laptop-service-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.laptop-service-card__top h3 { margin: 0; }
+.laptop-service-card__number { padding-top: 4px; color: #b2b8be; font-size: .8rem; font-weight: 700; }
+.laptop-service-icon { display: grid; width: 68px; height: 68px; flex: 0 0 68px; place-items: center; border-radius: 16px; color: #ff6b35; background: #fff1ec; transition: color .2s, background .2s, transform .2s; }
+.laptop-service-icon svg { width: 37px; height: 37px; }
+.laptop-service-card:hover .laptop-service-icon { color: #fff; background: #ff6b35; transform: rotate(-3deg) scale(1.04); }
+.laptop-service-card h3 { font-size: 1.25rem; }
+.laptop-service-card p { color: #68717a; line-height: 1.55; }
+.laptop-service-card a { margin-top: auto; color: #ff6b35; font-weight: 700; text-decoration: none; }
+.laptop-process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 20px 0 70px; overflow: hidden; border-radius: 14px; background: #dfe2e5; }
+.laptop-process div { padding: 32px; background: #f5f6f7; }
+.laptop-process strong { color: #ff6b35; }
+.laptop-process h3 { margin: 14px 0 8px; font-size: 1.15rem; }
+.laptop-process p { margin: 0; color: #68717a; }
+.laptop-note { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 40px; padding: 38px; border-radius: 16px; color: white; background: #24292f; }
+.laptop-note h2 { max-width: 760px; margin: 0; font-size: clamp(1.5rem, 3vw, 2.25rem); }
+.laptop-note .laptop-eyebrow { color: #ffad8f; }
+.laptop-detail-hero { margin-bottom: 48px; background: #f3f1ee; }
+.laptop-detail-hero img { height: 340px; }
+.laptop-service-highlights { display: grid; max-width: 1000px; grid-template-columns: .8fr 1.2fr; gap: 16px; margin: -18px auto 42px; }
+.laptop-diagnostic-banner, .laptop-repair-time { display: flex; align-items: flex-start; gap: 14px; margin: 0; padding: 18px 20px; border-radius: 12px; }
+.laptop-diagnostic-banner { border: 1px solid #9bd5b9; color: #126b43; background: #e8f7ef; box-shadow: 0 8px 24px rgba(25, 135, 84, .08); }
+.laptop-repair-time { border: 1px solid #ffd0bf; color: #8d3718; background: #fff3ee; box-shadow: 0 8px 24px rgba(255, 107, 53, .08); }
+.laptop-repair-time__icon { display: grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; border-radius: 50%; color: #fff; background: #ff6b35; }
+.laptop-repair-time__icon svg { width: 21px; height: 21px; }
+.laptop-service-description { max-width: 900px; margin: 0 auto 46px; }
+.laptop-service-description h2 { margin-bottom: 18px; font-size: clamp(1.65rem, 3vw, 2.25rem); }
+.laptop-service-description p { color: #59616a; font-size: 1.05rem; line-height: 1.8; }
+.laptop-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 40px 0; }
+.laptop-detail-grid article { padding: 32px; border: 1px solid #e1e4e6; border-radius: 14px; }
+.laptop-detail-grid h2 { margin-bottom: 24px; }
+.laptop-check-list, .laptop-step-list { margin: 0; padding: 0; list-style: none; }
+.laptop-check-list li { position: relative; margin: 14px 0; padding-left: 30px; }
+.laptop-check-list li::before { position: absolute; left: 0; content: '\2713'; color: #198754; font-weight: 700; }
+.laptop-step-list li { display: flex; align-items: center; gap: 14px; margin: 14px 0; }
+.laptop-step-list span { display: inline-grid; width: 30px; height: 30px; flex: 0 0 30px; place-items: center; border-radius: 50%; color: #fff; background: #343a40; font-size: .8rem; }
+.laptop-info-box { display: grid; grid-template-columns: 1fr 1fr auto; gap: 26px; align-items: center; padding: 30px; border-left: 5px solid #ff6b35; background: #f5f6f7; }
+.laptop-info-box h2, .laptop-info-box p { margin: 0; }
+.laptop-info-box h2 { font-size: 1.3rem; }
+.laptop-info-box p { color: #68717a; }
+.laptop-diagnostic-note__icon { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border-radius: 50%; color: #fff; background: #198754; font-size: 1.15rem; font-weight: 700; }
+.laptop-diagnostic-banner strong, .laptop-diagnostic-banner small, .laptop-repair-time strong, .laptop-repair-time small { display: block; }
+.laptop-diagnostic-banner strong, .laptop-repair-time strong { margin-bottom: 3px; font-size: 1.08rem; }
+.laptop-diagnostic-banner small, .laptop-repair-time small { margin-top: 3px; line-height: 1.4; }
+.laptop-diagnostic-banner small { color: #356b52; }
+.laptop-repair-time small { color: #795044; }
+.laptop-info-box a { color: #ff6b35; font-size: 1.35rem; font-weight: 700; white-space: nowrap; }
+.laptop-more { padding: 60px 0 30px; }
+.laptop-more__links { display: flex; flex-wrap: wrap; gap: 10px; }
+.laptop-more__links a { padding: 10px 15px; border: 1px solid #dfe2e5; border-radius: 30px; color: #4f5861; text-decoration: none; }
+.laptop-more__links a:hover { border-color: #ff6b35; color: #ff6b35; }
+.laptop-back { display: inline-block; margin-bottom: 24px; color: #ff6b35; font-weight: 700; }
+@media (max-width: 991px) {
+    .laptop-hero, .laptop-detail-hero { grid-template-columns: 1fr; padding: 30px; }
+    .laptop-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .laptop-info-box { grid-template-columns: 1fr; }
+    .laptop-service-highlights { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+    .laptop-hero, .laptop-detail-hero { padding: 22px; }
+    .laptop-hero img, .laptop-detail-hero img { height: 230px; }
+    .laptop-service-grid, .laptop-process, .laptop-detail-grid { grid-template-columns: 1fr; }
+    .laptop-service-card { min-height: 220px; gap: 16px; padding: 22px; }
+    .laptop-service-icon { width: 58px; height: 58px; flex-basis: 58px; }
+    .laptop-service-icon svg { width: 31px; height: 31px; }
+    .laptop-section { padding-top: 48px; }
+    .laptop-note { align-items: flex-start; flex-direction: column; padding: 28px; }
+}

@@ -4,3 +4,4 @@ Disallow: /home/
 Disallow: /login/
 Disallow: /register/
 Allow: /
+Sitemap: https://comp.md/sitemap.xml

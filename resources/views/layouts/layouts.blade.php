@@ -12,7 +12,31 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url()->full() }}" />
+    <link rel="canonical" href="{{ url()->current() }}" />
+    @php
+        $supportedLocales = ['ro', 'ru'];
+        $currentPath = request()->getPathInfo();
+        $isLocalizedPage = preg_match('#^/(ro|ru)(?:/|$)#', $currentPath) === 1;
+    @endphp
+    @if($isLocalizedPage)
+        @foreach($supportedLocales as $alternateLocale)
+            @php
+                $alternatePath = preg_replace(
+                    '#^/(ro|ru)(?=/|$)#',
+                    '/' . $alternateLocale,
+                    $currentPath,
+                    1
+                );
+            @endphp
+            <link rel="alternate" hreflang="{{ $alternateLocale }}" href="{{ url($alternatePath) }}" />
+        @endforeach
+        @php
+            $defaultPath = preg_replace('#^/(ro|ru)(?=/|$)#', '/ro', $currentPath, 1);
+        @endphp
+        <link rel="alternate" hreflang="x-default" href="{{ url($defaultPath) }}" />
+    @endif
+    @include('block.structured_data_global')
+    @stack('structured_data')
     <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
