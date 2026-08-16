@@ -126,6 +126,21 @@ Route::group([
             'service' => $services[$service], 'serviceSlug' => $service,
         ]);
     })->where('service', '[a-z0-9-]+')->name('console_service');
+    Route::get('sisteme_supraveghere_video', function () {
+        return view('pages.supraveghere_video', ['services' => __('surveillance.services')]);
+    })->name('supraveghere_video');
+    Route::get('sisteme_supraveghere_video/{service}', function ($locale, $service) {
+        $services = __('surveillance.services');
+        abort_unless(isset($services[$service]), 404);
+        $configuredImage = config('surveillance_service_images.'.$service);
+        $serviceImage = $configuredImage && file_exists(public_path($configuredImage))
+            ? $configuredImage : 'img/ai/surveillance/surveillance-service.svg';
+
+        return view('pages.supraveghere_video_service', [
+            'service' => $services[$service], 'serviceSlug' => $service,
+            'serviceImage' => $serviceImage, 'services' => $services,
+        ]);
+    })->where('service', '[a-z0-9-]+')->name('supraveghere_service');
     Route::get('reparatii_aspiratoare', function () {
         return view('pages.reparatii_aspiratoare');
     })->name('reparatii_aspiratoare');

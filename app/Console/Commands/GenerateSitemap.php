@@ -63,6 +63,10 @@ class GenerateSitemap extends Command
             $paths[] = 'reparatii_console_gaming/'.$slug;
         }
 
+        foreach (array_keys(trans('surveillance.services', [], 'ro')) as $slug) {
+            $paths[] = 'sisteme_supraveghere_video/'.$slug;
+        }
+
         $paths = array_values(array_unique($paths));
         sort($paths);
 
@@ -232,7 +236,9 @@ class GenerateSitemap extends Command
             resource_path('views/pages/reparatie_tv_service.blade.php'), resource_path('lang/ro/tv.php'),
             resource_path('lang/ru/tv.php'), resource_path('views/pages/reparatie_console.blade.php'),
             resource_path('views/pages/reparatie_console_service.blade.php'), resource_path('lang/ro/console.php'),
-            resource_path('lang/ru/console.php')];
+            resource_path('lang/ru/console.php'), resource_path('views/pages/supraveghere_video.blade.php'),
+            resource_path('views/pages/supraveghere_video_service.blade.php'), resource_path('lang/ro/surveillance.php'),
+            resource_path('lang/ru/surveillance.php')];
 
         return Carbon::createFromTimestamp(max(array_map('filemtime', $files)))->utc()->toAtomString();
     }

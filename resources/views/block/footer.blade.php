@@ -19,6 +19,7 @@
                         <li><a href="{{route('locale.reparatii_televizoare', session('locale'))}}" title="@lang('tv.repairs')">@lang('tv.repairs')</a></li>
                         @php($consoleRepairsLabel = app()->getLocale() === 'ru' ? 'Ремонт игровых консолей' : 'Reparația consolelor gaming')
                         <li><a href="{{route('locale.reparatii_console', session('locale', app()->getLocale()))}}" title="{{ $consoleRepairsLabel }}">{{ $consoleRepairsLabel }}</a></li>
+                        <li><a href="{{ route('locale.supraveghere_video', session('locale', app()->getLocale())) }}" title="@lang('surveillance.repairs')">@lang('surveillance.repairs')</a></li>
                         <li><a href="{{route('locale.reincarcare', session('locale'))}}" title="@lang('homebanner.b3_title')">@lang('homebanner.b3_title')</a></li>
                         <li><a href="{{route('locale.hosting', session('locale'))}}" alt="@lang('main.hosting')">@lang('main.hosting')</a></li>
                     </ul>
