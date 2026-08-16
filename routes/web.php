@@ -110,6 +110,22 @@ Route::group([
             'services' => $services,
         ]);
     })->where('service', '[a-z0-9-]+')->name('tv_service');
+    Route::get('reparatii_console_gaming', function () {
+        return view('pages.reparatie_console', ['services' => __('console.services')]);
+    })->name('reparatii_console');
+    Route::get('reparatii_console_gaming/{service}', function ($locale, $service) {
+        $services = __('console.services');
+        abort_unless(isset($services[$service]), 404);
+
+        $configuredImage = config('console_service_images.'.$service);
+        $serviceImage = $configuredImage && file_exists(public_path($configuredImage))
+            ? $configuredImage
+            : 'img/ai/console/console-service.svg';
+
+        return view('pages.reparatie_console_service', compact('serviceImage', 'services') + [
+            'service' => $services[$service], 'serviceSlug' => $service,
+        ]);
+    })->where('service', '[a-z0-9-]+')->name('console_service');
     Route::get('reparatii_aspiratoare', function () {
         return view('pages.reparatii_aspiratoare');
     })->name('reparatii_aspiratoare');
