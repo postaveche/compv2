@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Mapare câmpuri RO -> RU
     var fieldPairs = {
+        'name': 'name_ru',
         'name_ro': 'name_ru',
         'description': 'description_ru',
         'keywords': 'keywords_ru',
@@ -55,7 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({ texts: texts, from: 'ro', to: 'ru' })
             })
-            .then(function(r) { return r.json(); })
+            .then(function(r) {
+                return r.json().then(function(data) {
+                    if (!r.ok) {
+                        throw new Error(data.error || 'Traducerea nu a putut fi efectuată.');
+                    }
+                    return data;
+                });
+            })
             .then(function(data) {
                 for (var roField in data.translated) {
                     var ruField = foundFields[roField];
@@ -75,9 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.innerHTML = '<i class="fas fa-language"></i> Traducere automata RO → RU';
                 }, 2000);
             })
-            .catch(function() {
+            .catch(function(error) {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-times text-danger"></i> Eroare!';
+                alert(error.message || 'A apărut o eroare la traducerea DeepL.');
                 setTimeout(function() {
                     btn.innerHTML = '<i class="fas fa-language"></i> Traducere automata RO → RU';
                 }, 2000);

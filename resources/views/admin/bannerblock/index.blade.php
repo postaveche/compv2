@@ -1,71 +1,11 @@
 @extends('admin.layouts.adminlayouts')
-
-@section('title', 'Banner Block')
-
+@section('title', 'Gestionare bannere')
 @section('content')
 <div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <h1>Toate bannerele disponibile:</h1>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-    <div class="container">
-        <section class="content">
-            @include('admin.block.messages')
-            <p><a class="btn btn-info btn-sm" href="{{ route('bannerblock.create') }}"><i class="nav-icon fas fa-edit"></i> <b>Add Banner</b></a></p>
-            <div class="card">
-                <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                        <tr>
-                            <th style="width: 1%">
-                                ID
-                            </th>
-                            <th style="width: 59%">
-                                Denumirea
-                            </th>
-                            <th style="width: 5%">
-                                Subcategorie
-                            </th>
-                            <th style="width: 5%" class="text-center">
-                                Status
-                            </th>
-                            <th style="width: 30%">
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($banners as $banner)
-                            <tr>
-                                <td>
-                                    {{ $banner['id'] }}
-                                </td>
-                                <td>
-                                    <a>
-                                        <b>{{ $banner['name'] }}</b>
-                                    </a>
-                                    <br>
-                                </td>
-                                <td>
-                                    {{ $banner['image'] }}
-                                </td>
-                                <td class="project-state">
-                                    <a href="/{{session('locale')}}/{{ $banner['link'] }}">
-                                    Link</a>
-                                </td>
-                                <td class="project-actions text-right">
-                                    Edit
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
-            </div>
-        </section>
-    </div>
+ <section class="content-header"><div class="container-fluid"><div class="row mb-2"><div class="col-sm-6"><h1>Gestionare bannere principale</h1></div><div class="col-sm-6 text-right"><a class="btn btn-primary" href="{{ route('bannerblock.create') }}"><i class="fas fa-plus"></i> Adaugă banner</a></div></div></div></section>
+ <section class="content"><div class="container-fluid">@include('admin.block.messages')<div class="card"><div class="card-body p-0"><div class="table-responsive"><table class="table table-striped table-hover mb-0"><thead><tr><th>Ordine</th><th>Imagine</th><th>Titlu</th><th>Link</th><th class="text-center">Status</th><th class="text-right">Acțiuni</th></tr></thead><tbody>
+ @forelse($banners as $banner)<tr><td>{{ $banner->sort_order }}</td><td><img src="{{ Storage::url('public/banners/'.$banner->image) }}" alt="" style="width:130px;height:70px;object-fit:cover" class="img-thumbnail"></td><td><strong>{{ $banner->name }}</strong><br><small class="text-muted">{{ $banner->name_ru }}</small></td><td><a href="/{{ session('locale','ro') }}/{{ $banner->link }}" target="_blank" rel="noopener">/{{ $banner->link }} <i class="fas fa-external-link-alt"></i></a></td><td class="text-center">@if($banner->active)<span class="badge badge-success">Activ</span>@else<span class="badge badge-secondary">Inactiv</span>@endif</td><td class="text-right"><a href="{{ route('bannerblock.edit',$banner->id) }}" class="btn btn-sm btn-info"><i class="fas fa-pencil-alt"></i> Editează</a><form action="{{ route('bannerblock.destroy',$banner->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Ștergi definitiv acest banner și imaginea lui?')">@csrf @method('DELETE')<button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Șterge</button></form></td></tr>
+ @empty<tr><td colspan="6" class="text-center py-4">Nu există bannere. Adaugă primul banner.</td></tr>@endforelse
+ </tbody></table></div></div><div class="card-footer text-muted">Pe pagina principală sunt afișate maximum 3 bannere active, în ordinea stabilită.</div></div></div></section>
 </div>
 @endsection

@@ -10,14 +10,21 @@ class TranslateController extends Controller
 {
     public function translateBatch(Request $request)
     {
+        $data = $request->validate([
+            'texts' => ['required', 'array', 'max:20'],
+            'texts.*' => ['nullable', 'string', 'max:10000'],
+            'from' => ['nullable', 'in:ro,RO'],
+            'to' => ['nullable', 'in:ru,RU'],
+        ]);
+
         $settings = TranslateSettings::get();
         if (!$settings->active || !$settings->deepl_api_key) {
             return response()->json(['error' => 'DeepL API nu este configurat'], 400);
         }
 
-        $texts = $request->input('texts', []);
-        $from = strtoupper($request->input('from', 'ro'));
-        $to = strtoupper($request->input('to', 'ru'));
+        $texts = $data['texts'];
+        $from = strtoupper($data['from'] ?? 'ro');
+        $to = strtoupper($data['to'] ?? 'ru');
 
         $results = [];
         foreach ($texts as $key => $text) {
@@ -40,6 +47,7 @@ class TranslateController extends Controller
 
         $postData = http_build_query([
             'text' => $text,
+            'source_lang' => $from,
             'target_lang' => $to,
         ]);
 
@@ -50,7 +58,7 @@ class TranslateController extends Controller
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Authorization: DeepL-Auth-Key ' . $apiKey,
                 'Content-Type: application/x-www-form-urlencoded',

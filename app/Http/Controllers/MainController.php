@@ -28,8 +28,8 @@ class MainController extends Controller
     }
 
     public static function HomeBanners() {
-        $banners = BannerBlock::distinct()
-            ->inRandomOrder()
+        $banners = BannerBlock::where('active', true)
+            ->orderBy('sort_order')
             ->take(3)
             ->get();
 
