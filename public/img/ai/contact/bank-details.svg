@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+ <title id="title">Rechizite bancare</title><desc id="desc">Clădire bancară, document și card pentru datele companiei</desc>
+ <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7ed"/><stop offset="1" stop-color="#f1f5f9"/></linearGradient><linearGradient id="a"><stop stop-color="#fb923c"/><stop offset="1" stop-color="#ea580c"/></linearGradient></defs>
+ <rect width="1200" height="800" rx="48" fill="url(#bg)"/><circle cx="970" cy="160" r="120" fill="#ffedd5"/><circle cx="180" cy="665" r="120" fill="#e2e8f0"/>
+ <path d="M170 300 500 145l330 155" fill="#fff" stroke="#334155" stroke-width="20" stroke-linejoin="round"/><path d="M210 315h580M245 315v270M390 315v270M535 315v270M680 315v270M190 585h630M160 635h690" fill="none" stroke="#334155" stroke-width="22" stroke-linecap="round"/>
+ <rect x="670" y="350" width="390" height="265" rx="30" fill="#fff" stroke="#334155" stroke-width="18"/><rect x="710" y="395" width="310" height="55" rx="10" fill="url(#a)"/><path d="M720 500h145M720 545h220" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"/><circle cx="980" cy="545" r="22" fill="#22c55e"/>
+ </svg>

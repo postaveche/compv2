@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+ <title id="title">Contacte Comp.MD</title><desc id="desc">Locație, telefon și mesaje pentru contactarea echipei Comp.MD</desc>
+ <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7ed"/><stop offset="1" stop-color="#f1f5f9"/></linearGradient><linearGradient id="a"><stop stop-color="#fb923c"/><stop offset="1" stop-color="#ea580c"/></linearGradient></defs>
+ <rect width="1200" height="800" rx="48" fill="url(#bg)"/><circle cx="960" cy="155" r="115" fill="#ffedd5"/><circle cx="175" cy="680" r="125" fill="#e2e8f0"/>
+ <rect x="160" y="185" width="510" height="390" rx="38" fill="#fff" stroke="#334155" stroke-width="18"/><path d="m205 245 210 165 210-165" fill="none" stroke="#f97316" stroke-width="24" stroke-linejoin="round"/><path d="m205 525 145-135M625 525 480 390" fill="none" stroke="#cbd5e1" stroke-width="20"/>
+ <path d="M860 190c-105 0-190 85-190 190 0 150 190 285 190 285s190-135 190-285c0-105-85-190-190-190Z" fill="url(#a)"/><circle cx="860" cy="380" r="72" fill="#fff"/><circle cx="860" cy="380" r="34" fill="#fed7aa"/>
+ <circle cx="190" cy="145" r="18" fill="#22c55e"/><path d="M735 645h250" stroke="#334155" stroke-width="18" stroke-linecap="round"/>
+</svg>
