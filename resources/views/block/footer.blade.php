@@ -17,7 +17,8 @@
                         <li><a href="{{route('locale.reparatii', session('locale'))}}" title="@lang('computer.repairs')">@lang('computer.repairs')</a></li>
                         <li><a href="{{route('locale.reparatie_laptop', session('locale'))}}" title="@lang('laptop.repairs')">@lang('laptop.repairs')</a></li>
                         <li><a href="{{route('locale.reparatii_televizoare', session('locale'))}}" title="@lang('tv.repairs')">@lang('tv.repairs')</a></li>
-                        <li><a href="{{route('locale.reparatii_console', session('locale'))}}" title="@lang('console.repairs')">@lang('console.repairs')</a></li>
+                        @php($consoleRepairsLabel = app()->getLocale() === 'ru' ? 'Ремонт игровых консолей' : 'Reparația consolelor gaming')
+                        <li><a href="{{route('locale.reparatii_console', session('locale', app()->getLocale()))}}" title="{{ $consoleRepairsLabel }}">{{ $consoleRepairsLabel }}</a></li>
                         <li><a href="{{route('locale.reincarcare', session('locale'))}}" title="@lang('homebanner.b3_title')">@lang('homebanner.b3_title')</a></li>
                         <li><a href="{{route('locale.hosting', session('locale'))}}" alt="@lang('main.hosting')">@lang('main.hosting')</a></li>
                     </ul>
