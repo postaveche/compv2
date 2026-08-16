@@ -25,6 +25,24 @@
             @case('instalare-windows')
                 <path d="m3 5 8-1v7H3V5ZM13 3.7 21 2v9h-8V3.7ZM3 13h8v7l-8-1v-6ZM13 13h8v9l-8-1.7V13Z"/>
                 @break
+            @case('diagnosticare-laptop')
+                <circle cx="10" cy="10" r="6"/><path d="m14.5 14.5 5 5M7.5 10l1.7 1.7 3.5-4"/>
+                @break
+            @case('reparatie-dupa-lichid')
+                <path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11Z"/><path d="M9 14c.4 1.5 1.4 2.3 3 2.5M4 4l16 16"/>
+                @break
+            @case('reparatie-ventilator')
+                <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="2"/><path d="M12 10c-1-3 .2-5 2-5s2.8 2.8 1 5.2M14 12c3-1 5 .2 5 2s-2.8 2.8-5.2 1M12 14c1 3-.2 5-2 5s-2.8-2.8-1-5.2M10 12c-3 1-5-.2-5-2s2.8-2.8 5.2-1"/>
+                @break
+            @case('reparatie-balamale-carcasa')
+                <path d="M4 4h7v16H4zM13 4h7v16h-7M11 8h2M11 16h2"/><path d="m6 8 3 3-3 3"/>
+                @break
+            @case('schimbare-cablu-flex')
+                <path d="M4 5h6v5H4zM14 14h6v5h-6zM10 7.5c7 0 0 9 4 9"/><path d="M6 3v2M8 3v2M16 19v2M18 19v2"/>
+                @break
+            @case('reparatie-touchpad')
+                <rect x="3" y="3" width="18" height="18" rx="3"/><rect x="6" y="6" width="12" height="9" rx="2"/><path d="M12 15v3M7 18h10"/>
+                @break
         @endswitch
     </svg>
 </span>

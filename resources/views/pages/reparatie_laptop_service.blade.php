@@ -1,7 +1,7 @@
 @extends('layouts.layouts')
 
-@section('title', $service['title'] . ' - ' . __('laptop.meta_title'))
-@section('description', $service['short'] . ' ' . __('laptop.meta_description'))
+@section('title', $service['title'] . ' ' . __('laptop.seo_title_location'))
+@section('description', $service['short'] . ' ' . __('laptop.seo_description_suffix'))
 @section('keywords', $service['title'] . ', ' . __('laptop.meta_keywords'))
 @section('img', asset($serviceImage))
 
@@ -65,9 +65,9 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
             </span>
             <span>
-                <strong>@lang('laptop.repair_time_title')</strong>
-                <small>@lang('laptop.repair_time_stock')</small>
-                <small>@lang('laptop.repair_time_order')</small>
+                <strong>{{ $service['time'] ?? __('laptop.repair_time_title') }}</strong>
+                <small>{{ $service['warranty'] ?? __('laptop.repair_time_stock') }}</small>
+                @if(!isset($service['time']))<small>@lang('laptop.repair_time_order')</small>@endif
             </span>
         </aside>
     </section>

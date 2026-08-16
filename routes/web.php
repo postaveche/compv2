@@ -39,8 +39,27 @@ Route::group([
         return view('pages.reincarcare');
     })->name('reincarcare');
     Route::get('reparatie', function () {
-        return view('pages.reparatie');
+        return view('pages.reparatie', [
+            'services' => __('computer.services'),
+        ]);
     })->name('reparatii');
+    Route::get('reparatie/{service}', function ($locale, $service) {
+        $services = __('computer.services');
+
+        abort_unless(isset($services[$service]), 404);
+
+        $configuredImage = config('computer_service_images.'.$service);
+        $serviceImage = $configuredImage && file_exists(public_path($configuredImage))
+            ? $configuredImage
+            : 'img/rep_ro.jpg';
+
+        return view('pages.reparatie_service', [
+            'service' => $services[$service],
+            'serviceSlug' => $service,
+            'serviceImage' => $serviceImage,
+            'services' => $services,
+        ]);
+    })->where('service', '[a-z0-9-]+')->name('computer_service');
     Route::get('reparatii_laptop_notebook', function () {
         return view('pages.reparatie_laptop', [
             'services' => __('laptop.services'),
@@ -51,10 +70,15 @@ Route::group([
 
         abort_unless(isset($services[$service]), 404);
 
+        $configuredImage = config('laptop_service_images.'.$service);
+        $serviceImage = $configuredImage && file_exists(public_path($configuredImage))
+            ? $configuredImage
+            : 'img/remont-noutbukov-0.jpg';
+
         return view('pages.reparatie_laptop_service', [
             'service' => $services[$service],
             'serviceSlug' => $service,
-            'serviceImage' => config('laptop_service_images.'.$service, 'img/remont-noutbukov-0.jpg'),
+            'serviceImage' => $serviceImage,
             'services' => $services,
         ]);
     })->where('service', '[a-z0-9-]+')->name('laptop_service');

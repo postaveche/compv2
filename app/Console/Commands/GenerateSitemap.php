@@ -51,6 +51,10 @@ class GenerateSitemap extends Command
             $paths[] = 'reparatii_laptop_notebook/'.$slug;
         }
 
+        foreach (array_keys(trans('computer.services', [], 'ro')) as $slug) {
+            $paths[] = 'reparatie/'.$slug;
+        }
+
         $paths = array_values(array_unique($paths));
         sort($paths);
 
@@ -212,7 +216,9 @@ class GenerateSitemap extends Command
 
     private function sourceLastModified()
     {
-        $files = [base_path('routes/web.php'), resource_path('views/pages/reparatie_laptop.blade.php'),
+        $files = [base_path('routes/web.php'), resource_path('views/pages/reparatie.blade.php'),
+            resource_path('views/pages/reparatie_service.blade.php'), resource_path('lang/ro/computer.php'),
+            resource_path('lang/ru/computer.php'), resource_path('views/pages/reparatie_laptop.blade.php'),
             resource_path('views/pages/reparatie_laptop_service.blade.php'), resource_path('lang/ro/laptop.php'),
             resource_path('lang/ru/laptop.php')];
 

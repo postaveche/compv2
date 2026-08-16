@@ -3,7 +3,7 @@
 @section('title', __('laptop.meta_title'))
 @section('description', __('laptop.meta_description'))
 @section('keywords', __('laptop.meta_keywords'))
-@section('img', asset('img/remont-noutbukov.jpg'))
+@section('img', asset('img/ai/rep_nb.jpg'))
 
 @push('structured_data')
 @php
@@ -17,7 +17,7 @@
                 'name' => __('laptop.hero_title'),
                 'description' => __('laptop.meta_description'),
                 'url' => $laptopPageUrl,
-                'image' => asset('img/remont-noutbukov.jpg'),
+                'image' => asset('img/ai/rep_nb.jpg'),
                 'serviceType' => __('laptop.hero_title'),
                 'provider' => ['@id' => rtrim(url('/'), '/') . '/#organization'],
                 'areaServed' => ['@type' => 'City', 'name' => 'Chișinău'],
@@ -67,17 +67,19 @@
                 <a class="btn btn-outline-secondary btn-lg" href="#servicii">@lang('laptop.see_services')</a>
             </div>
         </div>
-        <img src="{{ asset('img/ai/rep_nb.jpg') }}" alt="Reparație laptop în service" width="560" height="370">
+        <img src="{{ asset('img/ai/rep_nb.jpg') }}" alt="@lang('laptop.hero_image_alt')" width="560" height="370">
     </section>
 
     <section id="servicii" class="laptop-section">
+        @php($featuredServices = array_slice($services, 0, 8, true))
+        @php($specializedServices = array_slice($services, 8, null, true))
         <div class="laptop-section__heading">
             <span class="laptop-eyebrow">@lang('laptop.services_eyebrow')</span>
             <h2>@lang('laptop.services_title')</h2>
             <p>@lang('laptop.services_text')</p>
         </div>
         <div class="laptop-service-grid">
-            @foreach($services as $slug => $service)
+            @foreach($featuredServices as $slug => $service)
                 <article class="laptop-service-card">
                     @include('block.laptop_service_icon', ['slug' => $slug])
                     <div class="laptop-service-card__content">
@@ -93,9 +95,30 @@
         </div>
     </section>
 
+    @if($specializedServices)
+        <section class="laptop-specialized">
+            <div class="laptop-section__heading">
+                <span class="laptop-eyebrow">@lang('laptop.specialized_eyebrow')</span>
+                <h2>@lang('laptop.specialized_title')</h2>
+                <p>@lang('laptop.specialized_text')</p>
+            </div>
+            <div class="laptop-specialized__grid">
+                @foreach($specializedServices as $slug => $service)
+                    <a href="{{ route('locale.laptop_service', ['locale' => app()->getLocale(), 'service' => $slug]) }}">
+                        @include('block.laptop_service_icon', ['slug' => $slug])
+                        <span class="laptop-specialized__content"><strong>{{ $service['title'] }}</strong><small>{{ $service['short'] }}</small></span><b aria-hidden="true">→</b>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
     <section class="laptop-process">
         @foreach(__('laptop.process') as $step)
-            <div><strong>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</strong><h3>{{ $step['title'] }}</h3><p>{{ $step['text'] }}</p></div>
+            <article>
+                @include('block.repair_process_icon', ['step' => $loop->iteration])
+                <div class="laptop-process__content"><strong>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</strong><h3>{{ $step['title'] }}</h3><p>{{ $step['text'] }}</p></div>
+            </article>
         @endforeach
     </section>
 

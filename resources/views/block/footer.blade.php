@@ -14,8 +14,8 @@
                 <div class="col-sm-4 col-md-3 item">
                     <h3>@lang('main.serv')</h3>
                     <ul>
-                        <li><a href="{{route('locale.reparatii', session('locale'))}}" title="@lang('homebanner.b1_title')">@lang('homebanner.b1_title')</a></li>
-                        <li><a href="{{route('locale.reparatie_laptop', session('locale'))}}" title="@lang('homebanner.b2_title')">@lang('homebanner.b2_title')</a></li>
+                        <li><a href="{{route('locale.reparatii', session('locale'))}}" title="@lang('computer.repairs')">@lang('computer.repairs')</a></li>
+                        <li><a href="{{route('locale.reparatie_laptop', session('locale'))}}" title="@lang('laptop.repairs')">@lang('laptop.repairs')</a></li>
                         <li><a href="{{route('locale.reincarcare', session('locale'))}}" title="@lang('homebanner.b3_title')">@lang('homebanner.b3_title')</a></li>
                         <li><a href="{{route('locale.hosting', session('locale'))}}" alt="@lang('main.hosting')">@lang('main.hosting')</a></li>
                     </ul>

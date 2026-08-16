@@ -520,11 +520,29 @@ h2 {
 .laptop-service-card h3 { font-size: 1.25rem; }
 .laptop-service-card p { color: #68717a; line-height: 1.55; }
 .laptop-service-card a { margin-top: auto; color: #ff6b35; font-weight: 700; text-decoration: none; }
-.laptop-process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 20px 0 70px; overflow: hidden; border-radius: 14px; background: #dfe2e5; }
-.laptop-process div { padding: 32px; background: #f5f6f7; }
-.laptop-process strong { color: #ff6b35; }
-.laptop-process h3 { margin: 14px 0 8px; font-size: 1.15rem; }
-.laptop-process p { margin: 0; color: #68717a; }
+.laptop-specialized { margin: 0 0 70px; padding: 42px; border-radius: 20px; background: #f6f7f8; }
+.laptop-specialized__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.laptop-specialized__grid > a { display: flex; min-width: 0; align-items: center; gap: 16px; padding: 18px; border: 1px solid #e4e7e9; border-radius: 14px; color: #30363b; background: #fff; text-decoration: none; transition: border-color .2s, box-shadow .2s, transform .2s; }
+.laptop-specialized__grid > a:hover { border-color: #f2b69f; box-shadow: 0 9px 22px rgba(36, 41, 47, .08); transform: translateY(-2px); }
+.laptop-specialized__grid .laptop-service-icon { width: 50px; height: 50px; flex-basis: 50px; border-radius: 13px; }
+.laptop-specialized__grid .laptop-service-icon svg { width: 28px; height: 28px; }
+.laptop-specialized__content { display: grid; min-width: 0; gap: 4px; }
+.laptop-specialized__grid strong { font-size: 1rem; }
+.laptop-specialized__grid small { overflow: hidden; color: #737b82; text-overflow: ellipsis; white-space: nowrap; }
+.laptop-specialized__grid b { margin-left: auto; color: #d85b2d; font-size: 1.2rem; }
+.laptop-process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 24px 0 70px; }
+.laptop-process article { position: relative; display: flex; min-height: 176px; align-items: flex-start; gap: 18px; padding: 27px 25px; overflow: hidden; border: 1px solid #e6e8ea; border-radius: 18px; background: #fff; box-shadow: 0 8px 28px rgba(36, 41, 47, .06); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.laptop-process article::before { position: absolute; top: 0; bottom: 0; left: 0; width: 4px; content: ''; background: #e76f3c; }
+.laptop-process article::after { position: absolute; right: -28px; bottom: -38px; width: 105px; height: 105px; border-radius: 50%; content: ''; background: #f5f6f7; transition: transform .2s ease; }
+.laptop-process article:hover { border-color: #d5d9dc; box-shadow: 0 14px 34px rgba(36, 41, 47, .1); transform: translateY(-4px); }
+.laptop-process article:hover::after { transform: scale(1.15); }
+.laptop-process__icon { position: relative; z-index: 1; display: grid; width: 52px; height: 52px; flex: 0 0 52px; place-items: center; border: 1px solid #f3d2c4; border-radius: 15px; color: #d85b2d; background: #fff3ed; box-shadow: 0 6px 14px rgba(36, 41, 47, .07); transition: transform .2s ease; }
+.laptop-process article:hover .laptop-process__icon { transform: scale(1.05); }
+.laptop-process__icon svg { width: 28px; height: 28px; }
+.laptop-process__content { position: relative; z-index: 1; min-width: 0; padding-right: 4px; }
+.laptop-process strong { position: absolute; top: -10px; right: -2px; color: #d8dcdf; font-size: .78rem; letter-spacing: .08em; }
+.laptop-process h3 { margin: 3px 28px 9px 0; color: #2e343a; font-size: 1.12rem; line-height: 1.3; }
+.laptop-process p { margin: 0; color: #68717a; font-size: .94rem; line-height: 1.55; }
 .laptop-note { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 40px; padding: 38px; border-radius: 16px; color: white; background: #24292f; }
 .laptop-note h2 { max-width: 760px; margin: 0; font-size: clamp(1.5rem, 3vw, 2.25rem); }
 .laptop-note .laptop-eyebrow { color: #ffad8f; }
@@ -566,6 +584,8 @@ h2 {
 @media (max-width: 991px) {
     .laptop-hero, .laptop-detail-hero { grid-template-columns: 1fr; padding: 30px; }
     .laptop-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .laptop-specialized { padding: 30px; }
+    .laptop-process { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .laptop-info-box { grid-template-columns: 1fr; }
     .laptop-service-highlights { grid-template-columns: 1fr; }
 }
@@ -573,6 +593,9 @@ h2 {
     .laptop-hero, .laptop-detail-hero { padding: 22px; }
     .laptop-hero img, .laptop-detail-hero img { height: 230px; }
     .laptop-service-grid, .laptop-process, .laptop-detail-grid { grid-template-columns: 1fr; }
+    .laptop-specialized { padding: 24px 18px; }
+    .laptop-specialized__grid { grid-template-columns: 1fr; }
+    .laptop-process article { min-height: 0; padding: 24px 22px; }
     .laptop-service-card { min-height: 220px; gap: 16px; padding: 22px; }
     .laptop-service-icon { width: 58px; height: 58px; flex-basis: 58px; }
     .laptop-service-icon svg { width: 31px; height: 31px; }

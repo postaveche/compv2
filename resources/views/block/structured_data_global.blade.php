@@ -6,7 +6,7 @@
         '@context' => 'https://schema.org',
         '@graph' => [
             [
-                '@type' => ['ComputerStore', 'LocalBusiness'],
+                '@type' => 'ComputerStore',
                 '@id' => $organizationId,
                 'name' => 'Comp.MD',
                 'legalName' => 'IT Service Grup SRL',
@@ -17,6 +17,12 @@
                 ],
                 'image' => asset('img/remont-noutbukov.jpg'),
                 'telephone' => '+37360229129',
+                'openingHoursSpecification' => [
+                    '@type' => 'OpeningHoursSpecification',
+                    'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                    'opens' => '09:00',
+                    'closes' => '18:00',
+                ],
                 'address' => [
                     '@type' => 'PostalAddress',
                     'streetAddress' => 'str. Sarmizegetusa 51, et. 1, of. 130',
