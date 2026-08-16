@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Service pentru televizoare</title>
+  <desc id="desc">Televizor modern diagnosticat într-un atelier electronic</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f3ef"/><stop offset="1" stop-color="#e5e9ed"/></linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#25313c"/><stop offset="1" stop-color="#111820"/></linearGradient>
+  </defs>
+  <rect width="1200" height="800" rx="42" fill="url(#bg)"/>
+  <circle cx="1020" cy="125" r="155" fill="#ff6b35" opacity=".1"/>
+  <circle cx="120" cy="720" r="205" fill="#667786" opacity=".08"/>
+  <rect x="120" y="125" width="780" height="500" rx="28" fill="#303b45"/>
+  <rect x="146" y="151" width="728" height="448" rx="12" fill="url(#screen)"/>
+  <path d="M510 625h40v70H390v28h240v-28H570v-70" fill="#4c5862"/>
+  <path d="M290 390h120l45-95 75 190 62-130 42 65h116" fill="none" stroke="#ff7c4c" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(790 430)">
+    <circle cx="145" cy="145" r="126" fill="#fff" stroke="#d8dde1" stroke-width="10"/>
+    <circle cx="145" cy="145" r="42" fill="#ff6b35"/>
+    <path d="M145 103c-28-64 9-102 43-83 35 20 15 72-19 96M187 145c64-28 102 9 83 43-20 35-72 15-96-19M145 187c28 64-9 102-43 83-35-20-15-72 19-96M103 145c-64 28-102-9-83-43 20-35 72-15 96 19" fill="#596873" opacity=".9"/>
+  </g>
+  <g fill="none" stroke="#ff6b35" stroke-width="13" stroke-linecap="round"><path d="m916 174 55 55"/><path d="m971 174-55 55"/></g>
+</svg>

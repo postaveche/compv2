@@ -88,6 +88,28 @@ Route::group([
     Route::get('reparatii_proiectoare', function () {
         return view('pages.reparatii_proiectoare');
     })->name('reparatii_proiectoare');
+    Route::get('reparatii_televizoare', function () {
+        return view('pages.reparatie_tv', [
+            'services' => __('tv.services'),
+        ]);
+    })->name('reparatii_televizoare');
+    Route::get('reparatii_televizoare/{service}', function ($locale, $service) {
+        $services = __('tv.services');
+
+        abort_unless(isset($services[$service]), 404);
+
+        $configuredImage = config('tv_service_images.'.$service);
+        $serviceImage = $configuredImage && file_exists(public_path($configuredImage))
+            ? $configuredImage
+            : 'img/ai/tv/tv-service.svg';
+
+        return view('pages.reparatie_tv_service', [
+            'service' => $services[$service],
+            'serviceSlug' => $service,
+            'serviceImage' => $serviceImage,
+            'services' => $services,
+        ]);
+    })->where('service', '[a-z0-9-]+')->name('tv_service');
     Route::get('reparatii_aspiratoare', function () {
         return view('pages.reparatii_aspiratoare');
     })->name('reparatii_aspiratoare');
