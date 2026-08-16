@@ -3,11 +3,12 @@
 .osp/
 .agents/
 _docker/
-/node_modules
+/node_modules/
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+/vendor/
+/webstat/
 .env
 .env.backup
 .phpunit.result.cache
