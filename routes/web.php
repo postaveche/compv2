@@ -38,6 +38,19 @@ Route::group([
     Route::get('/reincarcare_imprimante', function () {
         return view('pages.reincarcare');
     })->name('reincarcare');
+    Route::get('/reparatie_mfd_copiatoare', function () {
+        return view('pages.reparatie_mfd', ['services' => __('mfd.services')]);
+    })->name('reparatie_mfd');
+    Route::get('/reparatie_mfd_copiatoare/{service}', function ($locale, $service) {
+        $services = __('mfd.services');
+        abort_unless(isset($services[$service]), 404);
+
+        return view('pages.reparatie_mfd_service', [
+            'service' => $services[$service],
+            'serviceSlug' => $service,
+            'services' => $services,
+        ]);
+    })->where('service', '[a-z0-9-]+')->name('mfd_service');
     Route::get('reparatie', function () {
         return view('pages.reparatie', [
             'services' => __('computer.services'),

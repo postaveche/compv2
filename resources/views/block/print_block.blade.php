@@ -20,12 +20,14 @@
         </a>
     </div>
     <div class="print_item">
+        <a href="{{route('locale.reparatie_mfd', session('locale'))}}" title="@lang('print_block.copy_repair')">
         <div class="print_item_icon">
             <img src="/img/copy50.png" width="50px" alt="@lang('print_block.copy_repair')"/>
         </div>
         <div class="print_item_name">
             @lang('print_block.copy_repair')
         </div>
+        </a>
     </div>
     <div class="print_item">
         <a href="{{route('locale.specialist', session('locale'))}}" title="@lang('print_block.call_specialist')">
