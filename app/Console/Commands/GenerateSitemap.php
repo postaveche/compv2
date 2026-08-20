@@ -67,6 +67,14 @@ class GenerateSitemap extends Command
             $paths[] = 'sisteme_supraveghere_video/'.$slug;
         }
 
+        foreach (array_keys(trans('mfd.services', [], 'ro')) as $slug) {
+            $paths[] = 'reparatie_mfd_copiatoare/'.$slug;
+        }
+
+        foreach (array_keys(trans('mfd.brands', [], 'ro')) as $slug) {
+            $paths[] = 'reparatie-mfd-'.$slug;
+        }
+
         $paths = array_values(array_unique($paths));
         sort($paths);
 

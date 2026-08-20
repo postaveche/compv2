@@ -581,6 +581,29 @@ h2 {
 .laptop-more__links a { padding: 10px 15px; border: 1px solid #dfe2e5; border-radius: 30px; color: #4f5861; text-decoration: none; }
 .laptop-more__links a:hover { border-color: #ff6b35; color: #ff6b35; }
 .laptop-back { display: inline-block; margin-bottom: 24px; color: #ff6b35; font-weight: 700; }
+.mfd-brand-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.mfd-brand-card { display: flex; min-width: 0; align-items: center; gap: 16px; padding: 22px; border: 1px solid #e2e5e8; border-radius: 15px; color: #282e34; background: #fff; text-decoration: none; transition: transform .2s, border-color .2s, box-shadow .2s; }
+.mfd-brand-card:hover { border-color: #f2b69f; color: #282e34; box-shadow: 0 12px 28px rgba(29,38,47,.09); transform: translateY(-3px); }
+.mfd-brand-card__logo { display: flex; width: 92px; height: 58px; flex: 0 0 92px; align-items: center; justify-content: center; padding: 7px; overflow: hidden; border: 1px solid #eceff1; border-radius: 12px; background: #fff; }
+.mfd-brand-card__logo img { display: block; width: auto; max-width: 100%; height: auto; max-height: 100%; margin: auto; object-fit: contain; object-position: center center; }
+.mfd-brand-card > span:nth-child(2) { display: grid; min-width: 0; gap: 4px; }
+.mfd-brand-card strong { font-size: 1.15rem; }
+.mfd-brand-card small { overflow: hidden; color: #737b82; text-overflow: ellipsis; white-space: nowrap; }
+.mfd-brand-card b { margin-left: auto; color: #ff6b35; font-size: 1.2rem; }
+.mfd-brand-help, .mfd-model-note { margin: 22px 0 0; color: #68717a; }
+.mfd-brand-help a { color: #ff6b35; font-weight: 700; }
+.mfd-brand-visual { display: grid; min-height: 320px; place-content: center; text-align: center; border-radius: 18px; color: #fff; background: radial-gradient(circle at 70% 25%, #ff9a73, #ff6b35 42%, #2b3036 43%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.mfd-brand-visual--logo { border: 1px solid #e2e5e8; background-color: #fff; background-repeat: no-repeat; background-position: center; background-size: 82% auto; box-shadow: 0 16px 36px rgba(29,38,47,.09); }
+.mfd-family-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.mfd-family-grid article { padding: 26px; border: 1px solid #e2e5e8; border-radius: 15px; background: #f8f9fa; }
+.mfd-family-grid h3 { margin-bottom: 18px; font-size: 1.25rem; }
+.mfd-model-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.mfd-model-tags span { padding: 7px 11px; border: 1px solid #e1e4e6; border-radius: 30px; color: #59616a; background: #fff; font-size: .88rem; }
+.mfd-faq { max-width: 900px; margin: 35px auto 55px; }
+.mfd-faq h2 { margin-bottom: 22px; }
+.mfd-faq details { border-bottom: 1px solid #e1e4e6; }
+.mfd-faq summary { padding: 19px 4px; cursor: pointer; font-weight: 700; }
+.mfd-faq details p { padding: 0 4px 18px; color: #68717a; line-height: 1.7; }
 @media (max-width: 991px) {
     .laptop-hero, .laptop-detail-hero { grid-template-columns: 1fr; padding: 30px; }
     .laptop-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -588,6 +611,7 @@ h2 {
     .laptop-process { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .laptop-info-box { grid-template-columns: 1fr; }
     .laptop-service-highlights { grid-template-columns: 1fr; }
+    .mfd-brand-grid, .mfd-family-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
     .laptop-hero, .laptop-detail-hero { padding: 22px; }
@@ -598,8 +622,10 @@ h2 {
     .laptop-process article { min-height: 0; padding: 24px 22px; }
     .laptop-service-card { min-height: 220px; gap: 16px; padding: 22px; }
     .laptop-service-icon { width: 58px; height: 58px; flex-basis: 58px; }
+    .mfd-brand-card__logo { width: 78px; flex-basis: 78px; }
     .laptop-service-icon svg { width: 31px; height: 31px; }
     .laptop-section { padding-top: 48px; }
+    .mfd-brand-grid, .mfd-family-grid { grid-template-columns: 1fr; }
     .laptop-note { align-items: flex-start; flex-direction: column; padding: 28px; }
 }
 /* Specialist call-out page */

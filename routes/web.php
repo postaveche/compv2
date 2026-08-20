@@ -39,8 +39,22 @@ Route::group([
         return view('pages.reincarcare');
     })->name('reincarcare');
     Route::get('/reparatie_mfd_copiatoare', function () {
-        return view('pages.reparatie_mfd', ['services' => __('mfd.services')]);
+        return view('pages.reparatie_mfd', [
+            'services' => __('mfd.services'),
+            'brands' => __('mfd.brands'),
+        ]);
     })->name('reparatie_mfd');
+    Route::get('/reparatie-mfd-{brand}', function ($locale, $brand) {
+        $brands = __('mfd.brands');
+        abort_unless(isset($brands[$brand]), 404);
+
+        return view('pages.reparatie_mfd_brand', [
+            'brand' => $brands[$brand],
+            'brandSlug' => $brand,
+            'brands' => $brands,
+            'services' => __('mfd.services'),
+        ]);
+    })->where('brand', '[a-z0-9-]+')->name('mfd_brand');
     Route::get('/reparatie_mfd_copiatoare/{service}', function ($locale, $service) {
         $services = __('mfd.services');
         abort_unless(isset($services[$service]), 404);
