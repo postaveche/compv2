@@ -5,7 +5,7 @@ return [
     'hp' => 'hp.png',
     'brother' => 'brother.jpg',
     'xerox' => 'xerox.jpg',
-    'kyocera' => 'kyocera.png',
+    'kyocera' => 'Kyocera.png',
     'ricoh' => 'ricoh.png',
     'samsung' => 'samsung.svg',
     'epson' => 'epson.png',
