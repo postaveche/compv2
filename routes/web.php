@@ -336,6 +336,17 @@ Route::middleware('auth')->prefix('admincp/service')->name('service.')->group(fu
     Route::post('/{id}/photos', [\App\Http\Controllers\admin\ServiceController::class, 'addPhotos'])->name('photos.add');
 });
 
+// Casa: toate citirile si scrierile sunt protejate de parola suplimentara.
+Route::middleware(['auth', \App\Http\Middleware\CashNoCache::class])->prefix('admincp/cash')->name('cash.')->group(function () {
+    Route::get('/unlock', [\App\Http\Controllers\admin\CashAccessController::class, 'show'])->name('unlock');
+    Route::post('/unlock', [\App\Http\Controllers\admin\CashAccessController::class, 'unlock'])->name('authenticate');
+    Route::post('/lock', [\App\Http\Controllers\admin\CashAccessController::class, 'lock'])->name('lock');
+    Route::middleware(\App\Http\Middleware\CashUnlocked::class)->group(function () {
+        Route::get('/', [\App\Http\Controllers\admin\CashController::class, 'index'])->name('index');
+        Route::post('/', [\App\Http\Controllers\admin\CashController::class, 'store'])->name('store');
+    });
+});
+
 // Hosting si domenii
 Route::middleware('auth')->prefix('admincp/hosting')->name('hosting.')->group(function () {
     Route::get('/', [\App\Http\Controllers\admin\HostingController::class, 'index'])->name('index');

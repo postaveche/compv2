@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\TelegramService;
+use App\Services\ServiceCashRecorder;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -69,10 +71,17 @@ class ServiceController extends Controller
             'photos.*' => 'image|max:5120',
         ]);
         $data = $request->all();
+        $this->validatePaymentData($request);
         $data['order_number'] = ServiceOrder::generateOrderNumber();
         $data['status'] = 'received';
         $data['received_by'] = Auth::id();
-        $order = ServiceOrder::create($data);
+        $data['is_paid'] = $request->boolean('is_paid');
+        $data['diagnosis_fee_paid'] = $request->boolean('diagnosis_fee_paid');
+        $order = DB::transaction(function () use ($data, $request) {
+            $order = ServiceOrder::create($data);
+            app(ServiceCashRecorder::class)->sync($order, [], $request->input('payment_method'), $request->input('payment_received_at'), Auth::id());
+            return $order;
+        });
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $file) {
                 $name = $order->order_number . '_' . time() . '_' . $file->getClientOriginalName();
@@ -109,16 +118,23 @@ class ServiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        $order = ServiceOrder::findOrFail($id);
-        $oldStatus = $order->status;
-        $data = $request->all();
-        if ($request->status == 'repaired' && $order->status != 'repaired') { $data['completed_at'] = now(); }
-        if ($request->status == 'delivered' && $order->status != 'delivered') { $data['delivered_at'] = now(); }
-        $data['is_paid'] = $request->has('is_paid') ? 1 : 0;
-        $data['warranty'] = $request->has('warranty') ? 1 : 0;
-        $data['is_warranty_repair'] = $request->has('is_warranty_repair') ? 1 : 0;
-        $data['diagnosis_fee_paid'] = $request->has('diagnosis_fee_paid') ? 1 : 0;
-        $order->update($data);
+        $this->validatePaymentData($request);
+        [$order, $oldStatus] = DB::transaction(function () use ($request, $id) {
+            $order = ServiceOrder::lockForUpdate()->findOrFail($id);
+            $before = $order->getAttributes();
+            $oldStatus = $order->status;
+            $data = $request->all();
+            unset($data['client_id']);
+            if ($request->status == 'repaired' && $order->status != 'repaired') { $data['completed_at'] = now(); }
+            if ($request->status == 'delivered' && $order->status != 'delivered') { $data['delivered_at'] = now(); }
+            $data['is_paid'] = $request->boolean('is_paid');
+            $data['warranty'] = $request->boolean('warranty');
+            $data['is_warranty_repair'] = $request->boolean('is_warranty_repair');
+            $data['diagnosis_fee_paid'] = $request->boolean('diagnosis_fee_paid');
+            $order->update($data);
+            app(ServiceCashRecorder::class)->sync($order, $before, $request->input('payment_method'), $request->input('payment_received_at'), Auth::id());
+            return [$order, $oldStatus];
+        });
 
         if ($oldStatus != $order->status) {
             $order->load('client');
@@ -126,6 +142,29 @@ class ServiceController extends Controller
         }
 
         return redirect()->route('service.show', $id)->with('success', 'Actualizat!');
+    }
+
+    private function validatePaymentData(Request $request): void
+    {
+        $money = ['nullable', 'numeric', 'min:0', 'max:99999999.99', 'regex:/^\d+(\.\d{1,2})?$/'];
+        $request->validate([
+            'final_price' => $money,
+            'advance_payment' => $money,
+            'diagnosis_fee' => $money,
+            'is_paid' => 'nullable|boolean',
+            'diagnosis_fee_paid' => 'nullable|boolean',
+            'payment_method' => 'nullable|in:cash,receipt,transfer',
+            'payment_received_at' => 'nullable|date_format:Y-m-d\TH:i',
+        ]);
+        if ($request->boolean('is_paid') && !$request->filled('final_price')) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['final_price' => 'Completează prețul final înainte de a bifa Achitat.']);
+        }
+        if ($request->filled('final_price') && ServiceCashRecorder::cents($request->advance_payment) > ServiceCashRecorder::cents($request->final_price)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['advance_payment' => 'Avansul nu poate depăși prețul final.']);
+        }
+        if ($request->boolean('diagnosis_fee_paid') && ServiceCashRecorder::cents($request->diagnosis_fee) <= 0) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['diagnosis_fee' => 'Completează taxa de diagnosticare achitată.']);
+        }
     }
 
     public function destroy($id)

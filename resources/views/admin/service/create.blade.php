@@ -5,6 +5,7 @@
 <section class="content-header"><div class="container-fluid"><h1>Comanda noua de reparatie</h1></div></section>
 <section class="content"><div class="container-fluid">
 @include('admin.block.messages')
+@include('admin.service._validation_errors')
 <form action="{{ route('service.store') }}" method="POST" enctype="multipart/form-data">@csrf
 
 <div class="card card-info">
@@ -17,7 +18,7 @@
 <div class="col-md-4"><label>Client selectat</label>
 <select name="client_id" id="client-select" class="form-control" required>
 <option value="">Selecteaza client</option>
-@foreach($clients as $c)<option value="{{ $c->id }}">{{ $c->name }} - {{ $c->phone }}</option>@endforeach
+@foreach($clients as $c)<option value="{{ $c->id }}" {{ old('client_id') == $c->id ? 'selected' : '' }}>{{ $c->name }} - {{ $c->phone }}</option>@endforeach
 </select></div>
 <div class="col-md-4"><label>&nbsp;</label><br><a href="{{ route('service.clients.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Client nou</a></div>
 </div></div></div>
@@ -52,29 +53,30 @@
 <div class="col-md-3"><label>Tip dispozitiv *</label>
 <select name="device_type" class="form-control" required>
 <option value="">Selecteaza</option>
-@foreach($deviceTypes as $dt)<option>{{ $dt->name }}</option>@endforeach
+@foreach($deviceTypes as $dt)<option {{ old('device_type') == $dt->name ? 'selected' : '' }}>{{ $dt->name }}</option>@endforeach
 </select></div>
-<div class="col-md-3"><label>Brand</label><input type="text" name="device_brand" class="form-control" placeholder="HP, Lenovo..."></div>
-<div class="col-md-3"><label>Model</label><input type="text" name="device_model" class="form-control" placeholder="Model..."></div>
-<div class="col-md-3"><label>Serie (S/N)</label><input type="text" name="serial_number" class="form-control"></div>
+<div class="col-md-3"><label>Brand</label><input type="text" name="device_brand" value="{{ old('device_brand') }}" class="form-control" placeholder="HP, Lenovo..."></div>
+<div class="col-md-3"><label>Model</label><input type="text" name="device_model" value="{{ old('device_model') }}" class="form-control" placeholder="Model..."></div>
+<div class="col-md-3"><label>Serie (S/N)</label><input type="text" name="serial_number" value="{{ old('serial_number') }}" class="form-control"></div>
 </div><div class="row mt-2">
-<div class="col-md-6"><label>Accesorii primite</label><input type="text" name="accessories" class="form-control" placeholder="Incarcator, geanta, mouse..."></div>
-<div class="col-md-6"><label>Starea dispozitivului</label><input type="text" name="device_condition" class="form-control" placeholder="Zgarieturi, ecran spart..."></div>
+<div class="col-md-6"><label>Accesorii primite</label><input type="text" name="accessories" value="{{ old('accessories') }}" class="form-control" placeholder="Incarcator, geanta, mouse..."></div>
+<div class="col-md-6"><label>Starea dispozitivului</label><input type="text" name="device_condition" value="{{ old('device_condition') }}" class="form-control" placeholder="Zgarieturi, ecran spart..."></div>
 </div></div></div>
 
 <div class="card card-warning">
 <div class="card-header"><h3 class="card-title">Problema si estimare</h3></div>
 <div class="card-body"><div class="row">
-<div class="col-md-6"><label>Descrierea problemei *</label><textarea name="problem_description" class="form-control" rows="3" required placeholder="Ce problema are dispozitivul..."></textarea></div>
-<div class="col-md-3"><label>Pret estimat (MDL)</label><input type="number" name="estimated_price" class="form-control" step="0.01"></div>
-<div class="col-md-3"><label>Avans (MDL)</label><input type="number" name="advance_payment" class="form-control" step="0.01" value="0"></div>
-<div class="col-md-3"><label>Data estimata finalizare</label><input type="date" name="estimated_completion" class="form-control"></div>
+<div class="col-md-6"><label>Descrierea problemei *</label><textarea name="problem_description" class="form-control" rows="3" required placeholder="Ce problema are dispozitivul...">{{ old('problem_description') }}</textarea></div>
+<div class="col-md-3"><label>Pret estimat (MDL)</label><input type="number" name="estimated_price" value="{{ old('estimated_price') }}" class="form-control" step="0.01"></div>
+<div class="col-md-3"><label>Avans (MDL)</label><input type="number" name="advance_payment" class="form-control" step="0.01" min="0" value="{{ old('advance_payment', 0) }}"></div>
+<div class="col-md-3"><label>Data estimata finalizare</label><input type="date" name="estimated_completion" value="{{ old('estimated_completion') }}" class="form-control"></div>
 </div><div class="row mt-2">
-<div class="col-md-6"><label>Note interne</label><textarea name="notes" class="form-control" rows="2" placeholder="Note vizibile doar in admin..."></textarea></div>
+<div class="col-md-6"><label>Note interne</label><textarea name="notes" class="form-control" rows="2" placeholder="Note vizibile doar in admin...">{{ old('notes') }}</textarea></div>
 <div class="col-md-6"><label>Poze dispozitiv (la primire)</label><input type="file" name="photos[]" class="form-control-file" multiple accept="image/*"><small class="text-muted">Poti selecta mai multe poze</small></div>
 </div></div></div>
 
 <div class="mb-3">
+@include('admin.service._payment_fields')
 <button type="submit" class="btn btn-primary btn-lg btn-block btn-sm-inline"><i class="fas fa-save"></i> Creaza comanda</button>
 <a href="{{ route('service.index') }}" class="btn btn-secondary btn-lg btn-block btn-sm-inline mt-2">Anuleaza</a>
 </div>

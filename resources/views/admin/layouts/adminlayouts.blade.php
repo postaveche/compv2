@@ -50,6 +50,38 @@
         .nav-sidebar .nav-treeview > .nav-item > .nav-link {
             padding-left: 2rem;
         }
+        .sidebar-user-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+        }
+        .sidebar-user-panel .info {
+            min-width: 0;
+            flex: 1;
+            padding-right: 12px;
+        }
+        .sidebar-user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.1rem;
+            height: 2.1rem;
+            border-radius: 50%;
+            background: #3c8dbc;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .sidebar-user-name {
+            color: #f8f9fa;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .sidebar-user-caption {
+            margin-top: 2px;
+            color: #adb5bd;
+            font-size: 0.72rem;
+        }
         /* Responsive service */
         @media (max-width: 767px) {
             .content-header h1 { font-size: 1.3rem; }

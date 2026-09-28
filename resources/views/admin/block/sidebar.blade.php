@@ -1,13 +1,17 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="/admincp" class="brand-link">
-        <img src="/logo.png" alt="CompMD" class="brand-image elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Comp.MD</span>
+    <a href="/admincp" class="brand-link d-flex align-items-center justify-content-center" style="height: 3.5rem;" aria-label="Comp.MD — pagina principală admin">
+        <img src="/logo.png" alt="CompMD" class="brand-image elevation-3 m-0" style="opacity: .8; max-width: 100%; min-width: 0; object-fit: contain;">
     </a>
     <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        @php($sidebarUserName = Auth::user()->name ?? 'Admin')
+        <div class="user-panel sidebar-user-panel mt-3 mb-3 py-2 d-flex align-items-center">
+            <div class="image flex-shrink-0">
+                <span class="sidebar-user-avatar" aria-hidden="true">{{ mb_strtoupper(mb_substr(trim($sidebarUserName), 0, 1)) }}</span>
+            </div>
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name ?? 'Admin' }}</a>
+                <span class="sidebar-user-name d-block text-truncate" title="{{ $sidebarUserName }}">{{ $sidebarUserName }}</span>
+                <small class="sidebar-user-caption d-block">Cont autentificat</small>
             </div>
         </div>
         <nav class="mt-2">
@@ -163,6 +167,12 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('cash.index') }}" class="nav-link {{ request()->routeIs('cash.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cash-register"></i>
+                        <p>Casă</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
