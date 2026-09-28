@@ -25,6 +25,8 @@ class CashRegisterTest extends TestCase
             '2014_10_12_000000_create_users_table.php' => 'CreateUsersTable',
             '2025_04_01_000001_create_service_clients_table.php' => 'CreateServiceClientsTable',
             '2025_04_01_000002_create_service_orders_table.php' => 'CreateServiceOrdersTable',
+            '2025_04_01_000003_create_device_types_table.php' => 'CreateDeviceTypesTable',
+            '2025_04_01_000004_create_service_photos_table.php' => 'CreateServicePhotosTable',
             '2025_04_01_000005_add_parent_order_to_service_orders.php' => 'AddParentOrderToServiceOrders',
             '2025_04_01_000006_add_advance_to_service_orders.php' => 'AddAdvanceToServiceOrders',
             '2025_04_01_000007_add_warranty_repair_fields_to_service_orders.php' => 'AddWarrantyRepairFieldsToServiceOrders',
@@ -233,5 +235,34 @@ class CashRegisterTest extends TestCase
         $this->assertSame(1, CashEntry::count());
         $this->assertNull(CashEntry::first()->service_order_id);
         $this->assertEquals(100, CashEntry::whereNull('voided_at')->sum('amount'));
+    }
+
+    public function test_rendered_edit_form_can_save_a_cash_payment()
+    {
+        $order = $this->order(['final_price' => '250.00']);
+        $page = $this->get(route('service.edit', $order->id))->assertOk();
+        $dom = new \DOMDocument();
+        @$dom->loadHTML($page->getContent());
+        $xpath = new \DOMXPath($dom);
+        $form = $xpath->query('//form[.//input[@name="_method" and @value="PUT"]]')->item(0);
+        $this->assertNotNull($form);
+        $data = [];
+        foreach ($xpath->query('.//input[@name] | .//select[@name] | .//textarea[@name]', $form) as $field) {
+            $name = $field->getAttribute('name');
+            if ($field->tagName === 'select') {
+                $selected = $xpath->query('.//option[@selected]', $field)->item(0) ?? $field->getElementsByTagName('option')->item(0);
+                $data[$name] = $selected->hasAttribute('value') ? $selected->getAttribute('value') : $selected->textContent;
+            } elseif ($field->tagName === 'textarea') {
+                $data[$name] = $field->textContent;
+            } elseif ($field->getAttribute('type') !== 'checkbox' || $field->hasAttribute('checked')) {
+                $data[$name] = $field->getAttribute('value');
+            }
+        }
+        $data['is_paid'] = '1';
+        $data['payment_method'] = 'cash';
+        $this->put(route('service.update', $order->id), $data)
+            ->assertRedirect(route('service.show', $order->id))->assertSessionHasNoErrors();
+        $this->assertTrue($order->fresh()->is_paid);
+        $this->assertEquals(250, CashEntry::whereNull('voided_at')->sum('amount'));
     }
 }

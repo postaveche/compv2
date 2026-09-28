@@ -60,12 +60,14 @@
 
 <label>Pret estimat (MDL)</label>
 <input type="number" name="estimated_price" class="form-control mb-3" value="{{ old('estimated_price', $order->estimated_price) }}" step="0.01">
-<label>Pret final (MDL)</label>
-<input type="number" name="final_price" class="form-control mb-3" value="{{ old('final_price', $order->final_price) }}" step="0.01" min="0">
+<label for="service-final-price">Pret final (MDL)</label>
+<input id="service-final-price" type="number" name="final_price" class="form-control @error('final_price') is-invalid @enderror" value="{{ old('final_price', $order->final_price) }}" step="0.01" min="0" {{ old('is_paid', $order->is_paid) ? 'required' : '' }} aria-describedby="service-final-price-help">
+@error('final_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
+<small id="service-final-price-help" class="text-muted d-block mb-3">Obligatoriu pentru „Achitat”. În Casă se înregistrează prețul final minus avansul.</small>
 <label>Avans (MDL)</label>
 <input type="number" name="advance_payment" class="form-control mb-3" value="{{ old('advance_payment', $order->advance_payment) }}" step="0.01" min="0">
 <input type="hidden" name="is_paid" value="0">
-<div class="mb-3"><input type="checkbox" name="is_paid" value="1" {{ old('is_paid', $order->is_paid)?'checked':'' }}> Achitat</div>
+<div class="mb-3"><label for="service-is-paid"><input id="service-is-paid" type="checkbox" name="is_paid" value="1" {{ old('is_paid', $order->is_paid)?'checked':'' }}> Achitat</label></div>
 @include('admin.service._payment_fields')
 <div class="mb-3"><input type="checkbox" name="warranty" value="1" {{ $order->warranty?'checked':'' }}> Garantie</div>
 <label>Zile garantie</label>
@@ -78,6 +80,9 @@
 </div></div>
 </form></div></section></div>
 <script>
+document.getElementById('service-is-paid').addEventListener('change', function() {
+    document.getElementById('service-final-price').required = this.checked;
+});
 document.querySelector('[name="status"]').addEventListener('change', function() {
     document.getElementById('cancel-section').style.display = (this.value === 'returned_unrepaired' || this.value === 'cancelled') ? '' : 'none';
 });
