@@ -112,10 +112,14 @@
 <p class="text-muted text-center">Fara poze</p>
 @endif
 <hr>
-<form action="{{ route('service.photos.add', $order->id) }}" method="POST" enctype="multipart/form-data">@csrf
+<form id="service-photo-upload" action="{{ route('service.photos.add', $order->id) }}" method="POST" enctype="multipart/form-data">@csrf
+<div class="alert alert-danger {{ $errors->any() ? '' : 'd-none' }}" role="alert" data-upload-errors>
+@foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+</div>
 <div class="form-group">
 <label>Adauga poze</label>
-<input type="file" name="photos[]" class="form-control-file" multiple accept="image/*">
+<input type="file" name="photos[]" class="form-control-file" multiple accept="image/*" required>
+<small class="text-muted">Maximum 20 MB/poză, 20 de poze. JPG, PNG, WebP, GIF sau BMP. Pentru HEIC/HEIF, exportă ca JPG.</small>
 <select name="stage" class="form-control mt-2">
 <option value="received">La primire</option>
 <option value="diagnosis">Diagnostic</option>
@@ -124,6 +128,7 @@
 </div>
 <button type="submit" class="btn btn-sm btn-success btn-block">Incarca poze</button>
 </form>
+<script src="{{ asset('js/service-photo-upload.js') }}" defer></script>
 </div></div>
 <div class="card"><div class="card-body">
 <p><small>Primit de: {{ $order->receivedBy->name ?? 'N/A' }}</small></p>

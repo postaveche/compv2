@@ -232,15 +232,50 @@ class ServiceController extends Controller
 
     public function addPhotos(Request $request, $orderId)
     {
-        $request->validate(['photos.*' => 'image|max:5120']);
+        $request->validate([
+            'photos' => 'required|array|max:20',
+            'photos.*' => 'required|image|mimes:jpg,jpeg,png,gif,webp,bmp|max:20480',
+            'stage' => 'required|in:received,diagnosis,repaired',
+            'photo_description' => 'nullable|string|max:255',
+        ], [
+            'photos.required' => 'Selectează cel puțin o fotografie.',
+            'photos.max' => 'Poți încărca maximum 20 de fotografii odată.',
+            'photos.*.uploaded' => 'O fotografie nu a putut fi încărcată. Verifică limita serverului și încearcă un fișier mai mic.',
+            'photos.*.image' => 'Format foto neacceptat. Folosește JPG, PNG, WebP, GIF sau BMP. Pentru HEIC/HEIF, exportă fotografia ca JPG.',
+            'photos.*.mimes' => 'Folosește fotografii JPG, PNG, WebP, GIF sau BMP.',
+            'photos.*.max' => 'Fiecare fotografie poate avea maximum 20 MB.',
+            'stage.in' => 'Selectează o etapă validă pentru fotografii.',
+        ]);
         $order = ServiceOrder::findOrFail($orderId);
-        $stage = $request->input('stage', $order->status);
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $file) {
-                $name = $order->order_number . '_' . time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public/service', $name);
-                ServicePhoto::create(['order_id' => $order->id, 'image' => $name, 'description' => $request->input('photo_description'), 'stage' => $stage]);
+        $storedPaths = [];
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($request, $order, &$storedPaths) {
+                foreach ($request->file('photos') as $file) {
+                    $path = $file->store('service', 'public');
+                    if (!$path) {
+                        throw new \RuntimeException('Failed to store service photo.');
+                    }
+                    $storedPaths[] = $path;
+                    ServicePhoto::create([
+                        'order_id' => $order->id,
+                        'image' => basename($path),
+                        'description' => $request->input('photo_description'),
+                        'stage' => $request->input('stage'),
+                    ]);
+                }
+            });
+        } catch (\Throwable $exception) {
+            foreach ($storedPaths as $path) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($path);
             }
+            report($exception);
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'photos' => 'Fotografiile nu au putut fi salvate. Încearcă din nou sau contactează administratorul.',
+            ]);
+        }
+        if ($request->expectsJson()) {
+            $request->session()->flash('success', 'Poze adaugate!');
+            return response()->json(['message' => 'Poze adaugate!']);
         }
         return redirect()->route('service.show', $orderId)->with('success', 'Poze adaugate!');
     }

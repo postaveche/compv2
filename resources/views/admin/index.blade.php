@@ -12,8 +12,15 @@
                     <div class="col-sm-6">
                         <h1 class="m-0">Dashboard</h1>
                     </div><!-- /.col -->
-                    <div class="col-sm-6">
-GGG
+                    <div class="col-sm-6 text-sm-right">
+                        <span class="mr-2">Mod de operare:</span>
+                        <span class="badge {{ config('app.env') === 'production' ? 'badge-success' : 'badge-warning' }}">
+                            {{ config('app.env') }}
+                        </span>
+                        <span class="ml-3 mr-2">Mod debug:</span>
+                        <span class="badge {{ config('app.debug') ? 'badge-warning' : 'badge-success' }}">
+                            {{ config('app.debug') ? 'Activat' : 'Dezactivat' }}
+                        </span>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -24,67 +31,35 @@ GGG
         <section class="content">
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
+                @php
+                    $serviceCards = [
+                        ['label' => 'Total comenzi service', 'status' => null, 'color' => 'info', 'icon' => 'clipboard-list'],
+                        ['label' => 'Primite / de preluat', 'status' => 'received', 'color' => 'primary', 'icon' => 'inbox'],
+                        ['label' => 'În diagnosticare', 'status' => 'diagnosis', 'color' => 'info', 'icon' => 'search'],
+                        ['label' => 'În lucru / reparație', 'status' => 'in_repair', 'color' => 'warning', 'icon' => 'tools'],
+                        ['label' => 'Așteaptă piese', 'status' => 'waiting_parts', 'color' => 'warning', 'icon' => 'cogs'],
+                        ['label' => 'Așteaptă confirmare client', 'status' => 'waiting_approval', 'color' => 'secondary', 'icon' => 'user-clock'],
+                        ['label' => 'Reparate / gata de predare', 'status' => 'repaired', 'color' => 'success', 'icon' => 'check-circle'],
+                        ['label' => 'Predate clientului', 'status' => 'delivered', 'color' => 'success', 'icon' => 'handshake'],
+                    ];
+                @endphp
                 <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3>150</h3>
-
-                                <p>New Orders</p>
+                    @foreach($serviceCards as $card)
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-{{ $card['color'] }}">
+                                <div class="inner">
+                                    <h3>{{ number_format($card['status'] === null ? $serviceCounts->sum() : ($serviceCounts[$card['status']] ?? 0), 0, ',', ' ') }}</h3>
+                                    <p>{{ $card['label'] }}</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-{{ $card['icon'] }}" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('service.index', ['show_all' => 1, 'status' => $card['status']]) }}" class="small-box-footer">
+                                    Vezi comenzile <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
+                                </a>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                                <p>Bounce Rate</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3>44</h3>
-
-                                <p>User Registrations</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3>65</h3>
-
-                                <p>Unique Visitors</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
+                    @endforeach
                 </div>
                 <!-- /.row -->
                 <!-- Main row -->

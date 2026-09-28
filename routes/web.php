@@ -220,7 +220,12 @@ Auth::routes([
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/admincp', function () {
-    return view('admin.index');
+    $serviceCounts = \App\Models\ServiceOrder::query()
+        ->selectRaw('status, COUNT(*) as total')
+        ->groupBy('status')
+        ->pluck('total', 'status');
+
+    return view('admin.index', compact('serviceCounts'));
 })->middleware('auth');
 
 Route::resource('/admincp/category', AdminCategoryController::class)->middleware('auth');
