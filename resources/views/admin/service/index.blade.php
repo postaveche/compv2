@@ -4,7 +4,7 @@
 <div class="content-wrapper">
 <section class="content-header"><div class="container-fluid"><div class="row mb-2">
 <div class="col-sm-6"><h1>Service Center</h1></div>
-<div class="col-sm-6 text-right"><a href="{{ route('service.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> <span class="d-none d-md-inline">Comanda noua</span></a></div>
+<div class="col-sm-6 text-right"><button type="button" class="btn btn-success mr-1" data-toggle="modal" data-target="#new-client-modal"><i class="fas fa-user-plus"></i> Client nou</button> <a href="{{ route('service.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> <span class="d-none d-md-inline">Comanda noua</span></a></div>
 </div></div></section>
 <section class="content"><div class="container-fluid">
 @include('admin.block.messages')
@@ -85,4 +85,6 @@
 
 <div class="d-flex justify-content-center mt-3">{{ $orders->appends(request()->query())->links("pagination::bootstrap-4") }}</div>
 </div></section></div>
+
+@include('admin.service._client_modal')
 @endsection

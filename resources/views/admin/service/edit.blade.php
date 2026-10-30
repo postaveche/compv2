@@ -9,6 +9,38 @@
 <form action="{{ route('service.update', $order->id) }}" method="POST">@csrf @method('PUT')
 <div class="row">
 <div class="col-md-8">
+<div class="card card-info">
+<div class="card-header"><h3 class="card-title"><i class="fas fa-user mr-1"></i> Date client</h3></div>
+<div class="card-body">
+@if($order->client)
+@php $client = $order->client; @endphp
+<div class="row">
+<div class="col-md-6">
+<p><strong>Nume:</strong> <a href="{{ route('service.clients.show', $client->id) }}">{{ $client->name }}</a></p>
+<p><strong>Tip client:</strong> {{ $client->type == 'juridica' ? 'Persoana juridica' : 'Persoana fizica' }}</p>
+</div>
+<div class="col-md-6">
+<p><strong>Telefon:</strong> {{ $client->phone }}@if($client->phone2) / {{ $client->phone2 }}@endif</p>
+@if($client->email)<p><strong>Email:</strong> {{ $client->email }}</p>@endif
+</div>
+</div>
+@if($client->type == 'juridica')
+<div class="row">
+@if($client->company)<div class="col-md-6"><p><strong>Companie:</strong> {{ $client->company }}</p></div>@endif
+@if($client->idno)<div class="col-md-6"><p><strong>IDNO:</strong> {{ $client->idno }}</p></div>@endif
+@if($client->cod_fiscal)<div class="col-md-6"><p><strong>Cod fiscal:</strong> {{ $client->cod_fiscal }}</p></div>@endif
+@if($client->cont_bancar)<div class="col-md-6"><p><strong>Cont bancar:</strong> {{ $client->cont_bancar }}</p></div>@endif
+@if($client->banca)<div class="col-md-6"><p><strong>Banca:</strong> {{ $client->banca }}</p></div>@endif
+@if($client->adresa_juridica)<div class="col-md-6"><p><strong>Adresa juridica:</strong> {{ $client->adresa_juridica }}</p></div>@endif
+</div>
+@endif
+@if($client->notes)<p><strong>Note client:</strong> {{ $client->notes }}</p>@endif
+<a href="{{ route('service.clients.show', $client->id) }}" class="btn btn-outline-info btn-sm">Fisa clientului</a>
+@else
+<p class="text-muted mb-0">Clientul nu este disponibil.</p>
+@endif
+</div></div>
+
 <div class="card card-primary">
 <div class="card-header"><h3 class="card-title">Dispozitiv si problema</h3></div>
 <div class="card-body"><div class="row">

@@ -15,6 +15,16 @@ class ServiceClient extends Model
         'banca', 'adresa_juridica', 'notes'
     ];
 
+    public static function normalizePhone($phone): string
+    {
+        $digits = preg_replace('/\D+/', '', (string) $phone);
+        if (preg_match('/^0([0-9]{8})$/', $digits, $matches)
+            || preg_match('/^(?:00)?373([0-9]{8})$/', $digits, $matches)) {
+            return '373'.$matches[1];
+        }
+        return $digits;
+    }
+
     public function orders()
     {
         return $this->hasMany(ServiceOrder::class, 'client_id');

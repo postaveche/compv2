@@ -20,7 +20,7 @@
 <option value="">Selecteaza client</option>
 @foreach($clients as $c)<option value="{{ $c->id }}" {{ old('client_id') == $c->id ? 'selected' : '' }}>{{ $c->name }} - {{ $c->phone }}</option>@endforeach
 </select></div>
-<div class="col-md-4"><label>&nbsp;</label><br><a href="{{ route('service.clients.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Client nou</a></div>
+<div class="col-md-4"><label>&nbsp;</label><br><button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-client-modal"><i class="fas fa-plus"></i> Client nou</button></div>
 </div></div></div>
 
 <div class="card card-primary">
@@ -81,6 +81,8 @@
 <a href="{{ route('service.index') }}" class="btn btn-secondary btn-lg btn-block btn-sm-inline mt-2">Anuleaza</a>
 </div>
 </form></div></section></div>
+
+@include('admin.service._client_modal')
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

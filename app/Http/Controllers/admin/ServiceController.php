@@ -229,8 +229,12 @@ class ServiceController extends Controller
 
     public function storeClient(Request $request)
     {
-        $request->validate(['name' => 'required', 'phone' => 'required']);
-        ServiceClient::create($request->all());
+        $this->validateClient($request);
+        $client = ServiceClient::create($request->all());
+        if ($request->expectsJson()) {
+            $request->session()->flash('success', 'Client adaugat!');
+            return response()->json(['message' => 'Client adaugat!', 'client' => $client->only(['id', 'name', 'phone'])], 201);
+        }
         return redirect()->route('service.clients')->with('success', 'Client adaugat!');
     }
 
@@ -242,9 +246,40 @@ class ServiceController extends Controller
 
     public function updateClient(Request $request, $id)
     {
-        $request->validate(['name' => 'required', 'phone' => 'required']);
+        $this->validateClient($request, $id);
         ServiceClient::findOrFail($id)->update($request->all());
         return redirect()->route('service.clients')->with('success', 'Client actualizat!');
+    }
+
+    private function validateClient(Request $request, $ignoreId = null)
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+        ]);
+        $validator->after(function ($validator) use ($request, $ignoreId) {
+            if ($validator->errors()->isNotEmpty()) {
+                return;
+            }
+            $phone = ServiceClient::normalizePhone($request->input('phone'));
+            $email = strtolower(trim((string) $request->input('email')));
+            $clients = ServiceClient::select('id', 'phone', 'email')
+                ->when($ignoreId !== null, function ($query) use ($ignoreId) {
+                    $query->where('id', '<>', $ignoreId);
+                })->cursor();
+            foreach ($clients as $client) {
+                if ($phone !== '' && ServiceClient::normalizePhone($client->phone) === $phone
+                    && !$validator->errors()->has('phone')) {
+                    $validator->errors()->add('phone', 'Exista deja un client cu acest numar de telefon.');
+                }
+                if ($email !== '' && strtolower(trim((string) $client->email)) === $email
+                    && !$validator->errors()->has('email')) {
+                    $validator->errors()->add('email', 'Exista deja un client cu aceasta adresa de email.');
+                }
+            }
+        });
+        $validator->validate();
     }
 
     public function showClient($id)
