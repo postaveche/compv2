@@ -28,7 +28,7 @@
 <!-- Desktop table -->
 <div class="card d-none d-md-block"><div class="card-body p-0"><div class="table-responsive">
 <table class="table table-striped table-hover mb-0">
-<thead><tr><th>Nr.</th><th>Client</th><th>Dispozitiv</th><th>Status</th><th>Pret</th><th>Data</th><th>Actiuni</th></tr></thead>
+<thead><tr><th>Nr.</th><th>Client</th><th>Dispozitiv</th><th>Status</th><th>Data</th><th>Actiuni</th></tr></thead>
 <tbody>
 @php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','cancelled'=>'danger']; @endphp
 @foreach($orders as $order)
@@ -38,7 +38,6 @@
 <td>{{ $order->device_type }}<br><small>{{ $order->device_brand }} {{ $order->device_model }}</small></td>
 <td><span class="badge badge-{{ $colors[$order->status] ?? 'secondary' }}">{{ $order->status_label }}</span>
 @if($order->is_paid)<br><span class="badge badge-success mt-1">Achitat</span>@endif</td>
-<td>{{ $order->final_price ? number_format($order->final_price,0).' MDL' : ($order->estimated_price ? '~'.number_format($order->estimated_price,0) : '-') }}</td>
 <td><small>{{ $order->created_at->format('d.m.Y') }}</small></td>
 <td>
 <a href="{{ route('service.show', $order->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
@@ -69,11 +68,6 @@
 <i class="fas fa-user"></i> <a href="{{ route('service.clients.show', $order->client_id) }}">{{ $order->client->name }}</a> - {{ $order->client->phone }}<br>
 <i class="fas fa-laptop"></i> {{ $order->device_type }} {{ $order->device_brand }} {{ $order->device_model }}
 </div>
-@if($order->final_price || $order->estimated_price)
-<div class="mb-2">
-<i class="fas fa-money-bill"></i> {{ $order->final_price ? number_format($order->final_price,0).' MDL' : '~'.number_format($order->estimated_price,0).' MDL' }}
-</div>
-@endif
 <div class="btn-group btn-group-sm">
 <a href="{{ route('service.show', $order->id) }}" class="btn btn-info"><i class="fas fa-eye"></i> Detalii</a>
 <a href="{{ route('service.edit', $order->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
