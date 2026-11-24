@@ -31,7 +31,7 @@
 <thead><tr><th>Nr.</th><th>Dispozitiv</th><th>Problema</th><th>Status</th><th>Pret</th><th>Data</th><th></th></tr></thead>
 <tbody>
 @foreach($client->orders as $order)
-@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','cancelled'=>'danger']; @endphp
+@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','left_for_parts'=>'dark','cancelled'=>'danger']; @endphp
 <tr>
 <td>{{ $order->order_number }}</td>
 <td>{{ $order->device_type }} {{ $order->device_brand }}</td>

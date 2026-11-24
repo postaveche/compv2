@@ -26,7 +26,7 @@
 </div></div></div></section>
 <section class="content"><div class="container-fluid">
 @include('admin.block.messages')
-@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','cancelled'=>'danger']; @endphp
+@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','left_for_parts'=>'dark','cancelled'=>'danger']; @endphp
 <div class="row">
 <div class="col-md-8">
 <div class="card">

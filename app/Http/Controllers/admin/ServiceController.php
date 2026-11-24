@@ -25,12 +25,10 @@ class ServiceController extends Controller
             ? $request->boolean('show_all')
             : (bool) $request->cookie('service_show_all', false);
 
-        if (!$showAll) {
-            $query->whereIn('status', ServiceOrder::activeStatuses());
-        }
-
         if ($request->filled('status')) {
             $query->where('status', $request->status);
+        } elseif (!$showAll) {
+            $query->whereIn('status', ServiceOrder::activeStatuses());
         }
         if ($request->filled('search')) {
             $s = $request->search;
@@ -126,6 +124,9 @@ class ServiceController extends Controller
             $data = $request->all();
             unset($data['client_id']);
             if ($request->status == 'repaired' && $order->status != 'repaired') { $data['completed_at'] = now(); }
+            if ($request->status === 'left_for_parts' && $oldStatus !== 'left_for_parts' && !$order->completed_at) {
+                $data['completed_at'] = now();
+            }
             if ($request->status == 'delivered' && $order->status != 'delivered') { $data['delivered_at'] = now(); }
             $data['is_paid'] = $request->boolean('is_paid');
             $data['warranty'] = $request->boolean('warranty');

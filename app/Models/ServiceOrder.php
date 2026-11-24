@@ -71,6 +71,7 @@ class ServiceOrder extends Model
             'repaired' => 'Reparat',
             'delivered' => 'Predat clientului',
             'returned_unrepaired' => 'Returnat fara reparatie',
+            'left_for_parts' => 'Lăsat pentru piese',
             'cancelled' => 'Anulat',
         ];
     }

@@ -30,7 +30,7 @@
 <table class="table table-striped table-hover mb-0">
 <thead><tr><th>Nr.</th><th>Client</th><th>Dispozitiv</th><th>Status</th><th>Data</th><th>Actiuni</th></tr></thead>
 <tbody>
-@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','cancelled'=>'danger']; @endphp
+@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','left_for_parts'=>'dark','cancelled'=>'danger']; @endphp
 @foreach($orders as $order)
 <tr>
 <td><strong>{{ $order->order_number }}</strong></td>
@@ -50,7 +50,7 @@
 
 <!-- Mobile cards -->
 <div class="d-md-none">
-@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','cancelled'=>'danger']; @endphp
+@php $colors = ['received'=>'info','diagnosis'=>'warning','waiting_approval'=>'warning','in_repair'=>'primary','waiting_parts'=>'secondary','repaired'=>'success','delivered'=>'dark','returned_unrepaired'=>'danger','left_for_parts'=>'dark','cancelled'=>'danger']; @endphp
 @foreach($orders as $order)
 <div class="card mb-2">
 <div class="card-body p-3">
